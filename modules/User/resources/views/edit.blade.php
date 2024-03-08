@@ -10,6 +10,7 @@
             </div>
         @endif
         <form action="{{ route('admin.users.update',$user->id) }}" method="POST" enctype="multipart/form-data">
+            @method('PUT')
             @csrf
             <div class="mb-3 mt-3">
                 <label for="name" class="form-label">Name:</label>
@@ -69,6 +70,8 @@
 
             <button type="submit" class="btn btn-primary">Submit</button>
             <a href="{{ route('admin.users.index') }}" class="btn btn-dark">Quay lại</a>
+
+
         </form>
     </div>
 @endsection

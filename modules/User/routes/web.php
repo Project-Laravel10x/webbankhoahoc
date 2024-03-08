@@ -12,8 +12,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'web'], function () {
 
         Route::post('/store', [UserController::class, 'store'])->name('admin.users.store');
         Route::get('/edit/{user}', [UserController::class, 'edit'])->name('admin.users.edit');
-        Route::post('/update/{user}', [UserController::class, 'update'])->name('admin.users.update');
-        Route::get('/delete/{user}', [UserController::class, 'delete'])->name('admin.users.delete');
+        Route::put('/update/{user}', [UserController::class, 'update'])->name('admin.users.update');
+        Route::delete('/delete/{user}', [UserController::class, 'delete'])->name('admin.users.delete');
 
     });
 });

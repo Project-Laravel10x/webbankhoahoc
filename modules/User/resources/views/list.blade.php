@@ -44,12 +44,18 @@
                             <td>{{ $user->group_id }}</td>
                             <td>{{ $user->created_at }}</td>
                             <td>
-                                <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning">Sửa</a>
-                                <a href="{{ route('admin.users.delete', $user->id) }}" class="btn btn-danger">Xóa</a>
+                                <div class="d-flex justify-content-between">
+                                    <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning">Sửa</a>
+                                    <form method="POST" action="{{ route('admin.users.delete', $user->id) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" onclick="return confirm('Are you sure ?')" class="btn btn-danger">Xóa</button>
+                                    </form>
+                                </div>
                             </td>
+
                         </tr>
                     @endforeach
-
                     </tbody>
                 </table>
             </div>
