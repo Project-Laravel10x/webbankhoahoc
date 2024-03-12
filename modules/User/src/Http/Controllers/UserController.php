@@ -57,7 +57,7 @@ class UserController extends Controller
 
     public function update(UserRequest $request, int $id)
     {
-        $data = $request->except('_token', 'password', '_method');
+        $data = $request->except('_token', 'password','_method');
 
         if ($request->password) {
             $data['password'] = bcrypt($request->password);
@@ -73,6 +73,4 @@ class UserController extends Controller
         $this->userRepository->delete($id);
         return redirect()->route('admin.users.index')->with('msg', __('user::messages.success'));
     }
-
-
 }
