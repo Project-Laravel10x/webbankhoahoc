@@ -74,8 +74,5 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('msg', __('user::messages.success'));
     }
 
-    public function test()
-    {
 
-    }
 }
