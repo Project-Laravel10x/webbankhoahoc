@@ -1,7 +1,7 @@
 @extends('layouts.backend')
 
 @section('content')
-    <a href="{{ route('create') }}" class="btn btn-primary mb-3">Thêm</a>
+    <a href="{{ route('admin.categories.create') }}" class="btn btn-primary mb-3">Thêm</a>
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -35,8 +35,8 @@
                             <td>{{ $category['created_at'] }}</td>
                             <td>
                                 <div class="d-flex justify-content-between">
-                                    <a href="{{ route('edit', $category['id']) }}" class="btn btn-warning">Sửa</a>
-                                    <form method="POST" action="{{ route('delete', $category['id']) }}">
+                                    <a href="{{ route('admin.categories.edit', $category['id']) }}" class="btn btn-warning">Sửa</a>
+                                    <form method="POST" action="{{ route('admin.categories.delete', $category['id']) }}">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" onclick="return confirm('Are you sure ?')"

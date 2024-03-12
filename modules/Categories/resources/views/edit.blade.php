@@ -9,7 +9,7 @@
                 {{ session('msg') }}
             </div>
         @endif
-        <form action="{{ route('update',$category->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.categories.update',$category->id) }}" method="POST" enctype="multipart/form-data">
             @method('PUT')
             @csrf
             <div class="mb-3 mt-3">
@@ -54,7 +54,7 @@
 
 
             <button type="submit" class="btn btn-primary">Submit</button>
-            <a href="{{ route('index') }}" class="btn btn-dark">Quay lại</a>
+            <a href="{{ route('admin.categories.index') }}" class="btn btn-dark">Quay lại</a>
 
 
         </form>

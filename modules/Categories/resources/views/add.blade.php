@@ -4,7 +4,7 @@
 @section('content')
 
     <div class="row-cols-auto">
-        <form action="{{ route('store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.categories.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3 mt-3">
                 <label for="name" class="form-label">Name:</label>
@@ -49,7 +49,7 @@
 
 
             <button type="submit" class="btn btn-primary">Submit</button>
-            <a href="{{ route('index') }}" class="btn btn-dark">Quay lại</a>
+            <a href="{{ route('admin.categories.index') }}" class="btn btn-dark">Quay lại</a>
         </form>
     </div>
 @endsection

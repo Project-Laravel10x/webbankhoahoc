@@ -23,7 +23,7 @@ class CategoryController extends Controller
         $pageTitle = "Quản lí danh mục";
         $categoriesData = $this->categoriesRepository->getCategories()->toArray();
         $categories = $this->getCategoriesTable($categoriesData);
-//        dd($categories);
+
         return view('categories::list', compact('pageTitle', 'categories'));
     }
 
@@ -59,7 +59,7 @@ class CategoryController extends Controller
             'parent_id' => $request->parent_id,
         ]);
 
-        return redirect()->route('index')->with('msg', __('categories::messages.success'));
+        return redirect()->route('admin.categories.index')->with('msg', __('categories::messages.success'));
     }
 
 
@@ -82,13 +82,13 @@ class CategoryController extends Controller
 
         $this->categoriesRepository->update($id, $data);
 
-        return redirect()->route('edit', $id)->with('msg', __('categories::messages.success'));
+        return redirect()->route('admin.categories.edit', $id)->with('msg', __('categories::messages.success'));
     }
 
     public function delete(int $id)
     {
         $this->categoriesRepository->delete($id);
-        return redirect()->route('index')->with('msg', __('categories::messages.success'));
+        return redirect()->route('admin.categories.index')->with('msg', __('categories::messages.success'));
     }
 
 

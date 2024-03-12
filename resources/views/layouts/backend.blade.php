@@ -89,6 +89,8 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="{{ asset('backend/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('backend/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
@@ -107,7 +109,14 @@
     <script src="{{ asset('backend/vendor/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{ asset('backend/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
     <script src="{{ asset('backend/js/demo/datatables-demo.js') }}"></script>
+    <script src="{{ asset('backend/plugins/ckeditor/ckeditor.js') }}"></script>
+    <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
+    <script>
+        $('#lfm').filemanager('image');
+    </script>
+
 @yield('js')
+@yield('js_custom')
 </body>
 
 </html>
