@@ -4,7 +4,12 @@
 @section('content')
 
     <div class="row-cols-auto">
-        <form action="{{ route('update', $course->id) }}" method="POST" enctype="multipart/form-data">
+        @if(session('msg'))
+            <div class="alert alert-success">
+                {{ session('msg') }}
+            </div>
+        @endif
+        <form action="{{ route('admin.courses.update', $course->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="row">
@@ -43,9 +48,11 @@
                         <label for="teacher" class="form-label">Giảng viên:</label>
                         <select class="form-control @if($errors->has('teacher_id')) is-invalid @endif" id="teacher"
                                 name="teacher_id">
-                            <option value="0" {{ old('teacher_id') ||  $course->teacher_id == 0 ? ' selected' : false }} >Chọn giảng viên
+                            <option value="0" {{ old('teacher_id') ||  $course->teacher_id == 0 ? ' selected' : false }} >
+                                Chọn giảng viên
                             </option>
-                            <option value="1" {{ old('teacher_id') || $course->teacher_id == 1 ? ' selected' : false }} >Quách Hoàng Nam
+                            <option value="1" {{ old('teacher_id') || $course->teacher_id == 1 ? ' selected' : false }} >
+                                Quách Hoàng Nam
                             </option>
                         </select>
                         @error('teacher_id')
@@ -89,7 +96,8 @@
                         <label for="sale_price" class="form-label">Giá khuyến mại:</label>
                         <input type="text" class="form-control @if($errors->has('sale_price')) is-invalid @endif"
                                id="name"
-                               placeholder="Enter sale price" name="sale_price" value="{{ old('sale_price') ?? $course->sale_price }}">
+                               placeholder="Enter sale price" name="sale_price"
+                               value="{{ old('sale_price') ?? $course->sale_price }}">
                         @error('sale_price')
                         <div class="invalid-feedback">
                             {{$message}}
@@ -103,8 +111,12 @@
                         <label for="is_document" class="form-label">Tài liệu đính kèm:</label>
                         <select class="form-control @if($errors->has('is_document')) is-invalid @endif" id="is_document"
                                 name="is_document">
-                            <option value="0" {{ old('is_document') == 0 || $course->is_document ? ' selected' : false }} >Không</option>
-                            <option value="1" {{ old('is_document') == 1 || $course->is_document ? ' selected' : false }} >Có</option>
+                            <option value="0" {{ old('is_document') == 0 || $course->is_document ? ' selected' : false }} >
+                                Không
+                            </option>
+                            <option value="1" {{ old('is_document') == 1 || $course->is_document ? ' selected' : false }} >
+                                Có
+                            </option>
                         </select>
                         @error('is_document')
                         <div class="invalid-feedback">
@@ -120,8 +132,12 @@
                         <label for="status" class="form-label">Trạng thái:</label>
                         <select class="form-control @if($errors->has('status')) is-invalid @endif" id="status"
                                 name="status">
-                            <option value="0" {{ old('status') == 0 || $course->status ? ' selected' : false }}>Chưa ra mắt</option>
-                            <option value="1" {{ old('status') == 1 || $course->status ? ' selected' : false }}>Đã ra mắt</option>
+                            <option value="0" {{ old('status') == 0 || $course->status ? ' selected' : false }}>Chưa ra
+                                mắt
+                            </option>
+                            <option value="1" {{ old('status') == 1 || $course->status ? ' selected' : false }}>Đã ra
+                                mắt
+                            </option>
                         </select>
                         @error('status')
                         <div class="invalid-feedback">
@@ -164,11 +180,27 @@
                     </div>
                 </div>
 
+
                 <div class="col-12">
                     <div class="mb-3 mt-3">
-                        <div class="row align-items-end">
+                        <label for="detail" class="form-label">Chuyên mục:</label>
+                        <div class="list-category">
+                            {!! getCategoriesCheckbox($categories,old('categories') ?? $categoryIds)   !!}
+                        </div>
+                        @error('categories')
+                        <div class="invalid-feedback d-block">
+                            {{$message}}
+                        </div>
+                        @enderror
+                    </div>
+                </div>
+
+
+                <div class="col-12">
+                    <div class="mb-3 mt-3">
+                        <div class="row @if($errors->has('thumbnail')) align-items-center @else align-items-end @endif   ">
                             <div class="col-7">
-                                <label for="thumbnail" class="form-label">Ảnh đại diện:</label>
+                                <label for="thumbnail" class="form-label mb-0">Ảnh đại diện:</label>
                                 <input type="text" class="form-control @if($errors->has('thumbnail')) is-invalid @endif"
                                        id="thumbnail"
                                        placeholder="Enter sale thumbnail" name="thumbnail"
@@ -186,8 +218,8 @@
                             </div>
                             <div class="col-3">
                                 <div id="holder">
-                                    @if(old('thumbnail'))
-                                        <img width="150px" src="{{ old('thumbnail') ||  $course->thumbnail }}" alt="">
+                                    @if($course->thumbnail)
+                                        <img width="150px" src="{{ $course->thumbnail   }}" alt="">
                                     @endif
                                 </div>
                             </div>
@@ -196,13 +228,21 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Submit</button>
-                <a href="{{ route('index') }}" class="btn btn-dark">Quay lại</a>
+                <a href="{{ route('admin.courses.index') }}" class="btn btn-dark">Quay lại</a>
             </div>
 
         </form>
     </div>
 @endsection
 
+@section('style')
+    <style>
+        .list-category {
+            max-height: 250px;
+            overflow: auto;
+        }
+    </style>
+@endsection
 @section('js_custom')
     <script>
         CKEDITOR.replace('detail')

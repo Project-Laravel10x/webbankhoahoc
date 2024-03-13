@@ -1,7 +1,7 @@
 @extends('layouts.backend')
 
 @section('content')
-    <a href="{{ route('create') }}" class="btn btn-primary mb-3">Thêm</a>
+    <a href="{{ route('admin.courses.create') }}" class="btn btn-primary mb-3">Thêm</a>
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -32,13 +32,19 @@
                         <tr>
                             <td>{{ $key + 1 }}</td>
                             <td>{{ $course['name'] }}</td>
-                            <td>{{ $course['price'] }}</td>
-                            <td>{{ $course['status'] }}</td>
+                            <td>{{$course['price'] == 0 ? "Miễn phí" : number_format($course['price']) .'đ' }}</td>
+                            <td>
+                                @if($course['status'] == 0)
+                                    <button class="btn btn-warning">Chưa ra mắt</button>
+                                @elseif($course['status'] == 1)
+                                    <button class="btn btn-success">Đã ra mắt</button>
+                                @endif
+                            </td>
                             <td>{{ $course['created_at'] }}</td>
                             <td>
                                 <div class="d-flex justify-content-between">
-                                    <a href="{{ route('edit', $course['id']) }}" class="btn btn-warning">Sửa</a>
-                                    <form method="POST" action="{{ route('delete', $course['id']) }}">
+                                    <a href="{{ route('admin.courses.edit', $course['id']) }}" class="btn btn-warning">Sửa</a>
+                                    <form method="POST" action="{{ route('admin.courses.delete', $course['id']) }}">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" onclick="return confirm('Are you sure ?')"

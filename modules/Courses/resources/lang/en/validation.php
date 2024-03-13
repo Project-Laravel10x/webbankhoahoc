@@ -17,5 +17,6 @@ return [
         'is_document' => "Tài liệu",
         'support' => "Hỗ trợ",
         'status' => "Trạng thái",
+        'categories' => "Chuyên mục",
     ],
 ];

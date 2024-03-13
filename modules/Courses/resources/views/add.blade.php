@@ -4,7 +4,7 @@
 @section('content')
 
     <div class="row-cols-auto">
-        <form action="{{ route('store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.courses.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-6">
@@ -163,11 +163,26 @@
                     </div>
                 </div>
 
+
                 <div class="col-12">
                     <div class="mb-3 mt-3">
-                        <div class="row align-items-end">
+                        <label for="detail" class="form-label">Chuyên mục:</label>
+                        <div class="list-category">
+                            {!! getCategoriesCheckbox($categories,old('categories'))  !!}
+                        </div>
+                        @error('categories')
+                        <div class="invalid-feedback d-block">
+                            {{$message}}
+                        </div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="mb-3 mt-3">
+                        <div class="row @if($errors->has('thumbnail')) align-items-center @else align-items-end @endif   ">
                             <div class="col-7">
-                                <label for="thumbnail" class="form-label">Ảnh đại diện:</label>
+                                <label for="thumbnail" class="form-label mb-0">Ảnh đại diện:</label>
                                 <input type="text" class="form-control @if($errors->has('thumbnail')) is-invalid @endif"
                                        id="thumbnail"
                                        placeholder="Enter sale thumbnail" name="thumbnail"
@@ -195,11 +210,20 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Submit</button>
-                <a href="{{ route('index') }}" class="btn btn-dark">Quay lại</a>
+                <a href="{{ route('admin.courses.index') }}" class="btn btn-dark">Quay lại</a>
             </div>
 
         </form>
     </div>
+@endsection
+
+@section('style')
+    <style>
+        .list-category {
+            max-height: 250px;
+            overflow: auto;
+        }
+    </style>
 @endsection
 
 @section('js_custom')
