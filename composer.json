@@ -34,6 +34,9 @@
             "database/seeders",
             "database/factories",
             "database/migrations"
+        ],
+        "files": [
+            "app/Helpers/functions.php"
         ]
     },
     "autoload-dev": {

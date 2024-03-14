@@ -30,12 +30,6 @@ class CoursesRepository extends BaseRepository implements CoursesRepositoryInter
     }
 
 
-    public function deleteCoursesCategories($course)
-    {
-        $course->categories()->detach();
-    }
-
-
     public function getRelatedCategories($course)
     {
         return $course->categories()->allRelatedIds()->toArray();

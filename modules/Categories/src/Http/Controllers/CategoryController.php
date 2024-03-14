@@ -87,7 +87,12 @@ class CategoryController extends Controller
 
     public function delete(int $id)
     {
+        $category = $this->categoriesRepository->getOne($id);
+
+        $this->categoriesRepository->deleteCourses($category);
+
         $this->categoriesRepository->delete($id);
+
         return redirect()->route('admin.categories.index')->with('msg', __('categories::messages.success'));
     }
 

@@ -42,10 +42,12 @@
                         <label for="teacher" class="form-label">Giảng viên:</label>
                         <select class="form-control @if($errors->has('teacher_id')) is-invalid @endif" id="teacher"
                                 name="teacher_id">
-                            <option value="0" {{ old('teacher_id') == 0 ? ' selected' : false }} >Chọn giảng viên
-                            </option>
-                            <option value="1" {{ old('teacher_id') == 1 ? ' selected' : false }} >Quách Hoàng Nam
-                            </option>
+                            <option value="0">Chọn giảng viên</option>
+                            @if($teachers)
+                                @foreach($teachers as $teacher)
+                                    <option value="{{ $teacher->id }}" {{ old('teacher_id') ==  $teacher->id ? "selected" : null }}>{{ $teacher->name }}</option>
+                                @endforeach
+                            @endif
                         </select>
                         @error('teacher_id')
                         <div class="invalid-feedback">
@@ -180,7 +182,8 @@
 
                 <div class="col-12">
                     <div class="mb-3 mt-3">
-                        <div class="row @if($errors->has('thumbnail')) align-items-center @else align-items-end @endif   ">
+                        <div
+                            class="row @if($errors->has('thumbnail')) align-items-center @else align-items-end @endif   ">
                             <div class="col-7">
                                 <label for="thumbnail" class="form-label mb-0">Ảnh đại diện:</label>
                                 <input type="text" class="form-control @if($errors->has('thumbnail')) is-invalid @endif"

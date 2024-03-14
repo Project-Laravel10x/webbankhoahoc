@@ -1,22 +1,11 @@
 <?php
-function getCategories($categories, $old = '', $parentId = 0, $char = '')
+
+use Illuminate\Support\Facades\File;
+
+function deleteFileStoge($image)
 {
-
-    if ($categories) {
-        foreach ($categories as $key => $category) {
-            $selected = '';
-            if ($old == $category['id']) {
-                $selected = ' selected';
-            }
-
-            if ($category['parent_id'] == $parentId) {
-                echo '<option value="' . $category['id'] . '" ';
-                echo $selected;
-                echo '  >' . $char . $category['name'] . '</option>';
-                unset($category[$key]);
-                getCategories($categories, $old, $category['id'], $char . '  |- ');
-            }
-        }
-    }
+    $imageThumb = dirname($image) . '/thumbs/' . basename($image);
+    File::delete(public_path($image));
+    File::delete(public_path($imageThumb));
 }
 

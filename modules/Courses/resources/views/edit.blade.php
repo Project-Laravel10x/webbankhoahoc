@@ -48,12 +48,15 @@
                         <label for="teacher" class="form-label">Giảng viên:</label>
                         <select class="form-control @if($errors->has('teacher_id')) is-invalid @endif" id="teacher"
                                 name="teacher_id">
-                            <option value="0" {{ old('teacher_id') ||  $course->teacher_id == 0 ? ' selected' : false }} >
+                            <option value="0">
                                 Chọn giảng viên
                             </option>
-                            <option value="1" {{ old('teacher_id') || $course->teacher_id == 1 ? ' selected' : false }} >
-                                Quách Hoàng Nam
-                            </option>
+                            @if($teachers)
+                                @foreach($teachers as $teacher)
+                                    <option
+                                        value="{{ $teacher->id }}" {{ old('teacher_id') ==  $teacher->id || $course->teacher_id ==  $teacher->id ? "selected" : null }}>{{ $teacher->name }}</option>
+                                @endforeach
+                            @endif
                         </select>
                         @error('teacher_id')
                         <div class="invalid-feedback">
@@ -111,10 +114,12 @@
                         <label for="is_document" class="form-label">Tài liệu đính kèm:</label>
                         <select class="form-control @if($errors->has('is_document')) is-invalid @endif" id="is_document"
                                 name="is_document">
-                            <option value="0" {{ old('is_document') == 0 || $course->is_document ? ' selected' : false }} >
+                            <option
+                                value="0" {{ old('is_document') == 0 || $course->is_document ? ' selected' : false }} >
                                 Không
                             </option>
-                            <option value="1" {{ old('is_document') == 1 || $course->is_document ? ' selected' : false }} >
+                            <option
+                                value="1" {{ old('is_document') == 1 || $course->is_document ? ' selected' : false }} >
                                 Có
                             </option>
                         </select>
@@ -198,7 +203,8 @@
 
                 <div class="col-12">
                     <div class="mb-3 mt-3">
-                        <div class="row @if($errors->has('thumbnail')) align-items-center @else align-items-end @endif   ">
+                        <div
+                            class="row @if($errors->has('thumbnail')) align-items-center @else align-items-end @endif   ">
                             <div class="col-7">
                                 <label for="thumbnail" class="form-label mb-0">Ảnh đại diện:</label>
                                 <input type="text" class="form-control @if($errors->has('thumbnail')) is-invalid @endif"

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->integer('course_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('category_id')->references('id')->on('categories');
-            $table->foreign('course_id')->references('id')->on('courses');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
         });
     }
 
