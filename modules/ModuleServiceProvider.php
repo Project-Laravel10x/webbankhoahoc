@@ -3,8 +3,16 @@
 namespace Modules;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Categories\src\Repositories\CategoriesRepository;
+use Modules\Categories\src\Repositories\CategoriesRepositoryInterface;
+use Modules\Courses\src\Repositories\CoursesRepository;
+use Modules\Courses\src\Repositories\CoursesRepositoryInterface;
+use Modules\Teacher\src\Repositories\TeacherRepository;
+use Modules\Teacher\src\Repositories\TeacherRepositoryInterface;
 use Modules\User\src\Repositories\UserRepository;
+use Modules\User\src\Repositories\UserRepositoryInterface;
 
 
 class ModuleServiceProvider extends ServiceProvider
@@ -41,9 +49,7 @@ class ModuleServiceProvider extends ServiceProvider
 
         $this->registerMiddleware();
 
-        $this->app->singleton(
-            UserRepository::class
-        );
+        $this->bindingsRepository();
 
         $this->commands($this->commands);
     }
@@ -76,10 +82,19 @@ class ModuleServiceProvider extends ServiceProvider
     {
         $modulePath = __DIR__ . "/$module/";
 
+        Route::group(['middleware' => 'web', 'namespace' => 'Modules\\' . $module . '\src\Http\Controllers\Auth'],
+            function () use ($modulePath) {
+                if (File::exists($modulePath . "routes/web.php")) {
+                    $this->loadRoutesFrom($modulePath . "routes/web.php");
+                }
+            });
 
-        if (File::exists($modulePath . "routes/web.php")) {
-            $this->loadRoutesFrom($modulePath . "routes/web.php");
-        }
+        Route::group(['middleware' => 'api', 'prefix' => 'api'], function () use ($modulePath) {
+            if (File::exists($modulePath . "routes/api.php")) {
+                $this->loadRoutesFrom($modulePath . "routes/api.php");
+            }
+        });
+
 
         if (File::exists($modulePath . "migrations")) {
             $this->loadMigrationsFrom($modulePath . "migrations");
@@ -100,5 +115,28 @@ class ModuleServiceProvider extends ServiceProvider
                 }
             }
         }
+    }
+
+    private function bindingsRepository()
+    {
+        $this->app->singleton(
+            UserRepositoryInterface::class,
+            UserRepository::class,
+        );
+
+        $this->app->singleton(
+            TeacherRepositoryInterface::class,
+            TeacherRepository::class,
+        );
+
+        $this->app->singleton(
+            CategoriesRepositoryInterface::class,
+            CategoriesRepository::class,
+        );
+
+        $this->app->singleton(
+            CoursesRepositoryInterface::class,
+            CoursesRepository::class,
+        );
     }
 }

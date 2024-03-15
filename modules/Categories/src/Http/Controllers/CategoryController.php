@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Modules\Categories\src\Http\Requests\CategoryRequest;
 use Modules\Categories\src\Models\Category;
 use Modules\Categories\src\Repositories\CategoriesRepository;
+use Modules\Categories\src\Repositories\CategoriesRepositoryInterface;
 
 
 class CategoryController extends Controller
@@ -13,7 +14,7 @@ class CategoryController extends Controller
 
     protected CategoriesRepository $categoriesRepository;
 
-    public function __construct(CategoriesRepository $categoriesRepository)
+    public function __construct(CategoriesRepositoryInterface $categoriesRepository)
     {
         $this->categoriesRepository = $categoriesRepository;
     }

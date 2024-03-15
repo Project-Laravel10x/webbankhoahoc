@@ -5,6 +5,7 @@ namespace Modules\User\src\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Modules\User\src\Http\Requests\UserRequest;
 use Modules\User\src\Repositories\UserRepository;
+use Modules\User\src\Repositories\UserRepositoryInterface;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
@@ -12,7 +13,7 @@ class UserController extends Controller
 
     protected UserRepository $userRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
     }

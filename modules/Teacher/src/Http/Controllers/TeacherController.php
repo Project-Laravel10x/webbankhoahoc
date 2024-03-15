@@ -6,13 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Modules\Teacher\src\Http\Requests\TeacherRequest;
 use Modules\Teacher\src\Repositories\TeacherRepository;
+use Modules\Teacher\src\Repositories\TeacherRepositoryInterface;
 
 class TeacherController extends Controller
 {
 
     protected TeacherRepository $teacherRepository;
 
-    public function __construct(TeacherRepository $teacherRepository)
+    public function __construct(TeacherRepositoryInterface $teacherRepository)
     {
         $this->teacherRepository = $teacherRepository;
     }
