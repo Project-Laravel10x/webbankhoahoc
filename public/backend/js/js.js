@@ -47,4 +47,8 @@ slug.addEventListener('change', (e) => {
     }
 })
 
+$(document).ready(function() {
+    $('.select2').select2();
+});
+
 

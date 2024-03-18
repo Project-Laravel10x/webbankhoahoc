@@ -22,6 +22,7 @@
                         <th>Price</th>
                         <th>Status</th>
                         <th>Time</th>
+                        <th>Lesson</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -41,6 +42,7 @@
                                 @endif
                             </td>
                             <td>{{ $course['created_at'] }}</td>
+                            <td>  <a href="{{ route('admin.lessons.index', $course['id']) }}" class="btn btn-primary">Bài giảng</a></td>
                             <td>
                                 <div class="d-flex justify-content-between">
                                     <a href="{{ route('admin.courses.edit', $course['id']) }}" class="btn btn-warning">Sửa</a>
