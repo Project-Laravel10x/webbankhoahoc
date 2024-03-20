@@ -13,12 +13,16 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">{{ $pageTitle  }} !</h1>
                             </div>
-                            <form class="user" action="{{ route('login') }}" method="POST">
+                            @error('err')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                            <form class="user" action="{{ route('admin.login') }}" method="POST">
+
                                 @csrf
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user"
                                            id="exampleInputEmail" aria-describedby="emailHelp"
-                                           placeholder="Enter Email Address..." name="email">
+                                           placeholder="Email..." name="email">
                                     @error('email')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror

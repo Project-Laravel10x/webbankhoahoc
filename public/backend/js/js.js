@@ -1,39 +1,38 @@
-function getSlug(str) {
-    const mapSpecialCharacters = {
-        'á': 'a', 'à': 'a', 'ả': 'a', 'ã': 'a', 'ạ': 'a',
-        'ă': 'a', 'ắ': 'a', 'ằ': 'a', 'ẳ': 'a', 'ẵ': 'a', 'ặ': 'a',
-        'â': 'a', 'ấ': 'a', 'ầ': 'a', 'ẩ': 'a', 'ẫ': 'a', 'ậ': 'a',
-        'é': 'e', 'è': 'e', 'ẻ': 'e', 'ẽ': 'e', 'ẹ': 'e',
-        'ê': 'e', 'ế': 'e', 'ề': 'e', 'ể': 'e', 'ễ': 'e', 'ệ': 'e',
-        'í': 'i', 'ì': 'i', 'ỉ': 'i', 'ĩ': 'i', 'ị': 'i',
-        'ó': 'o', 'ò': 'o', 'ỏ': 'o', 'õ': 'o', 'ọ': 'o',
-        'ô': 'o', 'ố': 'o', 'ồ': 'o', 'ổ': 'o', 'ỗ': 'o', 'ộ': 'o',
-        'ơ': 'o', 'ớ': 'o', 'ờ': 'o', 'ở': 'o', 'ỡ': 'o', 'ợ': 'o',
-        'ú': 'u', 'ù': 'u', 'ủ': 'u', 'ũ': 'u', 'ụ': 'u',
-        'ư': 'u', 'ứ': 'u', 'ừ': 'u', 'ử': 'u', 'ữ': 'u', 'ự': 'u',
-        'ý': 'y', 'ỳ': 'y', 'ỷ': 'y', 'ỹ': 'y', 'ỵ': 'y',
-        'đ': 'd',
-        ' ': '-', '_': '-', // Replace spaces and underscores with hyphens
-    };
-
-    str = str.replace(/[^\w\s]/gi, function (char) {
-        return mapSpecialCharacters[char] || char;
-    });
-
-    // Replace spaces with hyphens
-    str = str.replace(/\s+/g, '-');
-
-    // Remove consecutive hyphens
-    str = str.replace(/-{2,}/g, '');
-
-    // Convert to lowercase
-    str = str.toLowerCase();
-
-    return str;
-}
 
 const title = document.querySelector('.title');
 const slug = document.querySelector('.slug');
+
+function getSlug(title) {
+    let slug = title.toLowerCase();
+    slug = title.toLowerCase();
+
+    //Đổi ký tự có dấu thành không dấu
+    slug = slug.replace(/á|à|ả|ạ|ã|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ/gi, "a");
+    slug = slug.replace(/é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ/gi, "e");
+    slug = slug.replace(/i|í|ì|ỉ|ĩ|ị/gi, "i");
+    slug = slug.replace(/ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/gi, "o");
+    slug = slug.replace(/ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự/gi, "u");
+    slug = slug.replace(/ý|ỳ|ỷ|ỹ|ỵ/gi, "y");
+    slug = slug.replace(/đ/gi, "d");
+    //Xóa các ký tự đặt biệt
+    slug = slug.replace(
+        /\`|\~|\!|\@|\#|\||\$|\%|\^|\&|\*|\(|\)|\+|\=|\,|\.|\/|\?|\>|\<|\'|\"|\:|\;|_/gi,
+        ""
+    );
+    //Đổi khoảng trắng thành ký tự gạch ngang
+    slug = slug.replace(/ /gi, "-");
+    //Đổi nhiều ký tự gạch ngang liên tiếp thành 1 ký tự gạch ngang
+    //Phòng trường hợp người nhập vào quá nhiều ký tự trắng
+    slug = slug.replace(/\-\-\-\-\-/gi, "-");
+    slug = slug.replace(/\-\-\-\-/gi, "-");
+    slug = slug.replace(/\-\-\-/gi, "-");
+    slug = slug.replace(/\-\-/gi, "-");
+    //Xóa các ký tự gạch ngang ở đầu và cuối
+    slug = "@" + slug + "@";
+    slug = slug.replace(/\@\-|\-\@|\@/gi, "");
+    return slug;
+}
+
 title.addEventListener('keyup', (e) => {
     const titleValue = e.target.value;
     slug.value = getSlug(titleValue);

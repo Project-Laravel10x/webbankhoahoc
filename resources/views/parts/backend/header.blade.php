@@ -171,7 +171,7 @@
                     Tài khoản
                 </a>
                 <div class="dropdown-divider"></div>
-                <form action="{{ route('logout') }}" method="post">
+                <form action="{{ route('admin.logout') }}" method="post">
                     @csrf
                     <button onclick="return confirm('Bạn có muốn đăng xuất không')" class="dropdown-item" type="submit"><i
                             class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Đăng xuất

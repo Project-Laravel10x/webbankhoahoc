@@ -4,6 +4,11 @@
 @section('content')
 
     <div class="row-cols-auto">
+        @if(session('msg'))
+            <div class="alert alert-success">
+                {{ session('msg') }}
+            </div>
+        @endif
         <form action="{{ route('admin.lessons.sort',$courseId) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">

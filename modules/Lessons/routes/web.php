@@ -13,7 +13,6 @@ Route::group(['prefix' => 'admin'], function () {
         Route::delete('{courseId}/delete/{lessonId}', [LessonController::class, 'delete'])->name('admin.lessons.delete');
         Route::get('{courseId}/sort', [LessonController::class, 'sort'])->name('admin.lessons.sort');
         Route::post('{courseId}/sort', [LessonController::class, 'handleSort'])->name('admin.lessons.sort');
-
     });
 });
 

@@ -6,17 +6,52 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title')</title>
+    <link rel="stylesheet" href="{{asset('client/assets/css/bootstrap.min.css')}}">
+
+    <link rel="stylesheet" href="{{asset('client/assets/plugins/fontawesome/css/fontawesome.min.css')}}">
+    <link rel="stylesheet" href="{{asset('client/assets/plugins/fontawesome/css/all.min.css')}}">
+
+    <link rel="stylesheet" href="{{asset('client/assets/css/feather.css')}}">
+
+    <link rel="stylesheet" href="{{asset('client/assets/plugins/select2/css/select2.min.css')}}">
+
+    <link rel="stylesheet" href="{{asset('client/assets/plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css')}}">
+
+    <link rel="stylesheet" href="{{asset('client/assets/css/style.css')}}">
 </head>
 <body>
-<header>
-    <h1>HEADER</h1>
-</header>
-<main>
-    @yield('content')
-</main>
-<footer>
-    FOOTER
-</footer>
 
+<div class="main-wrapper">
+
+    @include('parts.client.header')
+
+    @yield('content')
+
+    @include('parts.client.footer')
+
+</div>
+
+
+<script data-cfasync="false"
+        src="{{asset('client/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js')}}"></script>
+
+<script src="{{asset('client/assets/js/jquery-3.7.1.min.js')}}"
+        type="263e84b4a77e00520229d51e-text/javascript"></script>
+
+<script src="{{asset('client/assets/js/bootstrap.bundle.min.js')}}"
+        type="263e84b4a77e00520229d51e-text/javascript"></script>
+
+<script src="{{asset('client/assets/plugins/select2/js/select2.min.js')}}"
+        type="263e84b4a77e00520229d51e-text/javascript"></script>
+
+<script src="{{asset('client/assets/js/ckeditor.js')}}" type="263e84b4a77e00520229d51e-text/javascript"></script>
+
+<script src="{{asset('client/assets/plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.js')}}"
+        type="263e84b4a77e00520229d51e-text/javascript"></script>
+
+<script src="{{asset('client/assets/js/script.js')}}" type="263e84b4a77e00520229d51e-text/javascript"></script>
+<script src="{{asset('client/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js')}}"
+        data-cf-settings="263e84b4a77e00520229d51e-|49" defer></script>
 </body>
+
 </html>

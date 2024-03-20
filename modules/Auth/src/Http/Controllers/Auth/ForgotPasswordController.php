@@ -19,4 +19,11 @@ class ForgotPasswordController extends Controller
     */
 
     use SendsPasswordResetEmails;
+
+    public function showLinkRequestForm()
+    {
+        $pageTitle = 'Quên mật khẩu';
+        return view('auth::admin.auth.passwords.email',compact('pageTitle'));
+    }
+
 }

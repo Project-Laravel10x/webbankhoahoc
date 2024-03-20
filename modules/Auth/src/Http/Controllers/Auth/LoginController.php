@@ -53,7 +53,6 @@ class LoginController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:6',
-
         ], [
             'email.required' => 'Vui lòng nhập địa chỉ email.',
             'email.email' => 'Địa chỉ email không hợp lệ.',
@@ -86,11 +85,10 @@ class LoginController extends Controller
         return $this->sendFailedLoginResponse($request);
     }
 
-
     protected function sendFailedLoginResponse(Request $request)
     {
         throw ValidationException::withMessages([
-            $this->username() => [__('auth::messages.login.failed')],
+            'err' => [__('auth::messages.login.failed')],
         ]);
     }
 
@@ -108,7 +106,7 @@ class LoginController extends Controller
 
         return $request->wantsJson()
             ? new JsonResponse([], 204)
-            : redirect('/login');
+            : redirect('/admin/auth/login');
     }
 
 

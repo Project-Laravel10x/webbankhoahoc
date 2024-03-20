@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-6">
                     <div class="mb-3 mt-3">
-                        <label for="name" class="form-label">Tên khóa học:</label>
+                        <label for="name" class="form-label">Tên giảng viên:</label>
                         <input onchange="getSlug(this)" type="text"
                                class="form-control title @if($errors->has('name')) is-invalid @endif"
                                id="name"
