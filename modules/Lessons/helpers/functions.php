@@ -24,3 +24,12 @@ function getLesson($lessons, $old = '', $module = '', $parentId = 0, $char = '',
     }
 }
 
+function formatTime($seconds) {
+    if ($seconds < 60) {
+        return round($seconds) . ' giây';
+    } else {
+        $minutes = floor($seconds / 60);
+        return $minutes . ' phút';
+    }
+}
+

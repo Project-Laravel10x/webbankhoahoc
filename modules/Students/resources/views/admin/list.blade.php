@@ -1,7 +1,7 @@
 @extends('layouts.backend')
 
 @section('content')
-    <a href="{{ route('admin.courses.create') }}" class="btn btn-primary mb-3">Thêm</a>
+    <a href="{{ route('admin.students.create') }}" class="btn btn-primary mb-3">Thêm</a>
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -18,37 +18,35 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Tên</th>
-                        <th>Giá</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Số điện thọai</th>
+                        <th>Địa chỉ</th>
                         <th>Trạng thái</th>
-                        <th>Bài giảng</th>
-                        <th>Danh sách học viên</th>
-                        <th>Thời gian tạo</th>
                         <th>Action</th>
                     </tr>
                     </thead>
 
                     <tbody>
 
-                    @foreach($courses as $key => $course)
+                    @foreach($students as $key => $student)
                         <tr>
                             <td>{{ $key + 1 }}</td>
-                            <td>{{ $course['name'] }}</td>
-                            <td>{{$course['price'] == 0 ? "Miễn phí" : number_format($course['price']) .'đ' }}</td>
+                            <td>{{ $student['name'] }}</td>
+                            <td>{{ $student['email'] }}</td>
+                            <td>{{ $student['phone'] }}</td>
+                            <td>{{ $student['address'] }}</td>
                             <td>
-                                @if($course['status'] == 0)
-                                    <button class="btn btn-warning">Chưa ra mắt</button>
-                                @elseif($course['status'] == 1)
-                                    <button class="btn btn-success">Đã ra mắt</button>
+                                @if($student['is_active'] == 0)
+                                    <button class="btn btn-warning">Chưa kích hoạt</button>
+                                @elseif($student['is_active'] == 1)
+                                    <button class="btn btn-success">Đã kích hoạt</button>
                                 @endif
                             </td>
-                            <td>  <a href="{{ route('admin.lessons.index', $course['id']) }}" class="btn btn-primary">Bài giảng</a></td>
-                            <td>  <a href="{{ route('admin.students.list_student_by_course', $course['id']) }}" class="btn btn-info">Danh sách học viên</a></td>
-                            <td>{{ $course['created_at'] }}</td>
                             <td>
                                 <div class="d-flex justify-content-between">
-                                    <a href="{{ route('admin.courses.edit', $course['id']) }}" class="btn btn-warning">Sửa</a>
-                                    <form method="POST" action="{{ route('admin.courses.delete', $course['id']) }}">
+                                    <a href="{{ route('admin.students.edit', $student['id']) }}" class="btn btn-warning">Sửa</a>
+                                    <form method="POST" action="{{ route('admin.students.delete', $student['id']) }}">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" onclick="return confirm('Are you sure ?')"

@@ -21,12 +21,12 @@ class AuthenticateClient extends Middleware
      */
     public function handle($request, Closure $next, ...$guards)
     {
-        $this->authenticate($request, ['clients']);
+        $this->authenticate($request, ['students']);
         return $next($request);
     }
 
     protected function redirectTo(Request $request): ?string
     {
-        return $request->expectsJson() ? null : route('clients.login');
+        return $request->expectsJson() ? null : route('students.login');
     }
 }

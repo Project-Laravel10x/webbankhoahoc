@@ -6,6 +6,7 @@ namespace App\Providers;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Modules\Client\src\Models\Client;
+use Modules\Students\src\Models\Student;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,9 +26,9 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        ResetPassword::createUrlUsing(function (Client $client, string $token) {
+        ResetPassword::createUrlUsing(function (Student $student, string $token) {
 
-            return route('clients.reset_password', $token) . '?email=' . $client->email;
+            return route('students.reset_password', $token) . '?email=' . $student->email;
         });
     }
 }

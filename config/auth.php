@@ -1,6 +1,6 @@
 <?php
 
-use Modules\Client\src\Models\Client;
+use Modules\Students\src\Models\Student;
 use Modules\User\src\Models\User;
 
 return [
@@ -43,9 +43,9 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'clients' => [
+        'students' => [
             'driver' => 'session',
-            'provider' => 'clients',
+            'provider' => 'students',
         ],
     ],
 
@@ -73,10 +73,10 @@ return [
             'model' => User::class,
         ],
 
-        'clients' => [
+        'students' => [
             'driver' => 'eloquent',
-            'provider' => 'clients',
-            'model' =>Client::class,
+            'provider' => 'students',
+            'model' =>Student::class,
         ],
     ],
 
@@ -106,8 +106,8 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
-        'clients' => [
-            'provider' => 'clients',
+        'students' => [
+            'provider' => 'students',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,

@@ -122,6 +122,7 @@ class CourseController extends Controller
     {
         $categories = [];
         foreach ($data['categories'] as $category) {
+            dd($category);
             $categories[$category] = [
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')

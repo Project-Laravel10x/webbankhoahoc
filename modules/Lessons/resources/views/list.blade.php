@@ -44,7 +44,7 @@
                                 @endif
                             </td>
                             <td>{{ $lesson['view'] }}</td>
-                            <td>{{ $lesson['durations'] }} giây</td>
+                            <td>{{ formatTime($lesson['durations']) }}</td>
                             <td>
                                 @if($lesson['parent_id'] == null)
                                     <a href="{{ route('admin.lessons.create',
