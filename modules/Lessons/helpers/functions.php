@@ -24,12 +24,23 @@ function getLesson($lessons, $old = '', $module = '', $parentId = 0, $char = '',
     }
 }
 
-function formatTime($seconds) {
-    if ($seconds < 60) {
-        return round($seconds) . ' giây';
-    } else {
-        $minutes = floor($seconds / 60);
-        return $minutes . ' phút';
+function formatTime($seconds)
+{
+    $minutes = floor($seconds / 60);
+    $remainingSeconds = $seconds % 60;
+
+    $formattedTime = '';
+    if ($minutes > 0) {
+        $formattedTime .= $minutes . ' phút';
     }
+
+    if ($remainingSeconds > 0) {
+        if ($minutes > 0) {
+            $formattedTime .= ' ';
+        }
+        $formattedTime .= $remainingSeconds . ' giây';
+    }
+
+    return $formattedTime;
 }
 

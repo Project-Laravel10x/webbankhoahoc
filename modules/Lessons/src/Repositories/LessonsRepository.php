@@ -3,6 +3,7 @@
 namespace Modules\Lessons\src\Repositories;
 
 use App\Repositories\BaseRepository;
+use Modules\Courses\src\Models\Course;
 use Modules\Lessons\src\Models\Lesson;
 
 class LessonsRepository extends BaseRepository implements LessonsRepositoryInterface
@@ -30,6 +31,15 @@ class LessonsRepository extends BaseRepository implements LessonsRepositoryInter
     {
         $result = $this->model->where('course_id', $courseId)->count();
         return $result + 1;
+    }
+
+    public function getLessonsByCourseId($courseId)
+    {
+        $course = Course::findOrFail($courseId);
+
+        $lessons = $course->lessons;
+
+        return $lessons;
     }
 
     public function getLessons($courseId = null)

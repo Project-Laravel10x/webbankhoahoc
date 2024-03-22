@@ -4,7 +4,9 @@ namespace Modules\Lessons\src\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Modules\Categories\src\Models\Category;
+use Modules\Courses\src\Models\Course;
 use Modules\Document\src\Models\Document;
+use Modules\Teacher\src\Models\Teacher;
 use Modules\Video\src\Models\Video;
 
 
@@ -33,6 +35,11 @@ class Lesson extends Model
     public function subLessons()
     {
         return $this->children()->with('subLessons');
+    }
+
+    public function courses()
+    {
+        return $this->belongsTo(Course::class, 'course_id', 'id');
     }
 
     public function video()

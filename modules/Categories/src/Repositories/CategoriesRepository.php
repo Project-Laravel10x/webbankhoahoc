@@ -15,12 +15,12 @@ class CategoriesRepository extends BaseRepository implements CategoriesRepositor
 
     public function getCategories()
     {
-        return $this->model->with('subCategories')->where('parent_id', 0)->select(['name', 'slug', 'parent_id', 'id', 'created_at'])->latest()->get();
+        return $this->model->with('subCategories')->where('parent_id', 0)->select(['name', 'slug', 'parent_id', 'id', 'thumbnail', 'created_at'])->latest()->get();
     }
 
     public function getCategoriesCreate()
     {
-        return $this->model->select(['name', 'slug', 'parent_id', 'id', 'created_at'])->get();
+        return $this->model->select(['name', 'slug', 'parent_id', 'id', 'thumbnail', 'created_at'])->get();
     }
 
     public function getAllCategories()

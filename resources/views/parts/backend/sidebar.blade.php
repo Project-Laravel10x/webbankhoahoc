@@ -21,6 +21,10 @@
 
     @include('parts.backend.menu_item',['title' => 'Khóa học','name' => 'courses'])
 
+    @include('parts.backend.menu_item',['title' => 'Danh mục tin tức','name' => 'news_categories'])
+
+    @include('parts.backend.menu_item',['title' => 'Tin tức','name' => 'news'])
+
     @include('parts.backend.menu_item',['title' => 'Giảng viên','name' => 'teachers'])
 
     @include('parts.backend.menu_item',['title' => 'Học viên','name' => 'students'])

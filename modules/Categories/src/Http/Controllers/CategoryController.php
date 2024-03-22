@@ -54,11 +54,9 @@ class CategoryController extends Controller
 
     public function store(CategoryRequest $request)
     {
-        $this->categoriesRepository->create([
-            'name' => $request->name,
-            'slug' => $request->slug,
-            'parent_id' => $request->parent_id,
-        ]);
+        $data = $request->except('_token', '_method');
+
+        $this->categoriesRepository->create($data);
 
         return redirect()->route('admin.categories.index')->with('msg', __('categories::messages.success'));
     }

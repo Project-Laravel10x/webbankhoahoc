@@ -18,4 +18,8 @@ class Teacher extends Model
         'exp',
     ];
 
+    public function courses()
+    {
+        return $this->hasMany(Course::class,'teacher_id','id');
+    }
 }
