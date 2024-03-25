@@ -69,7 +69,7 @@
                         <textarea name="content" placeholder="Detail ..."
                                   class="form-control ckeditor @if($errors->has('content')) is-invalid @endif"
                                   id="content" cols="10"
-                                  rows="10">{{ old('content') ?? $new['content'] }}</textarea>
+                                  rows="10">{{ old('content') ?? $new[ 'content'] }}</textarea>
 
                         @error('content')
                         <div class="invalid-feedback">

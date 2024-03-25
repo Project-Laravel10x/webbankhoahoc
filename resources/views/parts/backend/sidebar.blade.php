@@ -29,8 +29,11 @@
 
     @include('parts.backend.menu_item',['title' => 'Học viên','name' => 'students'])
 
-    @include('parts.backend.menu_item',['title' => 'Người dùng','name' => 'users'])
+    @include('parts.backend.menu_item',['title' => 'Người quản lí hệ thống','name' => 'users'])
 
+    @can('groups.permission')
+    @include('parts.backend.menu_item',['title' => 'Phân quyền module','name' => 'groups'])
+    @endcan
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>

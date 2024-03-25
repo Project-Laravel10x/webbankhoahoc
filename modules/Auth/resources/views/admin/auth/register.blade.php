@@ -27,7 +27,7 @@
                             @error('err')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
-                            <form class="user" action="{{ route('register') }}" method="POST">
+                            <form class="user" action="{{ route('admin.register') }}" method="POST">
 
                                 @csrf
                                 <div class="form-group">

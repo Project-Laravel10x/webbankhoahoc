@@ -62,33 +62,38 @@ Route::group(['as' => 'students.'], function () {
 
 Route::group(['prefix' => 'admin'], function () {
 
-    Route::group(['prefix' => 'students'], function () {
+    Route::group(['prefix' => 'students','middleware' => 'can:students'], function () {
 
         Route::get('/', [StudentController::class, 'index'])->name('admin.students.index');
 
-        Route::get('/create', [StudentController::class, 'create'])->name('admin.students.create');
+        Route::get('/create', [StudentController::class, 'create'])
+            ->middleware('can:students.add')->name('admin.students.create');
 
-        Route::post('/store', [StudentController::class, 'store'])->name('admin.students.store');
+        Route::post('/store', [StudentController::class, 'store'])
+            ->middleware('can:students.add')->name('admin.students.store');
 
-        Route::get('/edit/{student}', [StudentController::class, 'edit'])->name('admin.students.edit');
+        Route::get('/edit/{student}', [StudentController::class, 'edit'])
+            ->middleware('can:students.edit')->name('admin.students.edit');
 
-        Route::put('/update/{student}', [StudentController::class, 'update'])->name('admin.students.update');
+        Route::put('/update/{student}', [StudentController::class, 'update'])
+            ->middleware('can:students.edit')->name('admin.students.update');
 
-        Route::delete('/delete/{student}', [StudentController::class, 'delete'])->name('admin.students.delete');
+        Route::delete('/delete/{student}', [StudentController::class, 'delete'])
+            ->middleware('can:students.delete')->name('admin.students.delete');
 
     });
 
     Route::get('/{course}/students', [StudentController::class, 'listStudentsByCourseId'])
-        ->name('admin.students.list_student_by_course');
+        ->middleware('can:students')->name('admin.students.list_student_by_course');
 
     Route::get('/{course}/students/create', [StudentController::class, 'createStudentsByCourseId'])
-        ->name('admin.students.create_student_by_course');
+        ->middleware('can:students.add')->name('admin.students.create_student_by_course');
 
     Route::post('/{course}/students/store', [StudentController::class, 'store'])
-        ->name('admin.students.store_student_by_course');
+        ->middleware('can:students.add')->name('admin.students.store_student_by_course');
 
     Route::delete('/students/delete/{student}/course/{course}', [StudentController::class, 'delete'])
-        ->name('admin.students.delete_student_by_course');
+        ->middleware('can:students.delete')->name('admin.students.delete_student_by_course');
 
 });
 

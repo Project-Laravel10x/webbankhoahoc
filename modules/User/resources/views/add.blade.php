@@ -51,10 +51,9 @@
                        class="form-control @if($errors->has('group_id')) is-invalid @endif"
                        id="group" name="group_id">
                        <option value="0">Chọn nhóm</option>
-                       <option value="1">Group 1</option>
-                       <option value="2">Group 2</option>
-                       <option value="3">Group 3</option>
-                       <option value="4">Group 4</option>
+                       @foreach($groups as $group)
+                       <option value="{{ $group->id }}">{{ $group->name }}</option>
+                       @endforeach
                    </select>
                    @error('group_id')
                    <div class="invalid-feedback">

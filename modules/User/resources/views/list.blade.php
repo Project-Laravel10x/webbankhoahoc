@@ -1,8 +1,9 @@
 @extends('layouts.backend')
 
 @section('content')
-    <a href="{{ route('admin.users.create') }}" class="btn btn-primary mb-3">Thêm</a>
-
+    @can('create',\Modules\User\src\Models\User::class)
+        <a href="{{ route('admin.users.create') }}" class="btn btn-primary mb-3">Thêm</a>
+    @endcan
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">DataTables Users</h6>
@@ -21,6 +22,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Group</th>
+                        <th>Người tạo</th>
                         <th>Thời gian</th>
                         <th>Action</th>
                     </tr>
@@ -31,6 +33,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Group</th>
+                        <th>Người tạo</th>
                         <th>Thời gian</th>
                         <th>Action</th>
                     </tr>
@@ -41,7 +44,8 @@
                             <td>{{ $user->id }}</td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>{{ $user->group_id }}</td>
+                            <td>{{ $user->groups->name }}</td>
+                            <td>{{ $user->parentUser->name ?? null }}</td>
                             <td>{{ $user->created_at }}</td>
                             <td>
                                 <div class="d-flex justify-content-between">
@@ -49,7 +53,9 @@
                                     <form method="POST" action="{{ route('admin.users.delete', $user->id) }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" onclick="return confirm('Are you sure ?')" class="btn btn-danger">Xóa</button>
+                                        <button type="submit" onclick="return confirm('Are you sure ?')"
+                                                class="btn btn-danger">Xóa
+                                        </button>
                                     </form>
                                 </div>
                             </td>

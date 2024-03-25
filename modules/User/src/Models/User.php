@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Groups\src\Models\Group;
 
 class User extends Authenticatable
 {
@@ -21,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'group_id',
+        'user_id',
         'password',
     ];
 
@@ -43,4 +45,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function groups()
+    {
+        return $this->belongsTo(Group::class, 'group_id', 'id');
+    }
+
+    public function groupsId()
+    {
+        return $this->hasMany(Group::class, 'user_id', 'id');
+    }
+
+    public function parentUser()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }
