@@ -152,6 +152,20 @@
                     </div>
                 </div>
 
+                <div class="col-12">
+                    <div class="mb-3 mt-3">
+                        <label for="shoft_description" class="form-label">Mô tả ngắn:</label>
+                        <input onchange="getSlug(this)" type="text"
+                               class="form-control title @if($errors->has('shoft_description')) is-invalid @endif"
+                               id="shoft_description"
+                               placeholder="Enter shoft_description..." name="shoft_description" value="{{ old('shoft_description') ?? $course->shoft_description }}">
+                        @error('shoft_description')
+                        <div class="invalid-feedback">
+                            {{$message}}
+                        </div>
+                        @enderror
+                    </div>
+                </div>
 
                 <div class="col-12">
                     <div class="mb-3 mt-3">

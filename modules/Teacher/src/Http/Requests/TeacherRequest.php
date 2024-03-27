@@ -27,6 +27,7 @@ class TeacherRequest extends FormRequest
             'image' => 'required',
             'description' => 'required',
             'exp' => 'required|integer',
+            'major' => 'required',
         ];
 
 
@@ -50,6 +51,7 @@ class TeacherRequest extends FormRequest
             'image' => __('teacher::validation.attributes.image'),
             'description' => __('teacher::validation.attributes.description'),
             'exp' => __('teacher::validation.attributes.exp'),
+            'major' => __('teacher::validation.attributes.major'),
         ];
     }
 }

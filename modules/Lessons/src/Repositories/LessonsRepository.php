@@ -50,9 +50,9 @@ class LessonsRepository extends BaseRepository implements LessonsRepositoryInter
             ->where('parent_id', null)
             ->select([
                 'id', 'name', 'slug', 'video_id',
-                'document_id', 'parent_id', 'is_trial',
+                'document_id', 'parent_id', 'is_trial','is_trial',
                 'view', 'position', 'durations', 'description', 'created_at'
-            ])->latest()->get();
+            ])->get();
     }
 
 }

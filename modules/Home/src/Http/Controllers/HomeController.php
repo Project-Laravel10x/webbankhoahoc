@@ -7,8 +7,11 @@ use Modules\Categories\src\Repositories\CategoriesRepository;
 use Modules\Categories\src\Repositories\CategoriesRepositoryInterface;
 use Modules\Courses\src\Repositories\CoursesRepository;
 use Modules\Lessons\src\Repositories\LessonsRepository;
+use Modules\News\src\Repositories\NewsRepository;
+use Modules\News\src\Repositories\NewsRepositoryInterface;
 use Modules\Students\src\Repositories\StudentRepository;
 use Modules\Teacher\src\Repositories\TeacherRepository;
+use Modules\User\src\Repositories\UserRepository;
 
 
 class HomeController extends Controller
@@ -19,6 +22,8 @@ class HomeController extends Controller
     protected TeacherRepository $teacherRepository;
     protected StudentRepository $studentRepository;
     protected LessonsRepository $lessonsRepository;
+    protected UserRepository $userRepository;
+    protected NewsRepository $newRepository;
 
     public function __construct(
         CategoriesRepositoryInterface $categoriesRepository,
@@ -26,6 +31,8 @@ class HomeController extends Controller
         TeacherRepository             $teacherRepository,
         StudentRepository             $studentRepository,
         LessonsRepository             $lessonsRepository,
+        UserRepository                $userRepository,
+        NewsRepository                $newRepository,
     )
     {
         $this->categoriesRepository = $categoriesRepository;
@@ -33,13 +40,17 @@ class HomeController extends Controller
         $this->teacherRepository = $teacherRepository;
         $this->studentRepository = $studentRepository;
         $this->lessonsRepository = $lessonsRepository;
+        $this->userRepository = $userRepository;
+        $this->newRepository = $newRepository;
     }
 
     public function index()
     {
         $pageTitle = "Trang chủ";
 
-        $categories = $this->categoriesRepository->getAllCategories();
+        $categoriesData = $this->categoriesRepository->getCategories()->toArray();
+        $categoriesTop = $this->categoriesRepository->getAllCategories();
+        $categories = getCategoriesTable($categoriesData);
 
         $courses = $this->coursesRepository->getAllCourses()->toArray();
 
@@ -47,16 +58,22 @@ class HomeController extends Controller
 
         $students = $this->studentRepository->getAllStudents();
 
+        $users = $this->userRepository->getUsers();
+
+        $news = $this->newRepository->getAllNews();
+
         $data = compact(
             'pageTitle',
             'categories',
             'courses',
             'teachers',
             'students',
+            'users',
+            'news',
+            'categoriesTop',
         );
 
         return view('home::home', $data);
     }
-
 
 }

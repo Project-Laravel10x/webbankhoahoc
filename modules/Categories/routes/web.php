@@ -25,3 +25,12 @@ Route::group(['prefix' => 'admin'], function () {
     });
 });
 
+Route::group(['prefix' => 'danh-muc'], function () {
+
+    Route::get('/{slug}', [CategoryController::class, 'coursesList'])->name('courses.list');
+
+    Route::get('/search/courses', [CategoryController::class, 'searchCourses'])->name('search.courses');
+
+    Route::post('/search/filter-courses', [CategoryController::class, 'filterCourses'])->name('filter.courses');
+});
+

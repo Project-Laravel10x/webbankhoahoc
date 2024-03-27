@@ -38,14 +38,25 @@
                 </div>
 
 
-
-
-                <div class="col-12">
+                <div class="col-6">
                     <div class="mb-3 mt-3">
                         <label for="exp" class="form-label">Số năm kinh nghiệm:</label>
                         <input type="number" class="form-control @if($errors->has('exp')) is-invalid @endif" id="name"
                                placeholder="Enter exp" name="exp" value="{{ old('exp') }}">
                         @error('exp')
+                        <div class="invalid-feedback">
+                            {{$message}}
+                        </div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="mb-3 mt-3">
+                        <label for="major" class="form-label">Chuyên ngành:</label>
+                        <input type="text" class="form-control @if($errors->has('major')) is-invalid @endif" id="name"
+                               placeholder="Enter major" name="major" value="{{ old('major') }}">
+                        @error('major')
                         <div class="invalid-feedback">
                             {{$message}}
                         </div>

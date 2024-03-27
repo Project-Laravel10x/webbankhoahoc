@@ -13,5 +13,6 @@ return [
         'image' => "Ảnh",
         'description' => "Mô tả",
         'exp' => "Kinh nghiệm",
+        'major' => "Chuyên ngành",
     ],
 ];

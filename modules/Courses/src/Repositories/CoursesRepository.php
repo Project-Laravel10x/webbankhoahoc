@@ -17,7 +17,8 @@ class CoursesRepository extends BaseRepository implements CoursesRepositoryInter
     public function getAllCourses()
     {
         $dataCourses = $this->model->with('teachers:id,name,image')
-            ->select(['id', 'name', 'price','sale_price', 'status', 'thumbnail', 'teacher_id', 'created_at'])
+            ->select(['id', 'name', 'slug', 'shoft_description', 'price',
+                'sale_price', 'status', 'thumbnail', 'teacher_id', 'created_at'])->latest()
             ->get();
 
         foreach ($dataCourses as $key => $course) {
@@ -26,6 +27,7 @@ class CoursesRepository extends BaseRepository implements CoursesRepositoryInter
             $courseId = $course['id'];
 
             $lessonsByCourseId = (new lessonsRepository)->getLessonsByCourseId($courseId)->toArray();
+
             $dataCourses[$key]['lessons'] = array_merge($course['lessons'], $lessonsByCourseId);
 
         }
@@ -49,6 +51,16 @@ class CoursesRepository extends BaseRepository implements CoursesRepositoryInter
     public function getRelatedCategories($course)
     {
         return $course->categories()->allRelatedIds()->toArray();
+    }
+
+
+    public function filterDataCourses($selectedCategories)
+    {
+        return Course::with(['teachers', 'lessons' => function ($query) {
+            $query->with('video');
+        }])->whereHas('categories', function ($query) use ($selectedCategories) {
+            $query->whereIn('category_id', $selectedCategories);
+        })->get()->toArray();
     }
 
 

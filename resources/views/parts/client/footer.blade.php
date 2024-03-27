@@ -8,7 +8,8 @@
 
                     <div class="footer-widget footer-about">
                         <div class="footer-logo">
-                            <img src="assets/img/logo.svg" alt="logo">
+
+                            <img src="{{ asset('client/assets/img/logo.svg') }}" alt="logo">
                         </div>
                         <div class="footer-about-content">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut consequat mauris Lorem
@@ -49,25 +50,20 @@
 
                     <div class="footer-widget footer-contact">
                         <h2 class="footer-title">News letter</h2>
-                        <div class="news-letter">
-                            <form>
-                                <input type="text" class="form-control" placeholder="Enter your email address"
-                                       name="email">
-                            </form>
-                        </div>
+
                         <div class="footer-contact-info">
                             <div class="footer-address">
-                                <img src="assets/img/icon/icon-20.svg" alt class="img-fluid">
-                                <p> 3556 Beech Street, San Francisco,<br> California, CA 94108 </p>
+                                <img src="{{ asset('client/assets/img/icon/icon-20.svg') }}" alt class="img-fluid">
+                                <p> Hà Nội </p>
                             </div>
                             <p>
-                                <img src="assets/img/icon/icon-19.svg" alt class="img-fluid">
+                                <img src="{{ asset('client/assets/img/icon/icon-19.svg') }}" alt class="img-fluid">
                                 <a href="https://dreamslms.dreamstechnologies.com/cdn-cgi/l/email-protection"
-                                   class="__cf_email__" data-cfemail="f2968097939f819e9f81b2978a939f829e97dc919d9f">[email&#160;protected]</a>
+                                   >hoangnam@gmail.com</a>
                             </p>
                             <p class="mb-0">
-                                <img src="assets/img/icon/icon-21.svg" alt class="img-fluid">
-                                +19 123-456-7890
+                                <img src="{{ asset('client/assets/img/icon/icon-21.svg') }}" alt class="img-fluid">
+                                0123456789
                             </p>
                         </div>
                     </div>

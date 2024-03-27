@@ -36,12 +36,11 @@ class LessonController extends Controller
 
     public function index(int $courseId)
     {
-
         $course = $this->coursesRepository->getOne($courseId);
 
         $lessonsData = $this->lessonsRepository->getLessons($courseId)->toArray();
 
-        $lessons = $this->getLessonsTable($lessonsData);
+        $lessons = getLessonsTable($lessonsData);
 
         $pageTitle = "Quản lí bài giảng: $course->name";
 
@@ -200,19 +199,5 @@ class LessonController extends Controller
         return $categories;
     }
 
-    public function getLessonsTable($lessons, $char = '', &$result = [])
-    {
-        if (!empty($lessons)) {
-            foreach ($lessons as $lesson) {
-                $row = $lesson;
-                $row['name'] = $char . $row['name'];
-                unset($row['sub_lessons']);
-                $result[] = $row;
-                if (!empty($lesson['sub_lessons'])) {
-                    $this->getLessonsTable($lesson['sub_lessons'], $char . '|-- ', $result);
-                }
-            }
-        }
-        return $result;
-    }
+
 }

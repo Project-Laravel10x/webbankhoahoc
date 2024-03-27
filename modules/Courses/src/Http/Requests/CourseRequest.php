@@ -40,6 +40,7 @@ class CourseRequest extends FormRequest
             'is_document' => 'required|integer',
             'support' => 'required',
             'status' => 'required|integer',
+            'shoft_description' => 'required',
             'categories' => 'required',
         ];
 

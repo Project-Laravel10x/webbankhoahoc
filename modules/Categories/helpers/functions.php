@@ -20,3 +20,19 @@ function getCategories($categories, $old = '', $parentId = 0, $char = '')
     }
 }
 
+function getCategoriesTable($categories, $char = '', &$result = [])
+{
+    if (!empty($categories)) {
+        foreach ($categories as $key => $category) {
+            $row = $category;
+            $row['name'] = $char . $row['name'];
+            unset($row['sub_categories']);
+            $result[] = $row;
+            if (!empty($category['sub_categories'])) {
+                getCategoriesTable($category['sub_categories'], $char . '|-- ', $result);
+            }
+        }
+    }
+    return $result;
+}
+

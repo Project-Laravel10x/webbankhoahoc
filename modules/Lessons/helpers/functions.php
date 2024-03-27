@@ -1,5 +1,7 @@
 <?php
 
+use Modules\Video\src\Models\Video;
+
 function getLesson($lessons, $old = '', $module = '', $parentId = 0, $char = '',)
 {
     if ($lessons) {
@@ -26,6 +28,10 @@ function getLesson($lessons, $old = '', $module = '', $parentId = 0, $char = '',
 
 function formatTime($seconds)
 {
+    if ($seconds == 0) {
+        return "Chưa có video bài giảng";
+    }
+
     $minutes = floor($seconds / 60);
     $remainingSeconds = $seconds % 60;
 
@@ -44,3 +50,43 @@ function formatTime($seconds)
     return $formattedTime;
 }
 
+function getLessonsTable($lessons, $char = '', &$result = [])
+{
+    if (!empty($lessons)) {
+        foreach ($lessons as $lesson) {
+            $row = $lesson;
+            $row['name'] = $char . $row['name'];
+            unset($row['sub_lessons']);
+            $result[] = $row;
+            if (!empty($lesson['sub_lessons'])) {
+                getLessonsTable($lesson['sub_lessons'], $char . '|-- ', $result);
+            }
+        }
+    }
+    return $result;
+}
+
+function countLessons($lessons = [])
+{
+    $sum = 0;
+
+    foreach ($lessons->toArray() as $lesson) {
+        if ($lesson['parent_id'] != null) {
+            ++$sum;
+        }
+    }
+
+    return $sum;
+}
+
+function getUrlVideo($item)
+{
+
+    $video = Video::find($item['video_id']);
+
+    if ($video == null) {
+        return null;
+    }
+
+    return $video->url;
+}

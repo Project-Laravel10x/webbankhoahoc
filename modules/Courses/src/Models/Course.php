@@ -26,6 +26,7 @@ class Course extends Model
         'is_document',
         'support',
         'status',
+        'shoft_description',
     ];
 
 

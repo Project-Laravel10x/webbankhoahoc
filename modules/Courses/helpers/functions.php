@@ -14,3 +14,13 @@ function getCategoriesCheckbox($categories, $old = [], $parentId = 0, $char = ''
     }
 }
 
+
+function convestPrice($price)
+{
+    if (!$price) {
+        $newPrice = 0;
+    } else {
+        $newPrice = (float)$price;
+    }
+    return $newPrice;
+}

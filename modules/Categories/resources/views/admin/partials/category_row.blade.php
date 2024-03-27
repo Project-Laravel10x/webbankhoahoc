@@ -1,4 +1,3 @@
-
 <tr>
     <td>{{ $category['id'] }}</td>
     <td>{{ $category['name'] }}</td>
@@ -18,6 +17,6 @@
 
 @if(isset($category['sub_categories']) && !empty($category['sub_categories']))
     @foreach($category['sub_categories'] as $childCategory)
-        @include('partials.category_row', ['category' => $childCategory])
+        @include('partials.category_row.blade.php', ['category' => $childCategory])
     @endforeach
 @endif

@@ -3,53 +3,56 @@
 namespace Modules\Categories\src\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Modules\Categories\src\Http\Requests\CategoryRequest;
 use Modules\Categories\src\Models\Category;
 use Modules\Categories\src\Repositories\CategoriesRepository;
 use Modules\Categories\src\Repositories\CategoriesRepositoryInterface;
+use Modules\Courses\src\Models\Course;
+use Modules\Courses\src\Repositories\CoursesRepository;
+use Modules\Courses\src\Repositories\CoursesRepositoryInterface;
+use Modules\Lessons\src\Repositories\LessonsRepository;
+use Modules\Lessons\src\Repositories\LessonsRepositoryInterface;
+use Modules\Teacher\src\Repositories\TeacherRepository;
+use Modules\Teacher\src\Repositories\TeacherRepositoryInterface;
 
 
 class CategoryController extends Controller
 {
 
     protected CategoriesRepository $categoriesRepository;
+    protected TeacherRepository $teacherRepository;
+    protected LessonsRepository $lessonRepository;
+    protected CoursesRepository $coursesRepository;
 
-    public function __construct(CategoriesRepositoryInterface $categoriesRepository)
+    public function __construct(
+        CategoriesRepositoryInterface $categoriesRepository,
+        TeacherRepositoryInterface    $teacherRepository,
+        LessonsRepositoryInterface    $lessonRepository,
+        CoursesRepositoryInterface    $coursesRepository,
+    )
     {
         $this->categoriesRepository = $categoriesRepository;
+        $this->teacherRepository = $teacherRepository;
+        $this->lessonRepository = $lessonRepository;
+        $this->coursesRepository = $coursesRepository;
     }
 
     public function index()
     {
         $pageTitle = "Quản lí danh mục";
         $categoriesData = $this->categoriesRepository->getCategories()->toArray();
-        $categories = $this->getCategoriesTable($categoriesData);
+        $categories = getCategoriesTable($categoriesData);
 
-        return view('categories::list', compact('pageTitle', 'categories'));
+        return view('categories::admin.list', compact('pageTitle', 'categories'));
     }
 
-    public function getCategoriesTable($categories, $char = '', &$result = [])
-    {
-
-        if (!empty($categories)) {
-            foreach ($categories as $key => $category) {
-                $row = $category;
-                $row['name'] = $char . $row['name'];
-                unset($row['sub_categories']);
-                $result[] = $row;
-                if (!empty($category['sub_categories'])) {
-                    $this->getCategoriesTable($category['sub_categories'], $char . '|-- ', $result);
-                }
-            }
-        }
-        return $result;
-    }
 
     public function create()
     {
         $pageTitle = "Thêm danh mục";
         $categories = $this->categoriesRepository->getCategoriesCreate();
-        return view('categories::add', compact('pageTitle', 'categories'));
+        return view('categories::admin.add', compact('pageTitle', 'categories'));
     }
 
     public function store(CategoryRequest $request)
@@ -72,7 +75,7 @@ class CategoryController extends Controller
         }
 
 
-        return view('categories::edit', compact('pageTitle', 'category', 'categories'));
+        return view('categories::admin.edit', compact('pageTitle', 'category', 'categories'));
     }
 
     public function update(CategoryRequest $request, int $id)
@@ -96,4 +99,75 @@ class CategoryController extends Controller
     }
 
 
+    public function coursesList($slug)
+    {
+        $category = Category::where('slug', $slug)->firstOrFail();
+
+        $categoriesData = $this->categoriesRepository->getCategories()->toArray();
+        $categories = getCategoriesTable($categoriesData);
+
+        if (!$category) {
+            abort(404);
+        }
+
+        $courses = $category->courses()->paginate(4);
+
+        $coursesNews = $this->coursesRepository->getAllCourses()->toArray();
+
+        return view('categories::client.courses-list',
+            compact('category', 'courses', 'categories', 'coursesNews'));
+    }
+
+    public function coursesGroup($slug)
+    {
+        $category = Category::where('slug', $slug)->firstOrFail();
+
+        if (!$category) {
+            abort(404);
+        }
+
+        $categoriesData = $this->categoriesRepository->getCategories()->toArray();
+        $categories = getCategoriesTable($categoriesData);
+
+        $courses = $category->courses()->paginate(4);
+
+        return view('categories::client.courses-group',
+            compact('category', 'courses', 'categories'));
+    }
+
+
+    public function searchCourses(Request $request)
+    {
+        $search = $request->input('search');
+
+        $categoriesData = $this->categoriesRepository->getCategories()->toArray();
+        $categories = getCategoriesTable($categoriesData);
+
+        $teachers = $this->teacherRepository->getAllTeacher();
+
+        $coursesNews = $this->coursesRepository->getAllCourses()->toArray();
+
+        $query = Course::query();
+
+        if ($search) {
+            $query->where('name', 'LIKE', "%$search%");
+
+        }
+
+        $courses = $query->paginate(4);
+
+        $category = '';
+
+        return view('categories::client.courses-list',
+            compact('courses', 'teachers', 'category', 'categories', 'coursesNews'));
+    }
+
+    public function filterCourses(Request $request)
+    {
+        $selectedCategories = $request->input('categories', []);
+
+        $courses = $this->coursesRepository->filterDataCourses($selectedCategories);
+
+        return response()->json($courses);
+    }
 }
