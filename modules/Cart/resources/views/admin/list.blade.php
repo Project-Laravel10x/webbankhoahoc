@@ -1,8 +1,9 @@
 @extends('layouts.backend')
 
 @section('content')
-    <a href="{{ route('admin.users.create') }}" class="btn btn-primary mb-3">Thêm</a>
-
+    @can('categories:add')
+        <a href="{{ route('admin.categories.create') }}" class="btn btn-primary mb-3">Thêm</a>
+    @endcan
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">DataTables Users</h6>
@@ -19,37 +20,31 @@
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Email</th>
-                        <th>Group</th>
+                        <th>Slug</th>
                         <th>Thời gian</th>
                         <th>Action</th>
                     </tr>
                     </thead>
-                    <tfoot>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Group</th>
-                        <th>Thời gian</th>
-                        <th>Action</th>
-                    </tr>
-                    </tfoot>
+
                     <tbody>
-                    @foreach($users as $user)
+
+                    @foreach($categories as $key => $category)
                         <tr>
-                            <td>{{ $user->id }}</td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->group_id }}</td>
-                            <td>{{ $user->created_at }}</td>
+                            <td>{{ $key + 1 }}</td>
+                            <td>{{ $category['name'] }}</td>
+                            <td><a href="{{ $category['slug'] }}" class="btn btn-primary">Link</a></td>
+                            <td>{{ $category['created_at'] }}</td>
                             <td>
                                 <div class="d-flex justify-content-between">
-                                    <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning">Sửa</a>
-                                    <form method="POST" action="{{ route('admin.users.delete', $user->id) }}">
+                                    <a href="{{ route('admin.categories.edit', $category['id']) }}"
+                                       class="btn btn-warning">Sửa</a>
+                                    <form method="POST"
+                                          action="{{ route('admin.categories.delete', $category['id']) }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" onclick="return confirm('Are you sure ?')" class="btn btn-danger">Xóa</button>
+                                        <button type="submit" onclick="return confirm('Are you sure ?')"
+                                                class="btn btn-danger">Xóa
+                                        </button>
                                     </form>
                                 </div>
                             </td>

@@ -24,6 +24,14 @@ Route::group(['prefix' => 'admin'], function () {
         Route::delete('/delete/{new}', [NewController::class, 'delete'])
             ->middleware('can:news.delete')->name('admin.news.delete');
 
-
     });
 });
+
+Route::group(['prefix' => 'tin-tuc'], function () {
+
+    Route::get('/', [NewController::class, 'listAllNews'])
+        ->name('listAllNews');
+
+});
+
+

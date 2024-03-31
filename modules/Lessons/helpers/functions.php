@@ -70,7 +70,7 @@ function countLessons($lessons = [])
 {
     $sum = 0;
 
-    foreach ($lessons->toArray() as $lesson) {
+    foreach ($lessons as $lesson) {
         if ($lesson['parent_id'] != null) {
             ++$sum;
         }

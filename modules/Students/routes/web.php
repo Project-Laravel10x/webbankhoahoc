@@ -16,7 +16,7 @@ Route::group(['as' => 'students.'], function () {
         return "<h1>Chính sách quyền riêng tư</h1>";
     });
 
-    Route::get('/thanh-toan', [ClientController::class, 'index'])->middleware('auth.client')->name('index');
+    Route::get('/thanh-toan1', [ClientController::class, 'index'])->middleware('auth.client')->name('index');
 
     Route::get('/login', [LoginController::class, 'loginForm'])->middleware('guest:students')->name('login');
 
@@ -56,6 +56,19 @@ Route::group(['as' => 'students.'], function () {
 
     Route::post('/reset-password', [ResetPasswordController::class, 'reset'])
         ->name('update_password');
+
+
+    Route::group(['prefix' => 'trang-ca-nhan'], function () {
+
+        Route::get('/danh-sach-don-hang', [StudentController::class, 'listOrders'])->name('listOrders');
+
+        Route::get('/khoa-hoc-cua-ban', [StudentController::class, 'myCourses'])->name('myCourses');
+
+        Route::get('/chi-tiet-don-hang/{order}', [StudentController::class, 'detailOrder'])->name('detailOrder');
+
+    });
+
+    Route::get('/danh-sach-hoc-vien', [StudentController::class, 'listStudents'])->name('listStudent');
 
 });
 

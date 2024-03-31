@@ -3,6 +3,7 @@
 namespace Modules\Courses\src\Repositories;
 
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Auth;
 use Modules\Courses\src\Models\Course;
 use Modules\Lessons\src\Repositories\LessonsRepository;
 
@@ -14,11 +15,49 @@ class CoursesRepository extends BaseRepository implements CoursesRepositoryInter
         return Course::class;
     }
 
-    public function getAllCourses()
+    public function getAllCourses($student_id = null, $checkBuyCourse = true)
     {
         $dataCourses = $this->model->with('teachers:id,name,image')
+            ->with('lessons')
             ->select(['id', 'name', 'slug', 'shoft_description', 'price',
-                'sale_price', 'status', 'thumbnail', 'teacher_id', 'created_at'])->latest()
+                'sale_price', 'status', 'thumbnail', 'teacher_id', 'created_at'])->latest();
+
+        if ($student_id != null) {
+            if ($checkBuyCourse) {
+                $dataCourses->whereHas('students', function ($query) use ($student_id) {
+                    $query->where('student_id', $student_id);
+                });
+            } else {
+                $dataCourses->whereDoesntHave('students', function ($query) use ($student_id) {
+                    $query->where('student_id', $student_id);
+                });
+            }
+        }
+
+        $dataCourses = $dataCourses->get();
+
+        foreach ($dataCourses as $key => $course) {
+            $course['lessons'] = [];
+
+            $courseId = $course['id'];
+
+            $lessonsByCourseId = (new lessonsRepository)->getLessonsByCourseId($courseId)->toArray();
+
+            $dataCourses[$key]['lessons'] = array_merge($course['lessons'], $lessonsByCourseId);
+
+        }
+
+        return $dataCourses;
+    }
+
+    public function getCourseById($courseId)
+    {
+        $dataCourses = $this->model->with('teachers:id,name,image')
+            ->with('lessons')
+            ->select(['id', 'name', 'slug', 'shoft_description', 'price',
+                'sale_price', 'status', 'thumbnail', 'teacher_id', 'created_at'])
+            ->where('id', $courseId)
+            ->latest()
             ->get();
 
         foreach ($dataCourses as $key => $course) {

@@ -97,7 +97,30 @@
                                                             href="{{ route('courses.detail',$course['slug']) }}">{{ $course['name'] }}</a>
                                                     </h3>
                                                     <div class="all-btn all-category d-flex align-items-center">
-                                                        <a href="checkout.html" class="btn btn-primary">BUY NOW</a>
+                                                        <form method="POST" action="{{ route('addToCart') }}">
+                                                            @csrf
+                                                            <input type="hidden" name="course_id"
+                                                                   value="{{ $course['id'] }}">
+                                                            <input type="hidden" name="name"
+                                                                   value="{{ $course['name'] }}">
+                                                            <input type="hidden" name="slug"
+                                                                   value="{{ $course['slug'] }}">
+                                                            <input type="hidden" name="price"
+                                                                   value="{{ $course['price'] }}">
+                                                            <input type="hidden" name="sale_price"
+                                                                   value="{{ $course['sale_price'] }}">
+                                                            <input type="hidden" name="thumbnail"
+                                                                   value="{{$course['thumbnail']  }}">
+                                                            <input type="hidden" name="lesson"
+                                                                   value="{{ countLessons($course['lessons']) }}">
+                                                            <input type="hidden" name="duration"
+                                                                   value="{{ sumDurations($course) }}">
+                                                            <button type="submit" class="btn btn-wish w-100"><i
+                                                                    class="fa-solid fa-cart-shopping"
+                                                                    style="color: red;"></i> Thêm vào
+                                                                giỏ hàng
+                                                            </button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                                 <div class="course-info border-bottom-0 pb-0 d-flex align-items-center">
@@ -232,48 +255,60 @@
 
                                     if (course !== null && typeof course !== 'undefined') {
                                         var courseHtml = `<div class="col-lg-12 col-md-12 d-flex">
-                                                                    <div class="course-box course-design list-course d-flex">
-                                                                        <div class="product">
-                                                                            <div class="product-img">
-                                                                                <a href="/khoa-hoc/${course.slug}">
-                                                                                    <img class="img-fluid" src="${course.thumbnail}" alt="${course.name}">
-                                                                                </a>
-                                                                                <div class="price">
-                                                                                    <h3>${formatCurrency(course.price)} <span>${formatCurrency(course.sale_price)}</span></h3>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="product-content">
-                                                                                <div class="head-course-title">
-                                                                                    <h3 class="title"><a href="/khoa-hoc/${course.slug}">${course.name}</a></h3>
-                                                                                    <div class="all-btn all-category d-flex align-items-center">
-                                                                                        <a href="checkout.html" class="btn btn-primary">BUY NOW</a>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="course-info border-bottom-0 pb-0 d-flex align-items-center">
-                                                                                    <div class="rating-img d-flex align-items-center">
-                                                                                        <img src="/client/assets/img/icon/icon-01.svg" alt="">
-                                                                                        <p>${countLessons(course)}</p>
-                                                                                    </div>
-                                                                                    <div class="course-view d-flex align-items-center">
-                                                                                        <img src="/client/assets/img/icon/icon-02.svg" alt="">
-                                                                                        <p>${sumDurations(course)}</p>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <p style="font-size: 15px">${course.shoft_description}</p>
-                                                                                <div class="course-group d-flex mb-0">
-                                                                                    <div class="course-group-img d-flex">
-                                                                                        <a href="instructor-profile.html"><img src="${course.teachers.image}" alt="" class="img-fluid"></a>
-                                                                                        <div class="course-name">
-                                                                                            <h4><a href="instructor-profile.html">${course.teachers.name}</a></h4>
-                                                                                            <p>Giảng viên</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>`;
+                    <div class="course-box course-design list-course d-flex">
+                        <div class="product">
+                            <div class="product-img">
+                                <a href="/khoa-hoc/${course.slug}">
+                                    <img class="img-fluid" src="${course.thumbnail}" alt="${course.name}">
+                                </a>
+                                <div class="price">
+                                    <h3>${formatCurrency(course.price)} <span>${formatCurrency(course.sale_price)}</span></h3>
+                                </div>
+                            </div>
+                            <div class="product-content">
+                                <div class="head-course-title">
+                                    <h3 class="title"><a href="/khoa-hoc/${course.slug}">${course.name}</a></h3>
+                                    <div class="all-btn all-category d-flex align-items-center">
+                                        <form method="POST" action="{{ route('addToCart') }}">
+                                            @csrf
+                                        <input type="hidden" name="course_id" value="${course.id}">
+                                            <input type="hidden" name="name" value="${course.name}">
+                                            <input type="hidden" name="slug" value="${course.slug}">
+                                            <input type="hidden" name="price" value="${course.price}">
+                                            <input type="hidden" name="sale_price" value="${course.sale_price}">
+                                            <input type="hidden" name="thumbnail" value="${course.thumbnail}">
+                                            <input type="hidden" name="lesson" value="${countLessons(course)}">
+                                            <input type="hidden" name="duration" value="${sumDurations(course)}">
+                                            <button type="submit" class="btn btn-wish w-100"><i class="fa-solid fa-cart-shopping" style="color: red;"></i> Thêm vào giỏ hàng</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="course-info border-bottom-0 pb-0 d-flex align-items-center">
+                                    <div class="rating-img d-flex align-items-center">
+                                        <img src="/client/assets/img/icon/icon-01.svg" alt="">
+                                        <p>${countLessons(course)}</p>
+                                    </div>
+                                    <div class="course-view d-flex align-items-center">
+                                        <img src="/client/assets/img/icon/icon-02.svg" alt="">
+                                        <p>${sumDurations(course)}</p>
+                                    </div>
+                                </div>
+                                <p style="font-size: 15px">${course.shoft_description}</p>
+                                <div class="course-group d-flex mb-0">
+                                    <div class="course-group-img d-flex">
+                                        <a href="instructor-profile.html"><img src="${course.teachers.image}" alt="" class="img-fluid"></a>
+                                        <div class="course-name">
+                                            <h4><a href="instructor-profile.html">${course.teachers.name}</a></h4>
+                                            <p>Giảng viên</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
                                         $('.load-data-courses').append(courseHtml);
+
                                     }
                                 })
 

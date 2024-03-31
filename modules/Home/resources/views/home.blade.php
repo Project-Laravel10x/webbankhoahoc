@@ -98,7 +98,7 @@
                         <div class="feature-bg">
                             <div class="feature-header">
                                 <div class="feature-icon">
-                                    <a href="{{ $category['slug'] }}"><img src="{{ $category['thumbnail'] }}"></a>
+                                    <a href="danh-muc/{{ $category['slug'] }}"><img src="{{ $category['thumbnail'] }}"></a>
                                 </div>
                                 <div class="feature-cont">
                                     <div class="feature-text">{{ $category['name'] }}</div>
@@ -123,7 +123,9 @@
                         </div>
                     </div>
                     <div class="section-text aos" data-aos="fade-up">
-                        <p>Đạt chứng chỉ, nắm vững các kỹ năng công nghệ hiện đại và nâng cao sự nghiệp của bạn - cho dù bạn đang bắt đầu hoặc là một chuyên gia có kinh nghiệm. 95% học viên eLearning báo cáo rằng nội dung thực hành của chúng tôi đã giúp trực tiếp cho sự nghiệp của họ.</p>
+                        <p>Đạt chứng chỉ, nắm vững các kỹ năng công nghệ hiện đại và nâng cao sự nghiệp của bạn - cho dù
+                            bạn đang bắt đầu hoặc là một chuyên gia có kinh nghiệm. 95% học viên eLearning báo cáo rằng
+                            nội dung thực hành của chúng tôi đã giúp trực tiếp cho sự nghiệp của họ.</p>
                     </div>
                     <div class="career-group aos" data-aos="fade-up">
                         <div class="row">
@@ -175,7 +177,8 @@
                                                      class="img-fluid">
                                             </div>
                                         </div>
-                                        <p>Xây dựng kỹ năng của bạn theo cách của riêng bạn, từ các phòng thí nghiệm đến các khóa học</p>
+                                        <p>Xây dựng kỹ năng của bạn theo cách của riêng bạn, từ các phòng thí nghiệm đến
+                                            các khóa học</p>
                                     </div>
                                 </div>
                             </div>
@@ -203,12 +206,10 @@
                             <span>Có Gì Mới</span>
                             <h2>Các Khóa Học Nổi Bật</h2>
                         </div>
-                        <div class="all-btn all-category d-flex align-items-center">
-                            <a href="course-list.html" class="btn btn-primary">Tất Cả Các Khóa Học</a>
-                        </div>
                     </div>
                     <div class="section-text aos" data-aos="fade-up">
-                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget aenean accumsan bibendum
+                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget aenean accumsan
+                            bibendum
                             gravida maecenas augue elementum et neque. Suspendisse imperdiet.</p>
                     </div>
                     <div class="course-feature">
@@ -224,8 +225,16 @@
                                                          src="{{ $course['thumbnail'] }}">
                                                 </a>
                                                 <div class="price">
-                                                    <h3>{{ formatCurrency($course['price']) }}
-                                                        <span>{{ formatCurrency($course['sale_price']) }}</span></h3>
+                                                    @if($course['sale_price'] == 0)
+                                                        <h3><strong
+                                                                style="color: red">{{ formatCurrency($course['price']) }}</strong>
+                                                            <span>{{ formatCurrency($course['sale_price']) }}</span>
+                                                        </h3>
+                                                    @else
+                                                        <h3><span>{{ formatCurrency($course['price']) }}</span> <strong
+                                                                style="color: red">{{ formatCurrency($course['sale_price']) }}</strong>
+                                                        </h3>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="product-content">
@@ -235,15 +244,15 @@
                                                                 src="{{$course['teachers']['image']}}"
                                                                 class="img-fluid"></a>
                                                         <div class="course-name">
-                                                            <h4><a href="instructor-profile.html">{{$course['teachers']['name']}}</a></h4>
+                                                            <h4>
+                                                                <a href="instructor-profile.html">{{$course['teachers']['name']}}</a>
+                                                            </h4>
                                                             <p>Giảng viên</p>
                                                         </div>
                                                     </div>
-                                                    <div class="course-share d-flex align-items-center justify-content-center">
-                                                        <a href="#"><i class="fa-regular fa-heart"></i></a>
-                                                    </div>
                                                 </div>
-                                                <h3 class="title instructor-text"><a href="course-details.html">{{$course['name']}}</a></h3>
+                                                <h3 class="title instructor-text"><a
+                                                        href="course-details.html">{{$course['name']}}</a></h3>
                                                 <div class="course-info d-flex align-items-center">
                                                     <div class="rating-img d-flex align-items-center">
                                                         <img src="{{asset('client/assets/img/icon/icon-01.svg')}}" alt>
@@ -254,16 +263,53 @@
                                                         <p>{{ sumDurations($course) }}</p>
                                                     </div>
                                                 </div>
-                                                <div class="rating">
-                                                    <i class="fas fa-star filled"></i>
-                                                    <i class="fas fa-star filled"></i>
-                                                    <i class="fas fa-star filled"></i>
-                                                    <i class="fas fa-star filled"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <span class="d-inline-block average-rating"><span>4.0</span> (15)</span>
-                                                </div>
+
+
                                                 <div class="all-btn all-category d-flex align-items-center">
-                                                    <a href="checkout.html" class="btn btn-primary">MÚC NGAY</a>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <form method="POST" action="{{ route('addToCart') }}">
+                                                                @csrf
+                                                                <input type="hidden" name="course_id"
+                                                                       value="{{ $course['id'] }}">
+                                                                <input type="hidden" name="name"
+                                                                       value="{{ $course['name'] }}">
+                                                                <input type="hidden" name="slug"
+                                                                       value="{{ $course['slug'] }}">
+                                                                <input type="hidden" name="price"
+                                                                       value="{{ $course['price'] }}">
+                                                                <input type="hidden" name="sale_price"
+                                                                       value="{{ $course['sale_price'] }}">
+                                                                <input type="hidden" name="thumbnail"
+                                                                       value="{{$course['thumbnail']  }}">
+                                                                <input type="hidden" name="lesson"
+                                                                       value="{{ countLessons($course['lessons']) }}">
+                                                                <input type="hidden" name="duration"
+                                                                       value="{{ sumDurations($course) }}">
+                                                                <button style="height: 40px; width: 180px" type="submit"
+                                                                        class="btn btn-wish"><i
+                                                                        class="fa-solid fa-cart-shopping"
+                                                                        style="color: red;"></i> Thêm vào
+                                                                    giỏ hàng
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-md-6">
+
+                                                            <form method="POST" action="{{ route('thanhToan') }}">
+                                                                @csrf
+                                                                <input type="hidden" name="course_id"
+                                                                       value="{{ $course['id'] }}">
+                                                                <input type="hidden" name="qty"
+                                                                       value="1">
+                                                                <input type="hidden" name="total"
+                                                                       value="{{ checkSalePrice($course['price'],$course['sale_price']) }}">
+                                                                <button type="submit" class="btn btn-primary">Thanh
+                                                                    toán
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -290,21 +336,21 @@
                 </div>
                 <div class="owl-carousel instructors-course owl-theme aos" data-aos="fade-up">
                     @foreach($teachers as $teacher)
-                    <div class="instructors-widget">
-                        <div class="instructors-img ">
-                            <a href="">
-                                <img class="img-fluid" alt src="{{$teacher->image}}">
-                            </a>
-                        </div>
-                        <div class="instructors-content text-center">
-                            <h5><a href="instructor-profile.html">{{$teacher->name}}</a></h5>
-                            <p>{{$teacher->exp}} năm kinh nghiệm phát triển web</p>
-                            <div class="student-count d-flex justify-content-center">
-                                <i class="fa-solid fa-user-group"></i>
-                                <span>50 Students</span>
+                        <div class="instructors-widget">
+                            <div class="instructors-img ">
+                                <a href="">
+                                    <img class="img-fluid" alt src="{{$teacher->image}}">
+                                </a>
+                            </div>
+                            <div class="instructors-content text-center">
+                                <h5><a href="instructor-profile.html">{{$teacher->name}}</a></h5>
+                                <p>{{$teacher->exp}} năm kinh nghiệm phát triển web</p>
+                                <div class="student-count d-flex justify-content-center">
+                                    <i class="fa-solid fa-user-group"></i>
+                                    <span>50 Students</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     @endforeach
                 </div>
             </div>
@@ -368,30 +414,33 @@
                 </div>
                 <div class="mentor-testimonial lazy slider aos" data-aos="fade-up" data-sizes="50vw ">
                     @foreach($users as $user)
-                    <div class="d-flex justify-content-center">
-                        <div class="testimonial-all d-flex justify-content-center">
-                            <div class="testimonial-two-head text-center align-items-center d-flex">
-                                <div class="testimonial-four-saying ">
-                                    <div class="testi-right">
-                                        <img src="{{asset('client/assets/img/qute-01.png')}}">
-                                    </div>
-                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                                        Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                                        unknown printer took a galley of type and scrambled it to make a type specimen
-                                        book.</p>
-                                    <div class=" four-testimonial-founder">
-                                        <div class="fount-about-img">
-                                            <a href="instructor-profile.html"><img
-                                                    src="{{asset('client/assets/img/user/user1.jpg')}}" class="
-                                                    img-fluid"></a>
+                        <div class="d-flex justify-content-center">
+                            <div class="testimonial-all d-flex justify-content-center">
+                                <div class="testimonial-two-head text-center align-items-center d-flex">
+                                    <div class="testimonial-four-saying ">
+                                        <div class="testi-right">
+                                            <img src="{{asset('client/assets/img/qute-01.png')}}">
                                         </div>
-                                        <h3><a href="instructor-profile.html">{{ $user->name }}</a></h3>
-                                        <span>Founder of Awesomeux Technology</span>
+                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                            Lorem
+                                            Ipsum has been the industry's standard dummy text ever since the 1500s, when
+                                            an
+                                            unknown printer took a galley of type and scrambled it to make a type
+                                            specimen
+                                            book.</p>
+                                        <div class=" four-testimonial-founder">
+                                            <div class="fount-about-img">
+                                                <a href="instructor-profile.html"><img
+                                                        src="{{asset('client/assets/img/user/user1.jpg')}}" class="
+                                                    img-fluid"></a>
+                                            </div>
+                                            <h3><a href="instructor-profile.html">{{ $user->name }}</a></h3>
+                                            <span>Founder of Awesomeux Technology</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     @endforeach
                 </div>
             </div>
@@ -408,12 +457,14 @@
                         <div class="row">
                             <div class="col-lg-7 col-md-12">
                                 <div class="top-instructors">
-                                    <p>Các giảng viên hàng đầu từ khắp nơi trên thế giới đang giảng dạy hàng triệu học viên trên Mentoring.</p>
+                                    <p>Các giảng viên hàng đầu từ khắp nơi trên thế giới đang giảng dạy hàng triệu học
+                                        viên trên Mentoring.</p>
                                 </div>
                             </div>
                             <div class="col-lg-5 col-md-12">
                                 <div class="mentor-img">
-                                    <img class="img-fluid" alt="Hình ảnh" src="{{asset('client/assets/img/become-02.png')}}">
+                                    <img class="img-fluid" alt="Hình ảnh"
+                                         src="{{asset('client/assets/img/become-02.png')}}">
                                 </div>
                             </div>
                         </div>
@@ -425,12 +476,14 @@
                         <div class="row">
                             <div class="col-lg-8 col-md-12">
                                 <div class="top-instructors">
-                                    <p>Tạo một tài khoản để nhận bản tin của chúng tôi, đề xuất khóa học và các khuyến mãi.</p>
+                                    <p>Tạo một tài khoản để nhận bản tin của chúng tôi, đề xuất khóa học và các khuyến
+                                        mãi.</p>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-12">
                                 <div class="mentor-img">
-                                    <img class="img-fluid" alt="Hình ảnh" src="{{asset('client/assets/img/become-01.png')}}">
+                                    <img class="img-fluid" alt="Hình ảnh"
+                                         src="{{asset('client/assets/img/become-01.png')}}">
                                 </div>
                             </div>
                         </div>
@@ -458,23 +511,23 @@
             <div class="owl-carousel blogs-slide owl-theme aos"
                  data-aos="fade-up">
                 @foreach($news as $new)
-                <div class="instructors-widget blog-widget">
-                    <div class="instructors-img">
-                        <a href="blog-list.html">
-                            <img class="img-fluid" alt
-                                 src="{{$new->thumbnail}}">
-                        </a>
-                    </div>
-                    <div class="instructors-content text-center">
-                        <h5><a href="blog-list.html">{{$new->name}}</a></h5>
-                        <p>{{ $new->newsCategoies->name }}</p>
-                        <div
-                            class="student-count d-flex justify-content-center">
-                            <i class="fa-solid fa-calendar-days"></i>
+                    <div class="instructors-widget blog-widget">
+                        <div class="instructors-img">
+                            <a href="blog-list.html">
+                                <img class="img-fluid" alt
+                                     src="{{$new->thumbnail}}">
+                            </a>
+                        </div>
+                        <div class="instructors-content text-center">
+                            <h5><a href="blog-list.html">{{$new->name}}</a></h5>
+                            <p>{{ $new->newsCategoies->name }}</p>
+                            <div
+                                class="student-count d-flex justify-content-center">
+                                <i class="fa-solid fa-calendar-days"></i>
                                 <span>{{$new->created_at}}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
                 @endforeach
             </div>
             <div class="enroll-group aos" data-aos="fade-up">
@@ -489,7 +542,7 @@
                                 </div>
                             </div>
                             <div class="course-count">
-                                    <h3><span class="counterUp">{{ count($students) }}</span>
+                                <h3><span class="counterUp">{{ count($students) }}</span>
                                 </h3>
                                 <p>Tất cả học viên</p>
                             </div>

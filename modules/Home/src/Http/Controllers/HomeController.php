@@ -3,6 +3,7 @@
 namespace Modules\Home\src\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Modules\Categories\src\Repositories\CategoriesRepository;
 use Modules\Categories\src\Repositories\CategoriesRepositoryInterface;
 use Modules\Courses\src\Repositories\CoursesRepository;
@@ -52,7 +53,7 @@ class HomeController extends Controller
         $categoriesTop = $this->categoriesRepository->getAllCategories();
         $categories = getCategoriesTable($categoriesData);
 
-        $courses = $this->coursesRepository->getAllCourses()->toArray();
+        $courses = $this->coursesRepository->getAllCourses(Auth::guard('students')->user()->id,false)->toArray();
 
         $teachers = $this->teacherRepository->getAllTeacher();
 

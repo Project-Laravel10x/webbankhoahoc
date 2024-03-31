@@ -29,7 +29,7 @@ Route::group(['prefix' => 'filemanager'], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
 
-Route::group(['prefix' => 'khoa-hoc'], function () {
+Route::group(['prefix' => 'khoa-hoc','middleware' => 'auth.client'], function () {
 
     Route::get('/{slug}', [CourseController::class, 'courseDetail'])->name('courses.detail');
 

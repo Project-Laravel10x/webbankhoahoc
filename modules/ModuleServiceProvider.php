@@ -15,6 +15,12 @@ use Modules\Lessons\src\Repositories\LessonsRepository;
 use Modules\Lessons\src\Repositories\LessonsRepositoryInterface;
 use Modules\NewsCategories\src\Repositories\NewsCategoriesRepository;
 use Modules\NewsCategories\src\Repositories\NewsCategoriesRepositoryInterface;
+use Modules\Orders\src\Repositories\OrderRepository;
+use Modules\Orders\src\Repositories\OrderRepositoryInterface;
+use Modules\OrdersDetail\src\Repositories\OrderDetailRepository;
+use Modules\OrdersDetail\src\Repositories\OrderDetailRepositoryInterface;
+use Modules\Students\src\Repositories\StudentRepository;
+use Modules\Students\src\Repositories\StudentRepositoryInterface;
 use Modules\Teacher\src\Repositories\TeacherRepository;
 use Modules\Teacher\src\Repositories\TeacherRepositoryInterface;
 use Modules\User\src\Repositories\UserRepository;
@@ -161,6 +167,18 @@ class ModuleServiceProvider extends ServiceProvider
         $this->app->singleton(
             NewsCategoriesRepositoryInterface::class,
             NewsCategoriesRepository::class,
+        );
+        $this->app->singleton(
+            StudentRepositoryInterface::class,
+            StudentRepository::class,
+        );
+        $this->app->singleton(
+            OrderRepositoryInterface::class,
+            OrderRepository::class,
+        );
+        $this->app->singleton(
+            OrderDetailRepositoryInterface::class,
+            OrderDetailRepository::class,
         );
     }
 }

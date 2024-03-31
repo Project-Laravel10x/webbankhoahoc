@@ -3,20 +3,38 @@
 namespace Modules\Students\src\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Modules\Courses\src\Models\Course;
+use Modules\Courses\src\Repositories\CoursesRepository;
+use Modules\Orders\src\Repositories\OrderRepository;
+use Modules\Orders\src\Repositories\OrderRepositoryInterface;
+use Modules\OrdersDetail\src\Repositories\OrderDetailRepository;
+use Modules\OrdersDetail\src\Repositories\OrderDetailRepositoryInterface;
 use Modules\Students\src\Http\Requests\StudentRequest;
 use Modules\Students\src\Repositories\StudentRepository;
+use Modules\Students\src\Repositories\StudentRepositoryInterface;
 
 
 class StudentController extends Controller
 {
 
     protected StudentRepository $studentRepository;
+    protected OrderRepository $orderRepository;
+    protected OrderDetailRepository $orderDetailRepository;
+    protected CoursesRepository $courseRepository;
 
-    public function __construct(StudentRepository $studentRepository)
+    public function __construct(
+        StudentRepositoryInterface     $studentRepository,
+        OrderRepositoryInterface       $orderRepository,
+        OrderDetailRepositoryInterface $orderDetailRepository,
+        CoursesRepository              $courseRepository
+    )
     {
         $this->studentRepository = $studentRepository;
+        $this->orderRepository = $orderRepository;
+        $this->orderDetailRepository = $orderDetailRepository;
+        $this->courseRepository = $courseRepository;
     }
 
     public function index()
@@ -120,6 +138,44 @@ class StudentController extends Controller
         $pageTitle = 'Thêm học viên của khóa: ' . $courses['name'];
 
         return view('students::admin.create_students_by_course_id', compact('courses', 'pageTitle'));
+    }
+
+//    Client
+
+    public function listOrders()
+    {
+        $pageTitle = 'Danh sách đơn đặt';
+
+        $orders = $this->orderRepository->getAllOrders();
+
+        return view('students::client.list_orders', compact('pageTitle', 'orders'));
+    }
+
+    public function myCourses()
+    {
+        $pageTitle = 'Khóa học của bạn';
+
+        $courses = $this->courseRepository->getAllCourses(Auth::guard('students')->user()->id);
+
+        return view('students::client.my_courses', compact('pageTitle', 'courses'));
+    }
+
+    public function detailOrder($id)
+    {
+        $pageTitle = 'Chi tiết đơn hàng';
+
+        $detailOrders = $this->orderDetailRepository->getOrdersDetailById($id);
+
+        return view('students::client.detail_orders', compact('pageTitle','detailOrders'));
+    }
+
+    public function listStudents()
+    {
+        $pageTitle = 'Danh sách học viên';
+
+        $students = $this->studentRepository->getAllStudentsPaginate(2);
+
+        return view('students::client.students_list', compact('pageTitle','students'));
     }
 
 }

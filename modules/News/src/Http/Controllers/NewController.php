@@ -26,7 +26,7 @@ class NewController extends Controller
 
         $news = $this->newRepository->getAllNews();
 
-        return view('news::list', compact('pageTitle', 'news'));
+        return view('news::admin.list', compact('pageTitle', 'news'));
     }
 
     public function create()
@@ -35,7 +35,7 @@ class NewController extends Controller
 
         $news = $this->newCategoryRepository->getAll();
 
-        return view('news::add', compact('pageTitle', 'news'));
+        return view('news::admin.add', compact('pageTitle', 'news'));
     }
 
     public function store(NewRequest $request)
@@ -59,7 +59,7 @@ class NewController extends Controller
             abort('404');
         }
 
-        return view('news::edit', compact('pageTitle', 'new','news'));
+        return view('news::admin.edit', compact('pageTitle', 'new','news'));
     }
 
     public function update(NewRequest $request, $id)
@@ -83,6 +83,14 @@ class NewController extends Controller
         }
 
         return redirect()->route('admin.news.index')->with('msg', __('news::messages.success'));
+    }
+
+    public function listAllNews()
+    {
+        $pageTitle = "Danh sách tin tức";
+
+
+        return view('news::client.listNews', compact('pageTitle'));
     }
 
 }

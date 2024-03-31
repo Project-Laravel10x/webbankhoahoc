@@ -4,6 +4,7 @@ namespace Modules\Categories\src\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Modules\Categories\src\Http\Requests\CategoryRequest;
 use Modules\Categories\src\Models\Category;
 use Modules\Categories\src\Repositories\CategoriesRepository;
@@ -112,7 +113,7 @@ class CategoryController extends Controller
 
         $courses = $category->courses()->paginate(4);
 
-        $coursesNews = $this->coursesRepository->getAllCourses()->toArray();
+        $coursesNews = $this->coursesRepository->getAllCourses(Auth::guard('students')->user()->id, false)->toArray();
 
         return view('categories::client.courses-list',
             compact('category', 'courses', 'categories', 'coursesNews'));

@@ -31,6 +31,8 @@
 
     @include('parts.backend.menu_item',['title' => 'Người quản lí hệ thống','name' => 'users'])
 
+    @include('parts.backend.menu_item',['title' => 'Đơn đặt','name' => 'orders'])
+
     @can('groups.permission')
     @include('parts.backend.menu_item',['title' => 'Phân quyền module','name' => 'groups'])
     @endcan

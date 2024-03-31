@@ -45,13 +45,10 @@
                             </li>
 
                             <li class="has-submenu">
-                                <a href>Học viên </a>
+                                <a href="{{  route('students.listStudent') }}">Học viên </a>
                             </li>
                             <li class="has-submenu">
-                                <a href>Trang </a>
-                            </li>
-                            <li class="has-submenu">
-                                <a href>Blog</a>
+                                <a href="{{ route('listAllNews') }}">Blog</a>
                             </li>
                             <li class="login-link">
                                 <a href="{{ route('students.login') }}">Login / Signup</a>
@@ -64,85 +61,9 @@
                                     src="{{ asset('client/assets/img/icon/messages.svg') }}  " alt="img"></a>
                         </li>
                         <li class="nav-item cart-nav">
-                            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
-                                <img src="{{ asset('client/assets/img/icon/cart.svg') }}  " alt="img">
+                            <a href="{{ route('cart.show') }}">
+                                <img src="{{ asset('client/assets/img/icon/cart.svg') }} " alt="img">
                             </a>
-                            <div class="wishes-list dropdown-menu dropdown-menu-right">
-                                <div class="wish-header">
-                                    <a href="#">View Cart</a>
-                                    <a href="javascript:void(0)" class="float-end">Checkout</a>
-                                </div>
-                                <div class="wish-content">
-                                    <ul>
-                                        <li>
-                                            <div class="media">
-                                                <div class="d-flex media-wide">
-                                                    <div class="avatar">
-                                                        <a href="course-details.html">
-                                                            <img alt
-                                                                 src="{{ asset('client/assets/img/course/course-04.jpg') }}  ">
-                                                        </a>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <h6><a href="course-details.html">Learn Angular...</a></h6>
-                                                        <p>By Dave Franco</p>
-                                                        <h5>$200 <span>$99.00</span></h5>
-                                                    </div>
-                                                </div>
-                                                <div class="remove-btn">
-                                                    <a href="#" class="btn">Remove</a>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="media">
-                                                <div class="d-flex media-wide">
-                                                    <div class="avatar">
-                                                        <a href="course-details.html">
-                                                            <img alt
-                                                                 src="{{ asset('client/assets/img/course/course-14.jpg') }}  ">
-                                                        </a>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <h6><a href="course-details.html">Build Responsive
-                                                                Real...</a></h6>
-                                                        <p>Jenis R.</p>
-                                                        <h5>$200 <span>$99.00</span></h5>
-                                                    </div>
-                                                </div>
-                                                <div class="remove-btn">
-                                                    <a href="#" class="btn">Remove</a>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="media">
-                                                <div class="d-flex media-wide">
-                                                    <div class="avatar">
-                                                        <a href="course-details.html">
-                                                            <img alt
-                                                                 src="{{ asset('client/assets/img/course/course-15.jpg') }}  ">
-                                                        </a>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <h6><a href="course-details.html">C# Developers Double
-                                                                ...</a></h6>
-                                                        <p>Jesse Stevens</p>
-                                                        <h5>$200 <span>$99.00</span></h5>
-                                                    </div>
-                                                </div>
-                                                <div class="remove-btn">
-                                                    <a href="#" class="btn">Remove</a>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <div class="total-item">
-                                        <h6>Subtotal : $ 600</h6>
-                                        <h5>Total : $ 600</h5>
-                                    </div>
-                                </div>
-                            </div>
                         </li>
                         <li class="nav-item wish-nav">
                             <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">

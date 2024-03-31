@@ -172,6 +172,7 @@ return [
         ModuleServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Darryldecode\Cart\CartServiceProvider::class
     ])->toArray(),
 
     /*
@@ -187,6 +188,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
        'Socialite' => Laravel\Socialite\SocialiteServiceProvider::class,
+        'Cart' => Darryldecode\Cart\Facades\CartFacade::class
     ])->toArray(),
 
 ];

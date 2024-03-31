@@ -25,7 +25,7 @@ Route::group(['prefix' => 'admin'], function () {
     });
 });
 
-Route::group(['prefix' => 'danh-muc'], function () {
+Route::group(['prefix' => 'danh-muc', 'middleware' => 'auth.client'], function () {
 
     Route::get('/{slug}', [CategoryController::class, 'coursesList'])->name('courses.list');
 

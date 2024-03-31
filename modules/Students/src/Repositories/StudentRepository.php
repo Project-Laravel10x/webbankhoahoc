@@ -23,6 +23,12 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
     }
 
 
+    public function getAllStudentsPaginate($perPage)
+    {
+        return $this->model->select(['id', 'name', 'email', 'phone', 'address', 'is_active', 'created_at'])->paginate($perPage);
+    }
+
+
     public function createStudentsCourses($student, $course)
     {
         return $student->courses()->attach($course->id, [
