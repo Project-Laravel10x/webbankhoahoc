@@ -61,7 +61,18 @@ Route::group(['as' => 'students.'], function () {
 
     Route::group(['prefix' => 'trang-ca-nhan', 'middleware' => 'auth.client'], function () {
 
+        Route::get('/chinh-sua-trang-ca-nhan', [StudentClientController::class, 'editProfile'])->name('editProfile');
+
+        Route::post('/chinh-sua-trang-ca-nhan', [StudentClientController::class, 'updateProFile'])->name('updateProFile');
+
+        Route::get('/xoa-trang-ca-nhan', [StudentClientController::class, 'viewDeteleProFile'])
+            ->name('viewDeteleProFile');
+
+        Route::delete('/xoa-trang-ca-nhan', [StudentClientController::class, 'deleteProFile'])->name('deleteProFile');
+
         Route::get('/bang-dieu-khien', [StudentClientController::class, 'dashBoard'])->name('dashBoard');
+
+        Route::get('/tin-nhan', [StudentClientController::class, 'viewMessage'])->name('viewMessage');
 
         Route::get('/danh-sach-don-hang', [StudentClientController::class, 'listOrders'])->name('listOrders');
 

@@ -67,10 +67,7 @@
                 <div class="loginbox">
                     <div class="w-100">
                         <div class="img-logo">
-                            <img src="assets/img/logo.svg" class="img-fluid" alt="Logo">
-                            <div class="back-home">
-                                <a href="index-2.html">Back to Home</a>
-                            </div>
+                            <img src="{{asset('client/assets/img/logo.svg')}}" class="img-fluid" alt="Logo">
                         </div>
                         <h1>Sign into Your Account</h1>
                         @if(session('msg'))
@@ -107,12 +104,6 @@
                             </div>
                             <div class="forgot">
                                 <span><a class="forgot-link" href="{{ route('students.forgot_password') }}">Quên mật khẩu ?</a></span>
-                            </div>
-                            <div class="remember-me">
-                                <label class="custom_check mr-2 mb-0 d-inline-flex remember-me"> Remember me
-                                    <input type="checkbox" name="radio">
-                                    <span class="checkmark"></span>
-                                </label>
                             </div>
                             <div class="d-grid">
                                 <button class="btn btn-primary btn-start" type="submit">Sign In</button>

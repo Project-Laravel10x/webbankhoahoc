@@ -8,12 +8,14 @@ return [
     'integer' => ':attribute phải là số !',
     'regex' => ':attribute chưa đúng định dạng !',
     'select' => ':attribute bắt buộc phải chọn !',
+    'confirmed' => ':attribute không khớp !',
     'attributes' => [
         'name' => "Tên",
         'email' => "Email",
         'phone' => "Số điện thoại",
-        'password' => "Mật khẩu",
+        'old_password' => "Mật khẩu",
         'address' => "Địa chỉ",
-        'is_active' => "Trạng thái",
+        'password' => "Mật khẩu mới",
+        'password_confirmation' => "Xác nhận mật khẩu",
     ],
 ];

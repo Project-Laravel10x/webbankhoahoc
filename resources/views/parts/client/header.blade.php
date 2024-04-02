@@ -171,7 +171,7 @@
                                     <p class="text-muted mb-0">Học viên</p>
                                 </div>
                             </div>
-                            <a class="dropdown-item" href="setting-edit-profile.html"><i
+                            <a class="dropdown-item" href="{{ route('students.editProfile') }}"><i
                                     class="feather-user me-1"></i> Thông tin cá nhân</a>
                             <a class="dropdown-item" href="{{ route('students.dashBoard') }}"><i
                                     class="feather-star me-1"></i>Dashboard</a>

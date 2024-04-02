@@ -29,7 +29,7 @@
                     <ul>
                         <li><a class="" href="{{ route('students.dashBoard') }}">Bảng điều khiển</a></li>
                         <li><a href="{{ route('students.myCourses') }}">Khóa học của tôi</a></li>
-                        <li><a href="course-message.html">Tin nhắn</a></li>
+                        <li><a href="{{ route('students.viewMessage') }}">Tin nhắn</a></li>
                     </ul>
                 </ul>
             </div>

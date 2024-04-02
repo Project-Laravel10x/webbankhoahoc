@@ -4,11 +4,14 @@ namespace Modules\Students\src\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Modules\Courses\src\Repositories\CoursesRepositoryInterface;
 use Modules\Lessons\src\Models\Lesson;
 use Modules\Lessons\src\Repositories\LessonsRepositoryInterface;
 use Modules\Orders\src\Repositories\OrderRepositoryInterface;
 use Modules\OrdersDetail\src\Repositories\OrderDetailRepositoryInterface;
+use Modules\Students\src\Http\Requests\StudentEditProfileRequest;
+use Modules\Students\src\Models\Student;
 use Modules\Students\src\Repositories\StudentRepositoryInterface;
 
 
@@ -38,14 +41,60 @@ class StudentClientController extends Controller
 
     public function dashBoard()
     {
-        $pageTitle = 'Bảng điều khiển';
-
         $orders = $this->orderRepository->getAllOrdersByStudent(Auth::guard('students')->user()->id);
-
         $courses = $this->courseRepository->getAllCourses(Auth::guard('students')->user()->id);
 
-        return view('students::client.dashboard', compact('pageTitle', 'orders', 'courses'));
+        return view('students::client.dashboard', compact('orders', 'courses'));
     }
+
+
+    public function editProfile()
+    {
+        $student = $this->studentRepository->getOne(Auth::guard('students')->user()->id);
+
+        return view('students::client.setting_edit_profile', compact('student'));
+    }
+
+    public function updateProFile(StudentEditProfileRequest $request)
+    {
+        $id = Auth::guard('students')->user()->id;
+        $student = $this->studentRepository->getOne($id);
+
+        if (empty($request->old_password)) {
+            $password = $student->password;
+        } else {
+            $password = Hash::make($request->password);
+        }
+
+        $data = [
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'address' => $request->address,
+            'password' => $password,
+        ];
+
+        $this->studentRepository->update($id, $data);
+
+        return redirect()->route('students.editProfile')->with('msg', __('students::messages.success'));
+    }
+
+    public function viewDeteleProFile()
+    {
+        return view('students::client.setting_delete_profile');
+    }
+
+    public function deleteProFile()
+    {
+        $student = Student::find(Auth::guard('students')->user()->id);
+
+        $student->update(['is_active' => 0]);
+
+        return redirect()->route('students.logout');
+    }
+
+
+
 
 
     public function listOrders()
@@ -64,6 +113,11 @@ class StudentClientController extends Controller
         $courses = $this->courseRepository->getAllCourses(Auth::guard('students')->user()->id);
 
         return view('students::client.my_courses', compact('pageTitle', 'courses'));
+    }
+
+    public function viewMessage()
+    {
+        return view('students::client.message');
     }
 
     public function detailOrder($id)
