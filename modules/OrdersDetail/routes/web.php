@@ -5,7 +5,7 @@ use Modules\NewsCategories\src\Http\Controllers\NewCategoryController;
 use Modules\Orders\src\Http\Controllers\OrderController;
 
 Route::group(['prefix' => 'admin'], function () {
-    Route::group(['prefix' => 'news_categories','middleware' => 'can:news_categories'], function () {
+    Route::group(['prefix' => 'news_categories', 'middleware' => 'can:news_categories'], function () {
 
         Route::get('/', [NewCategoryController::class, 'index'])->name('admin.news_categories.index');
         Route::get('/create', [NewCategoryController::class, 'create'])
@@ -26,7 +26,7 @@ Route::group(['prefix' => 'admin'], function () {
     });
 });
 
-    Route::group(['prefix' => 'thanh-toan'], function () {
+Route::group(['prefix' => 'thanh-toan', 'middleware' => 'auth.client'], function () {
 
     Route::get('/test', [OrderController::class, 'checkThanhToan']);
 

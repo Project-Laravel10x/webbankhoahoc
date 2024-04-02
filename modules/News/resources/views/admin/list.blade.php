@@ -20,6 +20,7 @@
                         <th>ID</th>
                         <th>Tên tin tức</th>
                         <th>Danh mục tin tức</th>
+                        <th>Đăng bởi giảng viên</th>
                         <th>Thời gian tạo</th>
                         <th>Action</th>
                     </tr>
@@ -33,6 +34,7 @@
                             <td>{{ $key + 1 }}</td>
                             <td>{{ $new['name'] }}</td>
                             <td>{{ $new->newsCategoies->name }}</td>
+                            <td>{{ $new->teachers->name }}</td>
                             <td>{{ $new['created_at'] }}</td>
                             <td>
                                 <div class="d-flex justify-content-between">

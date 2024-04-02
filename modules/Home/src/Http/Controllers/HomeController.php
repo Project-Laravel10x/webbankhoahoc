@@ -48,21 +48,16 @@ class HomeController extends Controller
     public function index()
     {
         $pageTitle = "Trang chủ";
-
         $categoriesData = $this->categoriesRepository->getCategories()->toArray();
         $categoriesTop = $this->categoriesRepository->getAllCategories();
         $categories = getCategoriesTable($categoriesData);
-
-        $courses = $this->coursesRepository->getAllCourses(Auth::guard('students')->user()->id,false)->toArray();
-
+        $courses = $this->coursesRepository->getAllCourses(
+            Auth::guard('students')->user()->id, false
+        )->toArray();
         $teachers = $this->teacherRepository->getAllTeacher();
-
         $students = $this->studentRepository->getAllStudents();
-
         $users = $this->userRepository->getUsers();
-
         $news = $this->newRepository->getAllNews();
-
         $data = compact(
             'pageTitle',
             'categories',

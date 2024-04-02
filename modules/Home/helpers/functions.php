@@ -25,9 +25,20 @@ function formatCurrency($amount, $currencyCode = 'VND')
 function sumDurations($courses)
 {
     $sum = 0;
-
     foreach ($courses['lessons'] as $lesson) {
         $sum += $lesson['durations'];
+    }
+
+    return formatTime($sum);
+}
+
+
+function sumDurationsModule($lesson)
+{
+    $sum = 0;
+
+    foreach ($lesson as $item) {
+        $sum += $item['durations'];
     }
 
     return formatTime($sum);

@@ -91,15 +91,12 @@
 
                 <div class="col-6">
                     <div class="mb-3 mt-3">
-                        <label for="video_id" class="form-label">Video:</label>
+                        <label for="video_id" class="form-label">Link Video Embed Youtube Hoặc Mã Nhúng Iframe :</label>
                         <div class="input-group">
                             <input type="text"
                                    class="form-control  @if($errors->has('video_id')) is-invalid @endif"
                                    id="video_id"
                                    placeholder="Video bài giảng" name="video_id" value="{{ old('video_id') }}">
-                            <button id="lfm-video" data-input="video_id" data-preview="holder" type="button"
-                                    class="btn btn-success">Chọn video
-                            </button>
                         </div>
                         @error('video_id')
                         <div class="invalid-feedback d-block">

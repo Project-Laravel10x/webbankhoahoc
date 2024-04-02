@@ -34,20 +34,7 @@ class CoursesRepository extends BaseRepository implements CoursesRepositoryInter
             }
         }
 
-        $dataCourses = $dataCourses->get();
-
-        foreach ($dataCourses as $key => $course) {
-            $course['lessons'] = [];
-
-            $courseId = $course['id'];
-
-            $lessonsByCourseId = (new lessonsRepository)->getLessonsByCourseId($courseId)->toArray();
-
-            $dataCourses[$key]['lessons'] = array_merge($course['lessons'], $lessonsByCourseId);
-
-        }
-
-        return $dataCourses;
+        return $dataCourses->get();
     }
 
     public function getCourseById($courseId)
@@ -101,7 +88,6 @@ class CoursesRepository extends BaseRepository implements CoursesRepositoryInter
             $query->whereIn('category_id', $selectedCategories);
         })->get()->toArray();
     }
-
 
 }
 

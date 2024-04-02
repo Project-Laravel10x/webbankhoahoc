@@ -7,6 +7,7 @@ use Modules\Students\src\Http\Controllers\Auth\RegisterController;
 use Modules\Students\src\Http\Controllers\Auth\ResetPasswordController;
 use Modules\Students\src\Http\Controllers\Auth\ForgotPasswordController;
 use Modules\Students\src\Http\Controllers\Auth\LoginController;
+use Modules\Students\src\Http\Controllers\Client\StudentClientController;
 use Modules\Students\src\Http\Controllers\ClientController;
 
 
@@ -58,24 +59,29 @@ Route::group(['as' => 'students.'], function () {
         ->name('update_password');
 
 
-    Route::group(['prefix' => 'trang-ca-nhan'], function () {
+    Route::group(['prefix' => 'trang-ca-nhan', 'middleware' => 'auth.client'], function () {
 
-        Route::get('/danh-sach-don-hang', [StudentController::class, 'listOrders'])->name('listOrders');
+        Route::get('/bang-dieu-khien', [StudentClientController::class, 'dashBoard'])->name('dashBoard');
 
-        Route::get('/khoa-hoc-cua-ban', [StudentController::class, 'myCourses'])->name('myCourses');
+        Route::get('/danh-sach-don-hang', [StudentClientController::class, 'listOrders'])->name('listOrders');
 
-        Route::get('/chi-tiet-don-hang/{order}', [StudentController::class, 'detailOrder'])->name('detailOrder');
+        Route::get('/khoa-hoc-cua-ban', [StudentClientController::class, 'myCourses'])->name('myCourses');
+
+        Route::get('/bai-giang/{slug}', [StudentClientController::class, 'courseLesson'])->name('courseLesson');
+
+        Route::get('/chi-tiet-don-hang/{order}', [StudentClientController::class, 'detailOrder'])->name('detailOrder');
 
     });
 
-    Route::get('/danh-sach-hoc-vien', [StudentController::class, 'listStudents'])->name('listStudent');
+    Route::get('/danh-sach-hoc-vien', [StudentClientController::class, 'listStudents'])
+        ->middleware('auth.client')->name('listStudent');
 
 });
 
 
 Route::group(['prefix' => 'admin'], function () {
 
-    Route::group(['prefix' => 'students','middleware' => 'can:students'], function () {
+    Route::group(['prefix' => 'students', 'middleware' => 'can:students'], function () {
 
         Route::get('/', [StudentController::class, 'index'])->name('admin.students.index');
 

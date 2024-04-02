@@ -175,15 +175,16 @@
                                         <div class="categories-head d-flex align-items-center">
                                             <h4>Danh mục khóa học</h4>
                                         </div>
-                                        @foreach($categories as $category)
-                                            <div>
-                                                <label class="custom_check">
-                                                    <input type="checkbox" name="categories[]"
-                                                           value="{{ $category['id'] }}">
-                                                    <span class="checkmark"></span> {{ $category['name'] }}
-                                                </label>
-                                            </div>
-                                        @endforeach
+                                        <div class="category-list" style="max-height: 200px; overflow-y: auto">
+                                            @foreach($categories as $category)
+                                                <div class="category-item">
+                                                    <label class="custom_check">
+                                                        <input type="checkbox" name="categories[]" value="{{ $category['id'] }}">
+                                                        <span class="checkmark"></span> {{ $category['name'] }}
+                                                    </label>
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
                             </div>

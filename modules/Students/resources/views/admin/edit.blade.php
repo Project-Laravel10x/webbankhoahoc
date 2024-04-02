@@ -45,10 +45,10 @@
                     <div class="mb-3 mt-3">
                         <label for="password" class="form-label">Password:</label>
                         <input type="text"
-                               class="form-control  @if($errors->has('password')) is-invalid @endif"
+                               class="form-control   @if($errors->has('password')) is-invalid @endif"
                                id="password"
                                placeholder="Enter password" name="password"
-                               value="{{ old('password') ?? $student['password'] }}">
+                               value="{{ old('password') ?? $student['password'] }}" disabled>
                         @error('password')
                         <div class="invalid-feedback">
                             {{$message}}

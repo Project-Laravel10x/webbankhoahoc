@@ -10,7 +10,9 @@ use Modules\Courses\src\Http\Requests\CourseRequest;
 use Modules\Courses\src\Models\Course;
 use Modules\Courses\src\Repositories\CoursesRepository;
 use Modules\Courses\src\Repositories\CoursesRepositoryInterface;
+use Modules\Lessons\src\Models\Lesson;
 use Modules\Lessons\src\Repositories\LessonsRepository;
+use Modules\Lessons\src\Repositories\LessonsRepositoryInterface;
 use Modules\Teacher\src\Repositories\TeacherRepository;
 use Modules\Teacher\src\Repositories\TeacherRepositoryInterface;
 use Modules\Video\src\Models\Video;
@@ -19,7 +21,7 @@ use Modules\Video\src\Models\Video;
 class CourseController extends Controller
 {
 
-    protected CoursesRepository $courseRepository;
+    protected CoursesRepositoryInterface $courseRepository;
     protected CategoriesRepository $categoryRepository;
     protected TeacherRepository $teacherRepository;
     protected LessonsRepository $lessonRepository;
@@ -28,7 +30,7 @@ class CourseController extends Controller
         CoursesRepositoryInterface    $courseRepository,
         CategoriesRepositoryInterface $categoryRepository,
         TeacherRepositoryInterface    $teacherRepository,
-        LessonsRepository             $lessonRepository,
+        LessonsRepositoryInterface    $lessonRepository,
     )
     {
         $this->courseRepository = $courseRepository;
@@ -49,9 +51,7 @@ class CourseController extends Controller
     public function create()
     {
         $pageTitle = "Thêm khóa học";
-
         $categories = $this->categoryRepository->getCategoriesCreate();
-
         $teachers = $this->teacherRepository->getAllTeacher();
 
         return view('courses::admin.add', compact('pageTitle', 'categories', 'teachers'));
@@ -60,12 +60,9 @@ class CourseController extends Controller
     public function store(CourseRequest $request)
     {
         $data = $request->except('_token', '_method');
-
         $data['price'] = convestPrice($data['price']);
         $data['sale_price'] = convestPrice($data['sale_price']);
-
         $course = $this->courseRepository->create($data);
-
         $categories = $this->getCategories($data);
 
         $this->courseRepository->createCoursesCategories($course, $categories);
@@ -73,21 +70,13 @@ class CourseController extends Controller
         return redirect()->route('admin.courses.index')->with('msg', __('courses::messages.success'));
     }
 
-    public function edit(int $id)
+    public function edit(Course $course)
     {
         $pageTitle = "Sửa khóa học";
 
-        $course = $this->courseRepository->getOne($id);
-
         $categoryIds = $this->courseRepository->getRelatedCategories($course);
-
         $categories = $this->categoryRepository->getCategoriesCreate();
-
         $teachers = $this->teacherRepository->getAllTeacher();
-
-        if (!$course) {
-            abort('404');
-        }
 
         return view('courses::admin.edit', compact('pageTitle', 'course', 'categories', 'categoryIds', 'teachers'));
     }
@@ -95,16 +84,12 @@ class CourseController extends Controller
     public function update(CourseRequest $request, int $id)
     {
         $data = $request->except('_token', '_method', 'categories');
-
         $data['price'] = convestPrice($data['price']);
         $data['sale_price'] = convestPrice($data['sale_price']);
-
-        $this->courseRepository->update($id, $data);
-
         $categories = $this->getCategories($request->all());
-
         $course = $this->courseRepository->getOne($id);
 
+        $this->courseRepository->update($id, $data);
         $this->courseRepository->updateCoursesCategories($course, $categories);
 
         return redirect()->route('admin.courses.edit', $id)->with('msg', __('courses::messages.success'));
@@ -113,7 +98,6 @@ class CourseController extends Controller
     public function delete(int $id)
     {
         $course = $this->courseRepository->getOne($id);
-
         $status = $this->courseRepository->delete($id);
 
         if ($status) {
@@ -139,21 +123,16 @@ class CourseController extends Controller
 
     public function courseDetail($slug)
     {
-        $course = Course::where('slug', $slug)->firstOrFail();
+        $course = Course::where('slug', $slug)->with('lessons')->firstOrFail();
 
         if (!$course) {
             abort(404);
         }
 
         $teacher = $this->teacherRepository->getOne($course->teachers->id);
-
         $courses = $teacher->courses;
-
         $category = $course->categories()->first();
-
         $lessonsData = $this->lessonRepository->getLessons($course->id)->toArray();
-
-
 
         return view('courses::client.course-details',
             compact('course',
@@ -163,4 +142,5 @@ class CourseController extends Controller
                 'courses',
             ));
     }
+
 }

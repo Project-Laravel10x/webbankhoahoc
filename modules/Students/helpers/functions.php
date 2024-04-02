@@ -12,3 +12,4 @@ function isClientActive($email)
 
     return false;
 }
+

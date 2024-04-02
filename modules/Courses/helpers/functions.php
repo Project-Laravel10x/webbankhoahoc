@@ -1,4 +1,7 @@
 <?php
+
+use Modules\Lessons\src\Models\Lesson;
+
 function getCategoriesCheckbox($categories, $old = [], $parentId = 0, $char = '')
 {
 
@@ -33,3 +36,9 @@ function checkSalePrice($price, $salePrice)
         return $salePrice;
     }
 }
+
+ function isTrial($slug)
+{
+    return Lesson::where('slug', $slug)->firstOrFail()?->video?->url;
+}
+

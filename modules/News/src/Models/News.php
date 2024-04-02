@@ -18,12 +18,19 @@ class News  extends Model
         'slug',
         'content',
         'thumbnail',
+        'teacher_id',
         'new_category_id',
     ];
 
     public function newsCategoies()
     {
         return $this->belongsTo(NewCategory::class, 'new_category_id', 'id');
+    }
+
+
+    public function teachers()
+    {
+        return $this->belongsTo(Teacher::class, 'teacher_id', 'id');
     }
 
 

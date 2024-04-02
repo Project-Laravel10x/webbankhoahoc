@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('slug')->nullable();
             $table->text('content')->nullable();
             $table->string('thumbnail')->nullable();
+            $table->integer('teacher_id')->unsigned()->after('thumbnail');
             $table->integer('new_category_id')->unsigned();
             $table->timestamps();
 

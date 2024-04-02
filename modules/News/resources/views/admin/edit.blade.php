@@ -43,7 +43,7 @@
                     </div>
                 </div>
 
-                <div class="col-12">
+                <div class="col-6">
                     <div class="mb-3 mt-3">
                         <label for="new_category_id" class="form-label">Danh mục tin tức:</label>
                         <div class="list-category">
@@ -57,6 +57,29 @@
                         </div>
                         @error('new_category_id')
                         <div class="invalid-feedback d-block">
+                            {{$message}}
+                        </div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="mb-3 mt-3">
+                        <label for="teacher" class="form-label">Giảng viên:</label>
+                        <select class="form-control @if($errors->has('teacher_id')) is-invalid @endif" id="teacher"
+                                name="teacher_id">
+                            <option value="0">
+                                Chọn giảng viên
+                            </option>
+                            @if($teachers)
+                                @foreach($teachers as $teacher)
+                                    <option
+                                        value="{{ $teacher->id }}" {{ old('teacher_id') ==  $teacher->id || $new->teacher_id ==  $teacher->id ? "selected" : null }}>{{ $teacher->name }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                        @error('teacher_id')
+                        <div class="invalid-feedback">
                             {{$message}}
                         </div>
                         @enderror

@@ -23,9 +23,24 @@ class NewsRepository extends BaseRepository implements NewsRepositoryInterface
             'slug',
             'content',
             'thumbnail',
+            'teacher_id',
             'new_category_id',
             'created_at',
-        ])->get();
+        ])->latest()->get();
+    }
+
+    public function getNewsPagination($perPage)
+    {
+        return $this->model->select([
+            'name',
+            'id',
+            'slug',
+            'content',
+            'thumbnail',
+            'teacher_id',
+            'new_category_id',
+            'created_at',
+        ])->paginate($perPage);
     }
 
 }

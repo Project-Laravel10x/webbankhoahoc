@@ -166,10 +166,10 @@ class OrderController extends Controller
             \Cart::clear();
             \Cart::session($userID)->clear();
 
-            return redirect()->route('students.listOrders')->with('msg', __('orders::messages.success'));
+            return redirect()->route('students.dashBoard')->with('msg', __('orders::messages.success'));
 
         } else {
-            return redirect()->route('students.listOrders')->with('msg_fail', __('orders::messages.failed'));
+            return redirect()->route('students.dashBoard')->with('msg_fail', __('orders::messages.failed'));
         }
     }
 

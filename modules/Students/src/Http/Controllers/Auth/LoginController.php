@@ -38,7 +38,7 @@ class LoginController extends Controller
             if ($checkLogin) {
                 return redirect(RouteServiceProvider::CLIENT)->with('msg', __('students::messages.success'));
             }
-            return back()->with('msg', __('students::messages.failed'));
+            return back()->with('msg', __('students::messages.login.failed'));
         }
         return back()->with('msg', __('students::messages.is_invalid'));
     }

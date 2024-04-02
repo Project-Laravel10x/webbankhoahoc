@@ -48,6 +48,7 @@
                                     <div class="course-img">
                                         <img src="{{asset('client/assets/img/cources-icon.svg')}}">
                                     </div>
+
                                     <div class="course-inner-content">
                                         <h4><span>{{ count($teachers) }}</span></h4>
                                         <p>Giảng viên</p>
@@ -256,7 +257,7 @@
                                                 <div class="course-info d-flex align-items-center">
                                                     <div class="rating-img d-flex align-items-center">
                                                         <img src="{{asset('client/assets/img/icon/icon-01.svg')}}" alt>
-                                                        <p>{{ count($course['lessons']) }} Bài Giảng</p>
+                                                        <p>{{ countLessons($course['lessons']) }} Bài Giảng</p>
                                                     </div>
                                                     <div class="course-view d-flex align-items-center">
                                                         <img src="{{asset('client/assets/img/icon/icon-02.svg')}}" alt>

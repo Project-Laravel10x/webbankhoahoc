@@ -1,9 +1,7 @@
 @extends('layouts.backend')
 
 @section('content')
-    @can('categories:add')
-        <a href="{{ route('admin.categories.create') }}" class="btn btn-primary mb-3">Thêm</a>
-    @endcan
+    <a href="{{ route('admin.categories.create') }}" class="btn btn-primary mb-3">Thêm</a>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">DataTables Users</h6>

@@ -79,7 +79,6 @@ class LessonController extends Controller
             $document = $this->documentRepository->createDocument(['url' => $dataDocument['url']], $dataDocument);
         }
 
-
         $dataLessonsNew = [
             'durations' => $dataVideo['duration'] ?? 0.0,
             'parent_id' => $dataLessons['parent_id'] == 0 ? null : $dataLessons['parent_id'],
@@ -112,7 +111,9 @@ class LessonController extends Controller
 
     public function update(LessonRequest $request, $courseId, $lessonId)
     {
-        $dataLessonsUpdate = $request->except('_token', '_method');
+        $id_update = $request->video_id_update;
+
+        $dataLessonsUpdate = $request->except('_token', '_method','video_id_update');
 
         $pathDocument = $dataLessonsUpdate['document_id'];
         $pathVideo = $dataLessonsUpdate['video_id'];
@@ -124,7 +125,7 @@ class LessonController extends Controller
         $dataDocument = getFileDocument($pathDocument);
 
         if ($dataVideo) {
-            $video = $this->videoRepository->createVideo(['url' => $dataVideo['url']], $dataVideo);
+            $video = $this->videoRepository->updateVideo($id_update, $dataVideo);
         }
 
         if ($dataDocument) {
@@ -154,9 +155,7 @@ class LessonController extends Controller
 
         $status = $this->lessonsRepository->delete($lessonId);
         if ($status) {
-            $video = $lesson->video->url;
-            $document = $lesson->document->url;
-            deleteFileStoge($video);
+            $document = $lesson->document?->url;
             deleteFileStoge($document);
         }
 
@@ -178,9 +177,9 @@ class LessonController extends Controller
 
         if ($lessons) {
             foreach ($lessons as $index => $lessonId) {
-               $this->lessonsRepository->update($lessonId,[
-                   'position' =>  $index
-               ]);
+                $this->lessonsRepository->update($lessonId, [
+                    'position' => $index
+                ]);
             }
         }
 

@@ -97,8 +97,6 @@ class StudentController extends Controller
     {
         $data = $request->except('_token', '_method');
 
-        $data['password'] = Hash::make($data['password']);
-
         $this->studentRepository->update($id, $data);
 
         return redirect()->route('admin.students.edit', $id)->with('msg', __('students::messages.success'));
@@ -138,44 +136,6 @@ class StudentController extends Controller
         $pageTitle = 'Thêm học viên của khóa: ' . $courses['name'];
 
         return view('students::admin.create_students_by_course_id', compact('courses', 'pageTitle'));
-    }
-
-//    Client
-
-    public function listOrders()
-    {
-        $pageTitle = 'Danh sách đơn đặt';
-
-        $orders = $this->orderRepository->getAllOrders();
-
-        return view('students::client.list_orders', compact('pageTitle', 'orders'));
-    }
-
-    public function myCourses()
-    {
-        $pageTitle = 'Khóa học của bạn';
-
-        $courses = $this->courseRepository->getAllCourses(Auth::guard('students')->user()->id);
-
-        return view('students::client.my_courses', compact('pageTitle', 'courses'));
-    }
-
-    public function detailOrder($id)
-    {
-        $pageTitle = 'Chi tiết đơn hàng';
-
-        $detailOrders = $this->orderDetailRepository->getOrdersDetailById($id);
-
-        return view('students::client.detail_orders', compact('pageTitle','detailOrders'));
-    }
-
-    public function listStudents()
-    {
-        $pageTitle = 'Danh sách học viên';
-
-        $students = $this->studentRepository->getAllStudentsPaginate(2);
-
-        return view('students::client.students_list', compact('pageTitle','students'));
     }
 
 }

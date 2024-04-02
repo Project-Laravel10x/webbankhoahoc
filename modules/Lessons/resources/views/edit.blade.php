@@ -9,7 +9,8 @@
                 {{ session('msg') }}
             </div>
         @endif
-        <form action="{{ route('admin.lessons.update',[$courseId,$lesson->id]) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.lessons.update',[$courseId,$lesson->id]) }}" method="POST"
+              enctype="multipart/form-data">
             @method('PUT')
             @csrf
             <div class="row">
@@ -67,8 +68,12 @@
                         <label for="is_trial" class="form-label">Học thử:</label>
                         <select class="form-control @if($errors->has('is_trial')) is-invalid @endif" id="is_trial"
                                 name="is_trial">
-                            <option value="0" {{ old('is_trial')  ?? $lesson->is_trial == 0 ? ' selected' : false }}>Không cho phép</option>
-                            <option value="1" {{ old('is_trial') ?? $lesson->is_trial ? ' selected' : false }}>Có cho phép</option>
+                            <option value="0" {{ old('is_trial')  ?? $lesson->is_trial == 0 ? ' selected' : false }}>
+                                Không cho phép
+                            </option>
+                            <option value="1" {{ old('is_trial') ?? $lesson->is_trial ? ' selected' : false }}>Có cho
+                                phép
+                            </option>
                         </select>
                         @error('is_trial')
                         <div class="invalid-feedback">
@@ -84,7 +89,8 @@
                         <input type="number"
                                class="form-control  @if($errors->has('position')) is-invalid @endif"
                                id="position"
-                               placeholder="Enter position" name="position" value="{{ old('position') ?? $lesson->position }}">
+                               placeholder="Enter position" name="position"
+                               value="{{ old('position') ?? $lesson->position }}">
                         @error('position')
                         <div class="invalid-feedback">
                             {{$message}}
@@ -96,15 +102,14 @@
 
                 <div class="col-6">
                     <div class="mb-3 mt-3">
-                        <label for="video_id" class="form-label">Video:</label>
+                        <label for="video_id" class="form-label">Link Video Embed Youtube Hoặc Mã Nhúng Iframe :</label>
                         <div class="input-group">
                             <input type="text"
                                    class="form-control  @if($errors->has('video_id')) is-invalid @endif"
                                    id="video_id"
-                                   placeholder="Video bài giảng" name="video_id" value="{{ old('video_id')  ?? $lesson->video?->url  }}">
-                            <button id="lfm-video" data-input="video_id" data-preview="holder" type="button"
-                                    class="btn btn-success">Chọn video
-                            </button>
+                                   placeholder="Video bài giảng" name="video_id"
+                                   value="{{ old('video_id')  ?? $lesson->video?->url  }}">
+                            <input type="hidden" name="video_id_update" value="{{ $lesson->video?->id }}">
                         </div>
                         @error('video_id')
                         <div class="invalid-feedback d-block">
@@ -122,7 +127,8 @@
                             <input type="text"
                                    class="form-control  @if($errors->has('document_id')) is-invalid @endif"
                                    id="document_id"
-                                   placeholder="Tài liệu bài giảng" name="document_id" value="{{ old('document_id')  ?? $lesson->document?->url }}">
+                                   placeholder="Tài liệu bài giảng" name="document_id"
+                                   value="{{ old('document_id')  ?? $lesson->document?->url }}">
                             <button id="lfm-document" data-input="document_id" data-preview="holder" type="button"
                                     class="btn btn-success">Chọn tài liệu
                             </button>

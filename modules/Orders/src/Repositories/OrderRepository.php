@@ -23,5 +23,12 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         ])->get();
     }
 
+    public function getAllOrdersByStudent($student_id)
+    {
+        return $this->model->select([
+            'id', 'student_id', 'total', 'status', 'created_at'
+        ])->where('student_id',$student_id)->get();
+    }
+
 }
 

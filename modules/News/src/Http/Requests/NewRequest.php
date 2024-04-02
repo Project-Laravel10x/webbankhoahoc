@@ -31,6 +31,11 @@ class NewRequest extends FormRequest
                     $failed(__('news::validation.select'));
                 }
             }],
+            'teacher_id' => ['required', 'integer', function ($attribute, $value, $failed) {
+                if ($value == 0) {
+                    $failed(__('courses::validation.select'));
+                }
+            }],
             'thumbnail' => 'required|max:255',
         ];
 

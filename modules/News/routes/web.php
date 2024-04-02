@@ -27,10 +27,13 @@ Route::group(['prefix' => 'admin'], function () {
     });
 });
 
-Route::group(['prefix' => 'tin-tuc'], function () {
+Route::group(['prefix' => 'tin-tuc', 'middleware' => 'auth.client'], function () {
 
     Route::get('/', [NewController::class, 'listAllNews'])
         ->name('listAllNews');
+
+    Route::get('/{slug}', [NewController::class, 'detailNew'])
+        ->name('detailNew');
 
 });
 

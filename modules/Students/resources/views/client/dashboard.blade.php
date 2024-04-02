@@ -26,88 +26,87 @@
             </div>
             <div class="my-student-list">
                 <ul>
-                    <li><a class="" href="{{ route('students.dashBoard') }}">Bảng điều khiển</a></li>
-                    <li><a href="{{ route('students.myCourses') }}">Khóa học của tôi</a></li>
-                    <li><a href="course-message.html">Tin nhắn</a></li>
+                    <ul>
+                        <li><a class="" href="{{ route('students.dashBoard') }}">Bảng điều khiển</a></li>
+                        <li><a href="{{ route('students.myCourses') }}">Khóa học của tôi</a></li>
+                        <li><a href="course-message.html">Tin nhắn</a></li>
+                    </ul>
                 </ul>
             </div>
         </div>
     </div>
 
 
-    <section class="course-content">
+    <div class="page-content">
         <div class="container">
-            <div class="student-widget">
-                <div class="student-widget-group">
-                    <div class="row">
-                        <div class="col-lg-12">
+            <div class="row">
 
-                            <div class="showing-list">
+                <div class="col-xl-12 col-md-12">
+                    <div class="settings-top-widget student-deposit-blk">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6">
+                                <div class="card stat-info ttl-tickets">
+                                    <div class="card-body">
+                                        <div class="view-all-grp d-flex">
+                                            <div class="student-ticket-view">
+                                                <h3>{{ count($courses) }}</h3>
+                                                <p>Tổng khóa học đã mua</p>
+                                                <a href="purchase-history.html">Xem tất cả</a>
+                                            </div>
+                                            <div class="img-deposit-ticket">
 
-                            </div>
-
-                            <div class="row">
-                                @if(session('msg'))
-                                    <p class="alert alert-success">{{ session('msg') }}</p>
-                                @endif
-                                @foreach($courses as $course)
-                                    <div class="col-xl-4 col-lg-4 col-md-6 d-flex">
-                                        <div class="course-box course-design d-flex ">
-                                            <div class="product">
-                                                <div
-                                                    class="product-img">
-                                                    @if ($course && isset($course->lessons) && count($course->lessons) > 0)
-                                                        <a href="{{ route('students.courseLesson',$course->lessons[0]['slug']) }}">
-                                                            <img class="img-fluid" alt
-                                                                 src="{{ $course->thumbnail }}">
-                                                        </a>
-                                                    @endif
-                                                </div>
-                                                <div class="product-content">
-                                                    <h3 class="title">
-                                                        @if ($course && isset($course->lessons) && count($course->lessons) > 0)
-                                                            <a href="{{ route('students.courseLesson', $course->lessons[0]['slug']) }}">{{ $course->name }}</a>
-                                                        @endif
-                                                    </h3>
-                                                    <div
-                                                        class="course-info border-bottom-0 pb-0 d-flex align-items-center">
-                                                        <div class="rating-img d-flex align-items-center">
-                                                            <img src="/client/assets/img/icon/icon-01.svg" alt="">
-                                                            <p>{{  count($course['lessons']) }} Bài giảng</p>
-                                                        </div>
-                                                        <div class="course-view d-flex align-items-center">
-                                                            <img src="/client/assets/img/icon/icon-02.svg" alt="">
-                                                            <p>{{ sumDurations($course)}}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="course-group-img d-flex mb-3">
-                                                        <a href="#"><img
-                                                                src="/storage/photos/7/avatar-02.jpg" alt=""
-                                                                class="img-fluid"></a>
-                                                        <div class="course-name">
-                                                            <h4><a href="#">{{ $course->teachers->name }}</a>
-                                                            </h4>
-                                                            <p>Giảng viên</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="start-leason d-flex align-items-center">
-                                                        @if ($course && isset($course->lessons) && count($course->lessons) > 0)
-                                                            <a href="{{ route('students.courseLesson',$course->lessons[0]['slug']) }}"
-                                                               class="btn btn-primary">VÀO HỌC NGAY</a>
-                                                        @endif
-                                                    </div>
-                                                </div>
+                                                <img src="{{ asset('client/assets/img/students/book.svg') }}" alt>
                                             </div>
                                         </div>
                                     </div>
-                                @endforeach
+                                </div>
+                            </div>
 
+                        </div>
+                    </div>
+                    <div class="settings-widget">
+                        <div class="settings-inner-blk p-0">
+                            <div class="comman-space pb-0">
+                                <div class="filter-grp ticket-grp d-flex align-items-center justify-content-between">
+                                    <h3>Tổng số giao dịch</h3>
+                                </div>
+                                <div class="settings-tickets-blk table-responsive">
+                                    @if(session('msg'))
+                                        <p class="alert alert-success">{{ session('msg') }}</p>
+                                    @elseif(session('msg_fail'))
+                                        <p class="alert alert-danger">{{ session('msg_fail') }}</p>
+                                    @endif
+                                    <table class="table table-nowrap mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th>Mã đơn hàng</th>
+                                            <th>Tổng tiền</th>
+                                            <th>Ngày mua</th>
+                                            <th>Trạng thái</th>
+                                            <th>Chi tiết</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        @foreach($orders as $order)
+                                            <tr>
+                                                <td><a href="#">#{{ $order->id }}</a></td>
+                                                <td>{{formatCurrency( $order->total) }}</td>
+                                                <td>{{ $order->created_at }}</td>
+                                                <td><span class="btn btn-success">Thành công</span></td>
+                                                <td><a href="{{ route('students.detailOrder',$order->id ) }}" class="btn btn-warning">Chi tiết đơn hàng</a></td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
-    </section>
 @endsection
 

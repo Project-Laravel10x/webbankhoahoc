@@ -86,6 +86,7 @@
                                             giảng</strong> {{ sumDurations($course)  }}</h6>
                                 </div>
                             </div>
+
                             @foreach($lessonsData as $key => $lesson)
 
                                 <div class="course-card">
@@ -99,15 +100,23 @@
                                                 <ul>
                                                     <li>
                                                         <p><img src="{{ asset('client/assets/img/icon/play.svg') }}"
-                                                                alt class="me-2"><a
-                                                                href="{{ getUrlVideo($item) }}">{{ $item['name'] }}</a>
+                                                                alt class="me-2">{{ $item['name'] }}
                                                         </p>
                                                         <div>
                                                             @if($item['is_trial'] == 1)
-                                                                <a href=""
-                                                                   class="btn btn-info text-light text-decoration-none">Học
-                                                                    thử</a>
+                                                                <a href="{{ isTrial($item['slug']) }}"
+                                                                   class="video-thumbnail"
+                                                                   data-fancybox>
+                                                                    <button type="button"
+                                                                            class="btn btn-info text-light text-decoration-none"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#exampleModal">
+                                                                        Học thử
+                                                                    </button>
+                                                                </a>
+
                                                             @endif
+
                                                             <span>{{ formatTime($item['durations'])  }}</span>
                                                         </div>
                                                     </li>
@@ -258,7 +267,8 @@
                                                    value="{{ countLessons($course['lessons']) }}">
                                             <input type="hidden" name="duration" value="{{ sumDurations($course) }}">
                                             <button type="submit" class="btn btn-wish w-100"><i
-                                                    class="fa-solid fa-cart-shopping" style="color: red;"></i> Thêm vào
+                                                    class="fa-solid fa-cart-shopping" style="color: red;"></i> Thêm
+                                                vào
                                                 giỏ hàng
                                             </button>
                                         </form>
