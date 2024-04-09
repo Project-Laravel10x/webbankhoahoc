@@ -166,13 +166,15 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         ModuleServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
-        Darryldecode\Cart\CartServiceProvider::class
+        Darryldecode\Cart\CartServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+
     ])->toArray(),
 
     /*
@@ -187,7 +189,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-       'Socialite' => Laravel\Socialite\SocialiteServiceProvider::class,
+        'Socialite' => Laravel\Socialite\SocialiteServiceProvider::class,
         'Cart' => Darryldecode\Cart\Facades\CartFacade::class
     ])->toArray(),
 

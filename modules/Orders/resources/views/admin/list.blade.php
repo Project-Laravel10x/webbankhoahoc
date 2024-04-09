@@ -29,7 +29,7 @@
 
                     @foreach($orders as  $order)
                         <tr>
-                            <td>{{ $key + 1 }}</td>
+                            <td>#{{ $order['id'] }}</td>
                             <td>{{ $order->students->name }}</td>
                             <td>{{ formatCurrency($order['total']) }}</td>
                             <td>{{ count($order->orderDetail) }}</td>

@@ -2,6 +2,7 @@
 
 namespace Modules\Teacher\src\Http\Controllers;
 
+use App\Events\CourseTeacherCreated;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Modules\Teacher\src\Http\Requests\TeacherRequest;

@@ -2,8 +2,12 @@
 
 namespace Modules\Courses\src\Http\Controllers;
 
+use App\Events\CourseCreated;
+use App\Events\CourseTeacherCreated;
+use App\Events\NewTeacherCreated;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Modules\Categories\src\Repositories\CategoriesRepository;
 use Modules\Categories\src\Repositories\CategoriesRepositoryInterface;
 use Modules\Courses\src\Http\Requests\CourseRequest;
@@ -66,6 +70,25 @@ class CourseController extends Controller
         $categories = $this->getCategories($data);
 
         $this->courseRepository->createCoursesCategories($course, $categories);
+
+        $data = [
+            'type' => (new CourseCreated($course))->notificationType(),
+            'notifiable_type' => Course::class,
+            'notifiable_id' => $course->id,
+            'data' => json_encode([
+                'id' => $course->id,
+                'name' => $course->name,
+                'teacher' => $course->teachers->name,
+                'created_at' => $course->created_at,
+                'slug' => $course->slug,
+                'thumbnail' => $course->thumbnail,
+            ]),
+            'created_at' => now(),
+            'updated_at' => now()
+        ];
+        DB::table('notifications')->insert($data);
+
+        event(new CourseCreated($course));
 
         return redirect()->route('admin.courses.index')->with('msg', __('courses::messages.success'));
     }

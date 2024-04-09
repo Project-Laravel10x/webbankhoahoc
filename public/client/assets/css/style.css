@@ -1213,8 +1213,8 @@ button.bg-danger:hover {
 	background: #1B2559;
 }
 .notifications .media .avatar > img {
-    width: 32px;
-    height: 32px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     margin-right: 16px;
 }
@@ -4683,8 +4683,8 @@ html.menu-opened body {
 	background: #1B2559;
 }
 .notifications .media .avatar > img {
-    width: 32px;
-    height: 32px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     margin-right: 16px;
 }
@@ -12699,7 +12699,7 @@ input[type=password]::-ms-clear
     top: 50%;
 	transform: translateY(-50%);
     right: 15px;
-    color: #000;
+    color: #fff;
 }
 .cou-title > a:not(.collapsed):after {
     content: "\f077";

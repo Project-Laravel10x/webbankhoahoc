@@ -32,12 +32,22 @@
                                 <div class="cart-head">
                                     <h4>Phương thức thanh toán</h4>
                                 </div>
-                                <div class="checkout-form">
+                                <div class="checkout-form d-flex">
                                     <form action="{{ route('thanhToanMomo') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="total" value="{{$dataCart['total']}}">
-                                        <input type="hidden" name="course_id" value="{{$dataCart['course_id'] ?? null}}">
-                                        <button type="submit" name="payUrl" class="btn btn-primary">Thanh toán MOMO</button>
+                                        <input type="hidden" name="course_id"
+                                               value="{{$dataCart['course_id'] ?? null}}">
+                                        <button type="submit" name="payUrl" class="btn btn-primary">Thanh toán MOMO
+                                        </button>
+                                    </form>
+                                    <form class="ms-4" action="{{ route('thanhToanVnPay') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="total" value="{{$dataCart['total']}}">
+                                        <input type="hidden" name="course_id"
+                                               value="{{$dataCart['course_id'] ?? null}}">
+                                        <button type="submit" name="redirect" class="btn btn-success">Thanh toán VnPay
+                                        </button>
                                     </form>
                                 </div>
                             </div>

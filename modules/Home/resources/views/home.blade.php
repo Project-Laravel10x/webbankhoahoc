@@ -514,13 +514,13 @@
                 @foreach($news as $new)
                     <div class="instructors-widget blog-widget">
                         <div class="instructors-img">
-                            <a href="blog-list.html">
+                            <a href="{{ route('detailNew',$new->slug) }}">
                                 <img class="img-fluid" alt
                                      src="{{$new->thumbnail}}">
                             </a>
                         </div>
                         <div class="instructors-content text-center">
-                            <h5><a href="blog-list.html">{{$new->name}}</a></h5>
+                            <h5><a href="{{ route('detailNew',$new->slug) }}">{{$new->name}}</a></h5>
                             <p>{{ $new->newsCategoies->name }}</p>
                             <div
                                 class="student-count d-flex justify-content-center">

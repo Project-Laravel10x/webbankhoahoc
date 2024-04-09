@@ -29,11 +29,11 @@
                     <div class="instructor-wrap border-bottom-0 m-0">
                         <div class="about-instructor align-items-center">
                             <div class="abt-instructor-img">
-                                <a href="instructor-profile.html"><img src="{{ $teacher->image }}" alt="img"
+                                <a href="#"><img src="{{ $teacher->image }}" alt="img"
                                                                        class="img-fluid"></a>
                             </div>
                             <div class="instructor-detail me-3">
-                                <h5><a href="instructor-profile.html">{{ $teacher->name }}</a></h5>
+                                <h5><a href="#">{{ $teacher->name }}</a></h5>
                                 <p>{{ $teacher->exp }} năm kinh nghiệm</p>
                             </div>
 
@@ -54,7 +54,7 @@
                         </div>
                         <div class="cou-info">
                             <img src="{{ asset('client/assets/img/icon/people.svg') }}" alt>
-                            <p>32 students enrolled</p>
+                            <p>{{ count($course->students) }} đang học</p>
                         </div>
                     </div>
                 </div>
@@ -136,11 +136,11 @@
                             <div class="instructor-wrap">
                                 <div class="about-instructor">
                                     <div class="abt-instructor-img">
-                                        <a href="instructor-profile.html"><img src="{{ $teacher->image }}"
+                                        <a href="#"><img src="{{ $teacher->image }}"
                                                                                alt="img" class="img-fluid"></a>
                                     </div>
                                     <div class="instructor-detail">
-                                        <h5><a href="instructor-profile.html">{{ $teacher->name }}</a></h5>
+                                        <h5><a href="#">{{ $teacher->name }}</a></h5>
                                         <p>{{ $teacher->major }}</p>
                                     </div>
                                 </div>
@@ -148,21 +148,18 @@
                             </div>
                             <div class="course-info d-flex align-items-center">
                                 <div class="cou-info">
-                                    <img src="assets/img/icon/play.svg" alt>
+
+                                    <img src="{{ asset('client/assets/img/icon/play.svg') }}" alt>
                                     <p>{{ count($courses) }} khóa đang dạy</p>
                                 </div>
                                 <div class="cou-info">
-                                    <img src="assets/img/icon/icon-01.svg" alt>
+                                    <img src="{{ asset('client/assets/img/icon/icon-01.svg') }}" alt>
 
                                     <p>{{ countLessonsTeacher($courses) }} Bài giảng</p>
                                 </div>
                                 <div class="cou-info">
-                                    <img src="assets/img/icon/icon-02.svg" alt>
+                                    <img src="{{ asset('client/assets/img/icon/icon-02.svg') }}" alt>
                                     <p>{{ countDurationTeacher($courses) }}</p>
-                                </div>
-                                <div class="cou-info">
-                                    <img src="assets/img/icon/people.svg" alt>
-                                    <p>270,866 students enrolled</p>
                                 </div>
                             </div>
                             <p>{!!  $teacher->description  !!}</p>
@@ -171,60 +168,6 @@
                     </div>
 
 
-                    <div class="card review-sec">
-                        <div class="card-body">
-                            <h5 class="subs-title">Reviews</h5>
-                            <div class="instructor-wrap">
-                                <div class="about-instructor">
-                                    <div class="abt-instructor-img">
-                                        <a href="instructor-profile.html"><img src="assets/img/user/user1.jpg"
-                                                                               alt="img" class="img-fluid"></a>
-                                    </div>
-                                    <div class="instructor-detail">
-                                        <h5><a href="instructor-profile.html">Nicole Brown</a></h5>
-                                        <p>UX/UI Designer</p>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <p class="rev-info">“ This is the second Photoshop course I have completed with
-                                Cristian. Worth every penny and recommend it highly. To get the most out of this
-                                course, its best to to take the Beginner to Advanced course first. The sound and
-                                video quality is of a good standard. Thank you Cristian. “</p>
-                            <a href="javascript:void(0);" class="btn btn-reply"><i
-                                    class="feather-corner-up-left"></i> Reply</a>
-                        </div>
-                    </div>
-
-
-                    <div class="card comment-sec">
-                        <div class="card-body">
-                            <h5 class="subs-title">Gửi bình luận</h5>
-                            <form>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="input-block">
-                                            <input type="text" class="form-control" placeholder="Full Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-block">
-                                            <input type="email" class="form-control" placeholder="Email">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="input-block">
-                                    <input type="email" class="form-control" placeholder="Subject">
-                                </div>
-                                <div class="input-block">
-                                    <textarea rows="4" class="form-control" placeholder="Your Comments"></textarea>
-                                </div>
-                                <div class="submit-section">
-                                    <button class="btn submit-btn" type="submit">Submit</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
 
                 </div>
 
@@ -312,9 +255,6 @@
                                     <li><img src="{{ asset('client/assets/img/icon/mobile.svg') }}" class="me-2"
                                              alt> Truy cập web
                                     </li>
-                                    <li><img src="{{ asset('client/assets/img/icon/teacher.svg') }}" class="me-2"
-                                             alt> Chứng chỉ
-                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -327,7 +267,7 @@
                                 </div>
                                 <ul>
                                     <li><img src="{{ asset('client/assets/img/icon/users.svg') }}" class="me-2" alt>
-                                        Học viên: <span>32 students</span>
+                                        Học viên: <span>{{ count($course->students) }}</span>
                                     </li>
                                     <li><img src="{{ asset('client/assets/img/icon/timer.svg') }}" class="me-2" alt>
                                         Thời lượng: <span>{{ sumDurations($course)}}</span>

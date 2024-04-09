@@ -10,13 +10,6 @@
 
     <hr class="sidebar-divider my-0">
 
-    <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
-        <a class="nav-link" href="index.html">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
-    </li>
-
     @include('parts.backend.menu_item',['title' => 'Chuyên mục','name' => 'categories'])
 
     @include('parts.backend.menu_item',['title' => 'Khóa học','name' => 'courses'])

@@ -22,89 +22,39 @@
                             <div class="profile-group">
                                 <div class="profile-name text-center">
                                     <h4>
-                                        <a href="student-profile.html">{{ \Illuminate\Support\Facades\Auth::guard('students')->user()->name }}</a>
+                                        <a href="#">{{ \Illuminate\Support\Facades\Auth::guard('students')->user()->name }}</a>
                                     </h4>
                                     <p>Học viên</p>
                                 </div>
                                 <div class="go-dashboard text-center">
-                                    <a href="deposit-student-dashboard.html" class="btn btn-primary">Go to Dashboard</a>
+                                    <a href="{{ route('students.dashBoard') }}" class="btn btn-primary">Đến trang
+                                        Dashboard</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="settings-widget account-settings">
                         <div class="settings-menu">
-                            <h3>ACCOUNT SETTINGS</h3>
+                            <h3>Cài đặt tài khoản</h3>
                             <ul>
                                 <li class="nav-item ">
-                                    <a href="setting-edit-profile.html" class="nav-link">
-                                        <i class="feather-settings"></i> Edit Profile
+                                    <a href="{{ route('students.editProfile') }}" class="nav-link">
+                                        <i class="feather-settings"></i> Chỉnh sửa thông tin
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="setting-student-security.html" class="nav-link">
-                                        <i class="feather-user"></i> Security
+                                    <a href="{{ route('students.viewDeteleProFile') }}" class="nav-link">
+                                        <i class="feather-trash-2"></i> Vô hiệu hóa tài khoản
                                     </a>
                                 </li>
+
                                 <li class="nav-item">
-                                    <a href="setting-student-social-profile.html" class="nav-link">
-                                        <i class="feather-refresh-cw"></i> Social Profiles
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="setting-student-notification.html" class="nav-link">
-                                        <i class="feather-bell"></i> Notifications
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="setting-student-privacy.html" class="nav-link">
-                                        <i class="feather-lock"></i> Profile Privacy
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="setting-student-delete-profile.html" class="nav-link">
-                                        <i class="feather-trash-2"></i> Delete Profile
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="setting-student-accounts.html" class="nav-link">
-                                        <i class="feather-user"></i> Linked Accounts
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="setting-student-referral.html" class="nav-link">
-                                        <i class="feather-user-plus"></i> Referrals
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="login.html" class="nav-link">
-                                        <i class="feather-power"></i> Sign Out
+                                    <a href="{{ route('students.logout') }}" class="nav-link">
+                                        <i class="feather-power"></i> Đăng xuất
                                     </a>
                                 </li>
                             </ul>
-                            <h3>SUBSCRIPTION</h3>
-                            <ul>
-                                <li class="nav-item">
-                                    <a href="setting-student-subscription.html" class="nav-link ">
-                                        <i class="feather-calendar"></i> My Subscriptions
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="setting-student-billing.html" class="nav-link">
-                                        <i class="feather-credit-card"></i> Billing Info
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="setting-student-payment.html" class="nav-link">
-                                        <i class="feather-credit-card"></i> Payment
-                                    </a>
-                                </li>
-                                <li class="nav-item active">
-                                    <a href="setting-student-invoice.html" class="nav-link">
-                                        <i class="feather-clipboard"></i> Invoice
-                                    </a>
-                                </li>
-                            </ul>
+
                         </div>
                     </div>
                 </div>

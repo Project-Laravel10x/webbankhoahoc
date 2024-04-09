@@ -2,10 +2,15 @@
 
 namespace Modules\Students\src\Http\Controllers\Client;
 
+use App\Events\EditProfile;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
 use Modules\Courses\src\Repositories\CoursesRepositoryInterface;
+use Modules\Document\src\Repositories\DocumentRepositoryInterface;
 use Modules\Lessons\src\Models\Lesson;
 use Modules\Lessons\src\Repositories\LessonsRepositoryInterface;
 use Modules\Orders\src\Repositories\OrderRepositoryInterface;
@@ -23,6 +28,7 @@ class StudentClientController extends Controller
     protected OrderDetailRepositoryInterface $orderDetailRepository;
     protected CoursesRepositoryInterface $courseRepository;
     protected LessonsRepositoryInterface $lessonRepository;
+    protected DocumentRepositoryInterface $documentRepository;
 
     public function __construct(
         StudentRepositoryInterface     $studentRepository,
@@ -30,6 +36,7 @@ class StudentClientController extends Controller
         OrderDetailRepositoryInterface $orderDetailRepository,
         CoursesRepositoryInterface     $courseRepository,
         LessonsRepositoryInterface     $lessonRepository,
+        DocumentRepositoryInterface    $documentRepository,
     )
     {
         $this->studentRepository = $studentRepository;
@@ -37,6 +44,7 @@ class StudentClientController extends Controller
         $this->orderDetailRepository = $orderDetailRepository;
         $this->courseRepository = $courseRepository;
         $this->lessonRepository = $lessonRepository;
+        $this->documentRepository = $documentRepository;
     }
 
     public function dashBoard()
@@ -74,7 +82,9 @@ class StudentClientController extends Controller
             'password' => $password,
         ];
 
-        $this->studentRepository->update($id, $data);
+        $student = $this->studentRepository->update($id, $data);
+
+        EditProfile::dispatch($student);
 
         return redirect()->route('students.editProfile')->with('msg', __('students::messages.success'));
     }
@@ -93,14 +103,9 @@ class StudentClientController extends Controller
         return redirect()->route('students.logout');
     }
 
-
-
-
-
     public function listOrders()
     {
         $pageTitle = 'Danh sách đơn đặt';
-
         $orders = $this->orderRepository->getAllOrders();
 
         return view('students::client.list_orders', compact('pageTitle', 'orders'));
@@ -109,9 +114,7 @@ class StudentClientController extends Controller
     public function myCourses()
     {
         $pageTitle = 'Khóa học của bạn';
-
         $courses = $this->courseRepository->getAllCourses(Auth::guard('students')->user()->id);
-
         return view('students::client.my_courses', compact('pageTitle', 'courses'));
     }
 
@@ -123,7 +126,6 @@ class StudentClientController extends Controller
     public function detailOrder($id)
     {
         $pageTitle = 'Chi tiết đơn hàng';
-
         $detailOrders = $this->orderDetailRepository->getOrdersDetailById($id);
 
         return view('students::client.detail_orders', compact('pageTitle', 'detailOrders'));
@@ -132,7 +134,6 @@ class StudentClientController extends Controller
     public function listStudents()
     {
         $pageTitle = 'Danh sách học viên';
-
         $students = $this->studentRepository->getAllStudentsPaginate(2);
 
         return view('students::client.students_list', compact('pageTitle', 'students'));
@@ -141,22 +142,40 @@ class StudentClientController extends Controller
     public function courseLesson($slug)
     {
         $studentId = Auth::guard('students')->user()->id;
-
         $courses = $this->courseRepository->getAllCourses($studentId);
-
         $lessonData = Lesson::where('slug', $slug)->firstOrFail();
-
         $isLessonInPurchasedCourse = $courses->contains('id', $lessonData['course_id']);
 
         if (!$isLessonInPurchasedCourse) {
             return back();
         }
 
+        $buttonPrevAndNext = $this->lessonRepository->getPreviousAndNextLesson($lessonData);
         $lessonsData = $this->lessonRepository->getLessons($lessonData->courses->id)->toArray();
-
         $pageTitle = $lessonData->courses->name;
 
-        return view('students::client.course_lesson', compact('pageTitle', 'lessonsData', 'lessonData'));
+        return view('students::client.course_lesson',
+            compact('pageTitle', 'lessonsData', 'lessonData', 'buttonPrevAndNext', 'courses'));
+    }
+
+    public function downloadFile(Request $request)
+    {
+        $document = $this->documentRepository->getOne($request->document_id);
+
+        if (!empty($document)) {
+
+            $fileName = $document->name;
+            $filePath = public_path() . '/' . trim($document->url, '/');
+
+            if (file_exists($filePath)) {
+                return response()->download($filePath, $fileName);
+            } else {
+                abort(500);
+            }
+
+        } else {
+            abort(404);
+        }
     }
 
 

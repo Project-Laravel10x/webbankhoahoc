@@ -60,15 +60,53 @@ class LessonsRepository extends BaseRepository implements LessonsRepositoryInter
 
         $myCourseRegister = StudentCourse::where('student_id', $studentId)
             ->whereIn('course_id', $courseIds)
-            ->with('courses.lessons') // Tải thông tin bài học của mỗi khóa học
+            ->with('courses.lessons')
             ->get();
 
         $courseIds = $myCourseRegister->pluck('course_id')->toArray();
 
-        // Lấy thông tin các khóa học tương ứng với các course_id
         $courses = Course::whereIn('id', $courseIds)->get();
 
         return $courses;
+    }
+
+    public function getPreviousAndNextLesson($lessonData)
+    {
+        $previousLesson = null;
+        $nextLesson = null;
+        if ($lessonData->parent_id !== null) {
+            $previousLesson = Lesson::where('parent_id', $lessonData->parent_id)
+                ->where('position', '<', $lessonData->position)
+                ->orderBy('position', 'desc')
+                ->first();
+
+            $nextLesson = Lesson::where('parent_id', $lessonData->parent_id)
+                ->where('position', '>', $lessonData->position)
+                ->orderBy('position', 'asc')
+                ->first();
+
+            if ($nextLesson == null) {
+                $nextLesson = Lesson::where('position', $lessonData->position + 2)
+                    ->orderBy('position', 'asc')
+                    ->first();
+            }
+            if ($previousLesson == null) {
+                $previousLesson = Lesson::where('position', $lessonData->position - 2)
+                    ->orderBy('position', 'asc')
+                    ->first();
+            }
+        } else {
+            $positionNext = $lessonData->position + 2;
+
+            $nextLesson = Lesson::where('position', $positionNext)
+                ->orderBy('position', 'asc')
+                ->first();
+        }
+        return [
+            'previousLesson' => $previousLesson == null ? null : $previousLesson,
+            'nextLesson' => $nextLesson == null ? null : $nextLesson
+        ];
+
     }
 
 }

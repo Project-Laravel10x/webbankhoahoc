@@ -23,5 +23,7 @@ Route::group(['prefix' => 'thanh-toan', 'middleware' => 'auth.client'], function
 
     Route::post('/momo_payment', [OrderController::class, 'thanhToanMomo'])->name('thanhToanMomo');
 
+ Route::post('/vnPay_payment', [OrderController::class, 'thanhToanVnPay'])->name('thanhToanVnPay');
+
 });
 

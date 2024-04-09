@@ -1,3 +1,19 @@
+<style>
+    .notification-count {
+        position: absolute;
+        top: 7px;
+        right: 9px;
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        text-align: center;
+        line-height: 20px;
+        font-size: 12px;
+    }
+</style>
+
 <header class="header header-page">
     <div class="header-fixed">
         <nav class="navbar navbar-expand-lg header-nav scroll-sticky">
@@ -63,88 +79,54 @@
                             <img src="{{ asset('client/assets/img/icon/cart.svg') }} " alt="img">
                         </a>
                     </li>
+                    @php
+                        $notificationsData = Illuminate\Support\Facades\DB::table('notifications')->select('data','type')->latest()->get();
+                    @endphp
                     <li class="nav-item noti-nav">
                         <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+                            <span class="notification-count">{{ count($notificationsData) }}</span>
                             <img src="{{ asset('client/assets/img/icon/notification.svg') }}  " alt="img">
                         </a>
+
                         <div class="notifications dropdown-menu dropdown-menu-right">
                             <div class="topnav-dropdown-header">
-<span class="notification-title">Notifications
-<select>
-<option>All</option>
-<option>Unread</option>
-</select>
-</span>
-                                <a href="javascript:void(0)" class="clear-noti">Mark all as read <i
-                                        class="fa-solid fa-circle-check"></i></a>
+                                <span class="notification-title">Thông báo</span>
                             </div>
+
                             <div class="noti-content">
                                 <ul class="notification-list">
-                                    <li class="notification-message">
-                                        <div class="media d-flex">
-                                            <div>
-                                                <a href="notifications.html" class="avatar">
-                                                    <img class="avatar-img" alt src="assets/img/user/user1.jpg">
-                                                </a>
+                                    @foreach($notificationsData as $notification)
+                                        @php
+                                            $data = json_decode($notification->data, true);
+                                        @endphp
+                                        <li class="notification-message">
+                                            <div class="media d-flex">
+                                                <div>
+                                                    <a href="#" class="avatar">
+                                                        <img class="avatar-img" alt src="{{ $data['thumbnail'] }}">
+                                                    </a>
+                                                </div>
+                                                <div class="media-body">
+                                                    <h6>
+                                                        @if($notification->type == 'notification-new')
+                                                            <h6>Bài viết: {{ $data['name'] }}</h6>
+                                                            <p class="mt-1 mb-1">Vừa đăng
+                                                                bởi: {{ $data['teacher'] }}</p>
+                                                            <a href="tin-tuc/{{ $data['slug'] }}"
+                                                               class="btn btn-accept">Xem bài viết ngay</a>
+                                                        @elseif($notification->type == 'notification-course')
+                                                            <h6>Khóa học: {{ $data['name'] }}</h6>
+                                                            <p class="mt-1 mb-1">Được dạy
+                                                                bởi: {{ $data['teacher'] }}</p>
+                                                            <a href="khoa-hoc/{{ $data['slug'] }}"
+                                                               class="btn btn-accept">Xem khóa học ngay</a>
+                                                        @endif
+                                                    </h6>
+                                                    <p>Ngày
+                                                        đăng: {{ \Carbon\Carbon::parse($data['created_at'])->format('d/m/Y H:i:s') }}</p>
+                                                </div>
                                             </div>
-                                            <div class="media-body">
-                                                <h6><a href="notifications.html">Lex Murphy requested
-                                                        <span>access to</span>
-                                                        UNIX directory tree hierarchy </a></h6>
-                                                <button class="btn btn-accept">Accept</button>
-                                                <button class="btn btn-reject">Reject</button>
-                                                <p>Today at 9:42 AM</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="notification-message">
-                                        <div class="media d-flex">
-                                            <div>
-                                                <a href="notifications.html" class="avatar">
-                                                    <img class="avatar-img" alt src="assets/img/user/user2.jpg">
-                                                </a>
-                                            </div>
-                                            <div class="media-body">
-                                                <h6><a href="notifications.html">Ray Arnold left 6
-                                                        <span>comments on</span>
-                                                        Isla Nublar SOC2 compliance report</a></h6>
-                                                <p>Yesterday at 11:42 PM</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="notification-message">
-                                        <div class="media d-flex">
-                                            <div>
-                                                <a href="notifications.html" class="avatar">
-                                                    <img class="avatar-img" alt src="assets/img/user/user3.jpg">
-                                                </a>
-                                            </div>
-                                            <div class="media-body">
-                                                <h6><a href="notifications.html">Dennis Nedry
-                                                        <span>commented on</span> Isla Nublar SOC2 compliance
-                                                        report</a></h6>
-                                                <p class="noti-details">“Oh, I finished de-bugging the phones,
-                                                    but the system's compiling for eighteen minutes, or twenty.
-                                                    So, some minor systems may go on and off for a while.”</p>
-                                                <p>Yesterday at 5:42 PM</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="notification-message">
-                                        <div class="media d-flex">
-                                            <div>
-                                                <a href="notifications.html" class="avatar">
-                                                    <img class="avatar-img" alt src="assets/img/user/user1.jpg">
-                                                </a>
-                                            </div>
-                                            <div class="media-body">
-                                                <h6><a href="notifications.html">John Hammond
-                                                        <span>created</span> Isla Nublar SOC2 compliance report
-                                                    </a></h6>
-                                                <p>Last Wednesday at 11:15 AM</p>
-                                            </div>
-                                        </div>
-                                    </li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>

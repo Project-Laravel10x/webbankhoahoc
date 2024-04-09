@@ -63,7 +63,8 @@ Route::group(['as' => 'students.'], function () {
 
         Route::get('/chinh-sua-trang-ca-nhan', [StudentClientController::class, 'editProfile'])->name('editProfile');
 
-        Route::post('/chinh-sua-trang-ca-nhan', [StudentClientController::class, 'updateProFile'])->name('updateProFile');
+        Route::post('/chinh-sua-trang-ca-nhan', [StudentClientController::class, 'updateProFile'])
+            ->name('updateProFile');
 
         Route::get('/xoa-trang-ca-nhan', [StudentClientController::class, 'viewDeteleProFile'])
             ->name('viewDeteleProFile');
@@ -79,6 +80,8 @@ Route::group(['as' => 'students.'], function () {
         Route::get('/khoa-hoc-cua-ban', [StudentClientController::class, 'myCourses'])->name('myCourses');
 
         Route::get('/bai-giang/{slug}', [StudentClientController::class, 'courseLesson'])->name('courseLesson');
+
+        Route::post('/download-file', [StudentClientController::class, 'downloadFile'])->name('downloadFile');
 
         Route::get('/chi-tiet-don-hang/{order}', [StudentClientController::class, 'detailOrder'])->name('detailOrder');
 

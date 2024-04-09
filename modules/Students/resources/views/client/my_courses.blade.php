@@ -51,6 +51,7 @@
                                     <p class="alert alert-success">{{ session('msg') }}</p>
                                 @endif
                                 @foreach($courses as $course)
+
                                     <div class="col-xl-4 col-lg-4 col-md-6 d-flex">
                                         <div class="course-box course-design d-flex ">
                                             <div class="product">
@@ -92,7 +93,7 @@
                                                     </div>
                                                     <div class="start-leason d-flex align-items-center">
                                                         @if ($course && isset($course->lessons) && count($course->lessons) > 0)
-                                                            <a href="{{ route('students.courseLesson',$course->lessons[0]['slug']) }}"
+                                                            <a href="{{ route('students.courseLesson',$course->lessons[1]['slug']) }}"
                                                                class="btn btn-primary">VÀO HỌC NGAY</a>
                                                         @endif
                                                     </div>

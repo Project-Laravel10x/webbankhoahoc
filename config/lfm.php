@@ -101,6 +101,7 @@ return [
                 'image/png',
                 'image/gif',
                 'application/pdf',
+                'application/txt',
                 'text/plain',
             ],
         ],

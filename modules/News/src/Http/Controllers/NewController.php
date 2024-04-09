@@ -2,8 +2,10 @@
 
 namespace Modules\News\src\Http\Controllers;
 
+use App\Events\NewTeacherCreated;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use Modules\Courses\src\Models\Course;
 use Modules\News\src\Http\Requests\NewRequest;
 use Modules\News\src\Models\News;
 use Modules\News\src\Repositories\NewsRepository;
@@ -49,7 +51,29 @@ class NewController extends Controller
     {
         $data = $request->except('_token', '_method');
 
-        $this->newRepository->create($data);
+        $new = $this->newRepository->create($data);
+
+        $data = [
+            'type' => (new NewTeacherCreated($new))->notificationType(),
+            'notifiable_type' => Course::class,
+            'notifiable_id' => $new->id,
+            'data' => json_encode([
+                'id' => $new->id,
+                'name' => $new->name,
+                'teacher' => $new->teachers->name,
+                'created_at' => $new->created_at,
+                'slug' => $new->slug,
+                'thumbnail' => $new->thumbnail,
+            ]),
+            'created_at' => now(),
+            'updated_at' => now()
+        ];
+
+        DB::table('notifications')->insert($data);
+
+        $notificationsData = DB::table('notifications')->select('data')->get();
+
+        event(new NewTeacherCreated($new,$notificationsData));
 
         return redirect()->route('admin.news.index')->with('msg', __('news::messages.success'));
     }

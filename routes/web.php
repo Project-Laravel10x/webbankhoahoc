@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\ProductController;
+use App\Events\OrderPayment;
 use Illuminate\Support\Facades\Route;
+use Modules\Orders\src\Models\Order;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/pusher', function () {
+    return view('home');
 });
-
-Route::get('/products', [ProductController::class, 'index']);
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

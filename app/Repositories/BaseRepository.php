@@ -35,11 +35,16 @@ abstract class BaseRepository implements RepositoryInterface
 
     public function update($id, $attributes = [])
     {
-        if ($this->model->find($id)) {
-            return $this->model->where('id', $id)->update($attributes);
+        $model = $this->model->find($id);
+
+        if ($model) {
+            $model->update($attributes);
+            return $model;
         }
-        return false;
+
+        return null;
     }
+
 
     public function delete($id)
     {
