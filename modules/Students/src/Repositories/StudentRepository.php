@@ -19,7 +19,7 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
 
     public function getAllStudents()
     {
-        return $this->model->select(['id', 'name', 'email', 'phone', 'address', 'is_active', 'created_at'])->get();
+        return $this->model->select(['id', 'name', 'email', 'phone', 'address', 'is_active','is_online', 'created_at'])->get();
     }
 
 

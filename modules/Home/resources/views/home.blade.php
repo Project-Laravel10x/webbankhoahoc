@@ -244,12 +244,17 @@
                                                         <a href="instructor-profile.html"><img
                                                                 src="{{$course['teachers']['image']}}"
                                                                 class="img-fluid"></a>
-                                                        <div class="course-name">
-                                                            <h4>
-                                                                <a href="instructor-profile.html">{{$course['teachers']['name']}}</a>
-                                                            </h4>
-                                                            <p>Giảng viên</p>
-                                                        </div>
+                                                       <div class="d-flex">
+                                                           <div class="course-name">
+                                                               <h4>
+                                                                   <a href="instructor-profile.html">{{$course['teachers']['name']}}</a>
+                                                               </h4>
+                                                               <p>Giảng viên</p>
+                                                           </div>
+                                                           <div class="ms-5 ps-5">
+                                                               {!! QrCode::size(50)->generate(route('courses.detail',$course['slug'])) !!}
+                                                           </div>
+                                                       </div>
                                                     </div>
                                                 </div>
                                                 <h3 class="title instructor-text"><a

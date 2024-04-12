@@ -3,10 +3,13 @@
 namespace Modules\Students\src\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\UpdateStudentStatus;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Modules\Students\src\Models\Student;
+use Modules\User\src\Models\OnlineUser;
 
 
 class LoginController extends Controller
@@ -36,6 +39,7 @@ class LoginController extends Controller
         if (isClientActive($dataLogin['email'])) {
             $checkLogin = Auth::guard('students')->attempt($dataLogin);
             if ($checkLogin) {
+                OnlineUser::updateOrCreate(['student_id' => Auth::guard('students')->user()->id], ['last_activity' => now()]);
                 return redirect(RouteServiceProvider::CLIENT)->with('msg', __('students::messages.success'));
             }
             return back()->with('msg', __('students::messages.login.failed'));
@@ -45,6 +49,7 @@ class LoginController extends Controller
 
     public function logout()
     {
+        Auth::guard('students')->user()->is_online = 0;
         Auth::guard('students')->logout();
         return redirect()->route('students.login');
     }

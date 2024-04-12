@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Courses\src\Models\Course;
 use Modules\Orders\src\Models\Order;
+use Modules\User\src\Models\OnlineUser;
 
 class Student extends Authenticatable
 {
@@ -23,8 +24,10 @@ class Student extends Authenticatable
 
     protected $fillable = [
         'name',
+        'id',
         'email',
         'is_active',
+        'is_online',
         'phone',
         'address',
         'password',
@@ -41,6 +44,13 @@ class Student extends Authenticatable
     {
         return $this->hasMany(Order::class, 'student_id','id');
     }
+
+    public function onlineUser()
+    {
+        return $this->hasMany(OnlineUser::class,'student_id','id');
+    }
+
+
 
 
 }

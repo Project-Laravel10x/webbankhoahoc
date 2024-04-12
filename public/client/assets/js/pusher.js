@@ -7,7 +7,6 @@ channel.bind('notification', function (data) {
 
     var notificationType = data.type;
     var newData = data.data;
-
     var createdAtDate = new Date(newData.created_at);
     var formattedDate = createdAtDate.toLocaleString('vi-VN');
 
@@ -61,3 +60,4 @@ channel.bind('notification', function (data) {
         }
     }
 });
+

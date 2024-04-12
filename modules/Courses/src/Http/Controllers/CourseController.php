@@ -3,8 +3,6 @@
 namespace Modules\Courses\src\Http\Controllers;
 
 use App\Events\CourseCreated;
-use App\Events\CourseTeacherCreated;
-use App\Events\NewTeacherCreated;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -12,14 +10,11 @@ use Modules\Categories\src\Repositories\CategoriesRepository;
 use Modules\Categories\src\Repositories\CategoriesRepositoryInterface;
 use Modules\Courses\src\Http\Requests\CourseRequest;
 use Modules\Courses\src\Models\Course;
-use Modules\Courses\src\Repositories\CoursesRepository;
 use Modules\Courses\src\Repositories\CoursesRepositoryInterface;
-use Modules\Lessons\src\Models\Lesson;
 use Modules\Lessons\src\Repositories\LessonsRepository;
 use Modules\Lessons\src\Repositories\LessonsRepositoryInterface;
 use Modules\Teacher\src\Repositories\TeacherRepository;
 use Modules\Teacher\src\Repositories\TeacherRepositoryInterface;
-use Modules\Video\src\Models\Video;
 
 
 class CourseController extends Controller

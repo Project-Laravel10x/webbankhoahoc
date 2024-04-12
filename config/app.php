@@ -174,7 +174,8 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Darryldecode\Cart\CartServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
-
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        Shetabit\Visitor\Provider\VisitorServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -190,7 +191,9 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'Socialite' => Laravel\Socialite\SocialiteServiceProvider::class,
-        'Cart' => Darryldecode\Cart\Facades\CartFacade::class
+        'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'Visitor' => Shetabit\Visitor\Facade\Visitor::class,
     ])->toArray(),
 
 ];

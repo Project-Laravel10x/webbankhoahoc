@@ -1,8 +1,11 @@
 <?php
 
-use App\Events\OrderPayment;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
-use Modules\Orders\src\Models\Order;
+use Illuminate\Support\Facades\Session;
+use Modules\User\src\Models\OnlineUser;
+use Shetabit\Visitor\Visitor;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +18,6 @@ use Modules\Orders\src\Models\Order;
 |
 */
 
-Route::get('/pusher', function () {
-    return view('home');
+Route::get('/qr', function (Request $request) {
+    dd(Session::all());
 });
