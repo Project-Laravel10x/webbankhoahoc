@@ -30,7 +30,7 @@
                         <div class="about-instructor align-items-center">
                             <div class="abt-instructor-img">
                                 <a href="#"><img src="{{ $teacher->image }}" alt="img"
-                                                                       class="img-fluid"></a>
+                                                 class="img-fluid"></a>
                             </div>
                             <div class="instructor-detail me-3">
                                 <h5><a href="#">{{ $teacher->name }}</a></h5>
@@ -104,20 +104,27 @@
                                                         </p>
                                                         <div>
                                                             @if($item['is_trial'] == 1)
-                                                                <a href="{{ isTrial($item['slug']) }}"
-                                                                   class="video-thumbnail"
-                                                                   data-fancybox>
-                                                                    <button type="button"
-                                                                            class="btn btn-info text-light text-decoration-none"
-                                                                            data-bs-toggle="modal"
-                                                                            data-bs-target="#exampleModal">
-                                                                        Học thử
-                                                                    </button>
-                                                                </a>
+                                                                {{--                                                                <a href="{{ isTrial($item['slug']) }}"--}}
+                                                                {{--                                                                   class="video-thumbnail"--}}
+                                                                {{--                                                                   data-fancybox>--}}
+                                                                {{--                                                                    <button type="button"--}}
+                                                                {{--                                                                            class="btn btn-info text-light text-decoration-none"--}}
+                                                                {{--                                                                            data-bs-toggle="modal"--}}
+                                                                {{--                                                                            data-bs-target="#exampleModal">--}}
+                                                                {{--                                                                        Học thử--}}
+                                                                {{--                                                                    </button>--}}
+                                                                {{--                                                                </a>  --}}
+                                                                <p href=""
+                                                                   class="btn btn-info text-light text-decoration-none trial-btn"
+                                                                   data-id="{{ $item['id'] }}">
+                                                                    Học thử
+                                                                </p>
 
                                                             @endif
 
                                                             <span>{{ formatTime($item['durations'])  }}</span>
+
+
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -129,6 +136,22 @@
                         </div>
                     </div>
 
+                    <div class="modal fade" id="modal" tabindex="-1">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title"
+                                        id="exampleModalLabel"></h5>
+                                    <button type="button" class="btn-close"
+                                            data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="card instructor-sec">
                         <div class="card-body">
@@ -137,7 +160,7 @@
                                 <div class="about-instructor">
                                     <div class="abt-instructor-img">
                                         <a href="#"><img src="{{ $teacher->image }}"
-                                                                               alt="img" class="img-fluid"></a>
+                                                         alt="img" class="img-fluid"></a>
                                     </div>
                                     <div class="instructor-detail">
                                         <h5><a href="#">{{ $teacher->name }}</a></h5>
@@ -166,7 +189,6 @@
 
                         </div>
                     </div>
-
 
 
                 </div>
@@ -198,38 +220,55 @@
                                             @endif
 
                                         </div>
-                                        <form method="POST" action="{{ route('addToCart') }}">
-                                            @csrf
-                                            <input type="hidden" name="course_id" value="{{ $course->id }}">
-                                            <input type="hidden" name="name" value="{{ $course->name }}">
-                                            <input type="hidden" name="slug" value="{{ $course->slug }}">
-                                            <input type="hidden" name="price" value="{{ $course->price }}">
-                                            <input type="hidden" name="sale_price" value="{{ $course->sale_price }}">
-                                            <input type="hidden" name="thumbnail" value="{{$course->thumbnail  }}">
-                                            <input type="hidden" name="lesson"
-                                                   value="{{ countLessons($course['lessons']) }}">
-                                            <input type="hidden" name="duration" value="{{ sumDurations($course) }}">
-                                            <button type="submit" class="btn btn-wish w-100"><i
-                                                    class="fa-solid fa-cart-shopping" style="color: red;"></i> Thêm
-                                                vào
-                                                giỏ hàng
-                                            </button>
-                                        </form>
 
-                                        <form method="POST" action="{{ route('thanhToan') }}">
-                                            @csrf
-                                            <input type="hidden" name="qty"
-                                                   value="1">
-                                            <input type="hidden" name="course_id"
-                                                   value="{{ $course->id }}">
-                                            <input type="hidden" name="price" value="{{ $course->price }}">
-                                            <input type="hidden" name="sale_price" value="{{ $course->sale_price }}">
-                                            <input type="hidden" name="total"
-                                                   value="{{ $course->sale_price == 0 ? $course->price : $course->sale_price }}">
 
-                                            <button type="submit" class="btn btn-enroll w-100">Thanh toán ngay
-                                            </button>
-                                        </form>
+                                        @if($course->status == 1 )
+                                            @if(checkCourseRegistration(\Illuminate\Support\Facades\Auth::guard('students')->user()->id ?? null,$course->id))
+                                                <a href="{{ route('students.myCourses') }}" class="btn btn-success">Khóa
+                                                    học của tôi</a>
+                                            @else
+                                                <form method="POST" action="{{ route('addToCart') }}">
+                                                    @csrf
+                                                    <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                                    <input type="hidden" name="name" value="{{ $course->name }}">
+                                                    <input type="hidden" name="slug" value="{{ $course->slug }}">
+                                                    <input type="hidden" name="price" value="{{ $course->price }}">
+                                                    <input type="hidden" name="sale_price"
+                                                           value="{{ $course->sale_price }}">
+                                                    <input type="hidden" name="thumbnail"
+                                                           value="{{$course->thumbnail  }}">
+                                                    <input type="hidden" name="lesson"
+                                                           value="{{ countLessons($course['lessons']) }}">
+                                                    <input type="hidden" name="duration"
+                                                           value="{{ sumDurations($course) }}">
+                                                    <button type="submit" class="btn btn-wish w-100"><i
+                                                            class="fa-solid fa-cart-shopping"
+                                                            style="color: red;"></i>
+                                                        Thêm
+                                                        vào
+                                                        giỏ hàng
+                                                    </button>
+                                                </form>
+
+                                                <form method="POST" action="{{ route('thanhToan') }}">
+
+                                                    @csrf
+                                                    <input type="hidden" name="qty"
+                                                           value="1">
+                                                    <input type="hidden" name="course_id"
+                                                           value="{{ $course->id }}">
+                                                    <input type="hidden" name="price" value="{{ $course->price }}">
+                                                    <input type="hidden" name="sale_price"
+                                                           value="{{ $course->sale_price }}">
+                                                    <input type="hidden" name="total"
+                                                           value="{{ $course->sale_price == 0 ? $course->price : $course->sale_price }}">
+
+                                                    <button type="submit" class="btn btn-enroll w-100">Thanh toán ngay
+                                                    </button>
+                                                </form>
+                                            @endif
+
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -284,5 +323,80 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('js_custom')
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+
+            const btnTrialList = document.querySelectorAll('.trial-btn')
+            const modalElement = document.querySelector('#modal')
+
+            if (btnTrialList.length) {
+                btnTrialList.forEach((btn) => {
+                    btn.addEventListener('click', (e) => {
+                        const id = e.target.dataset.id
+                        const initialBtn = e.target.innerText
+
+                        var modal = new bootstrap.Modal(modalElement)
+
+                        const url = "{{route('data.trial')}}/" + id
+                        e.target.innerText = "Đang mở ..."
+                        fetch(url).then((res) => {
+                            return res.json()
+                        }).then(({success, data, videoUrl}) => {
+
+                            if (!success) {
+                                alert('Video này không tồn tại !')
+                                return
+                            }
+
+                            if (data.is_trial !== 1) {
+                                alert('Video này không được học thử !')
+                                return
+                            }
+
+                            const name = data.name
+                            const video = videoUrl
+
+                            modal.show()
+                            modalElement.querySelector('.modal-title').innerText = name
+
+                            if (video.includes('/storage/videos/')) {
+                                modalElement.querySelector('.modal-body').innerHTML = `
+                           <video
+                            id="my-video"
+                            class="video-js"
+                            controls
+                            preload="auto"
+                            width="770px"
+                            height="450px"
+                            data-setup="{}"
+                          >
+                            <source src="data/stream?video=${video}" type="video/mp4" />
+                            <p class="vjs-no-js">
+                              To view this video please enable JavaScript, and consider upgrading to a
+                              web browser that
+                            </p>
+                          </video>`;
+                            } else {
+                                modalElement.querySelector('.modal-body').innerHTML = `
+                            <iframe width="100%" height="400px" src="${video}" frameborder="0" allowfullscreen></iframe>`;
+                            }
+                        }).finally(() => {
+                            e.target.innerText = initialBtn
+                            videojs(modalElement.querySelector('.modal-body').querySelector('#my-video'))
+                        })
+
+                    })
+                })
+            }
+
+            modalElement.addEventListener('hidden.bs.modal', (e) => {
+                modalElement.querySelector('.modal-body').innerText = ''
+                modalElement.querySelector('.modal-title').innerText = ''
+            })
+        })
+    </script>
 @endsection
 

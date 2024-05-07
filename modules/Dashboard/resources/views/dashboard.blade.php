@@ -105,7 +105,7 @@
                 <button type="button" id="filter_order" class="btn btn-primary">Tìm kiếm</button>
             </div>
         </form>
-
+       <div id="showData">Không có dữ liệu !</div>
         <div id="myfirstchart" style="height: 250px;"></div>
 
         <div class="row">
@@ -163,11 +163,10 @@
                     },
 
                     success: function (response) {
-                        console.log(response)
                         chart.setData(response)
                     },
                     error: function (xhr, status, error) {
-                        console.error(xhr.responseText);
+
                     }
                 });
             }
@@ -188,11 +187,10 @@
                     },
 
                     success: function (response) {
-                        console.log(response)
                         chart.setData(response)
                     },
                     error: function (xhr, status, error) {
-                        console.error(xhr.responseText);
+
                     }
                 });
             });
@@ -231,7 +229,14 @@
 
                     success: function (response) {
                         console.log(response)
-                        chart.setData(response)
+                        if (response.length === 1) {
+                            $('#showData').show();
+                            $('#myfirstchart').hide();
+                        } else {
+                            $('#showData').hide();
+                            $('#myfirstchart').show();
+                            chart.setData(response);
+                        }
                     },
                     error: function (xhr, status, error) {
                         console.error(xhr.responseText);

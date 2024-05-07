@@ -24,7 +24,7 @@ class CartController extends Controller
     public function addToCart(Request $request)
     {
         $checkCourseRegistration = $this->checkCourseRegistration(
-            Auth::guard('students')->user()->id,
+            Auth::guard('students')->user()->id ?? null,
             $request->course_id);
 
         if ($checkCourseRegistration) {
@@ -51,7 +51,7 @@ class CartController extends Controller
     {
         $courseId = $request->input('course_id');
 
-        $userID = Auth::guard('students')->user()->id;
+        $userID = Auth::guard('students')->user()->id ?? 1;
 
         \Cart::remove($courseId);
 

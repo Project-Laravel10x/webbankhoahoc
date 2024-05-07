@@ -49,13 +49,21 @@ class DashboardController extends Controller
             ->whereBetween('orders.created_at', [$fromDate, $toDate])
             ->get();
 
-        foreach ($orders as $value) {
-            $chart_data[] = [
-                'total' => $value->total,
-                'student_id' => $value->student_name,
-                'created_at' => Carbon::parse($value->created_at)->format('Y-m-d'),
-            ];
+
+        $chart_data = [];
+
+        if ($orders->isEmpty()) {
+            $chart_data[] = "Không có dữ liệu";
+        } else {
+            foreach ($orders as $value) {
+                $chart_data[] = [
+                    'total' => $value->total,
+                    'student_id' => $value->student_name,
+                    'created_at' => Carbon::parse($value->created_at)->format('Y-m-d'),
+                ];
+            }
         }
+
         return response()->json($chart_data);
     }
 

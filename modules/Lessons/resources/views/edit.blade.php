@@ -110,6 +110,10 @@
                                    placeholder="Video bài giảng" name="video_id"
                                    value="{{ old('video_id')  ?? $lesson->video?->url  }}">
                             <input type="hidden" name="video_id_update" value="{{ $lesson->video?->id }}">
+                            <button id="lfm-video" data-input="video_id" data-preview="holder" type="button"
+                                    class="btn btn-success">Chọn video
+                            </button>
+
                         </div>
                         @error('video_id')
                         <div class="invalid-feedback d-block">

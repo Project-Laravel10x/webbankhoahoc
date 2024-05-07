@@ -14,14 +14,26 @@ function getFileVideo($input)
 {
     if (!$input) return false;
 
-    $url = getYoutubeEmbedLink($input);
-    $idEmbed = getIdEmbed($url);
+    if (stripos($input, '<iframe') !== false) {
 
-    return [
-        'name' => getVideoTitle($idEmbed),
-        'url' => $url,
-        'duration' => getDuration($idEmbed),
-    ];
+        $url = getYoutubeEmbedLink($input);
+        $idEmbed = getIdEmbed($url);
+
+        return [
+            'name' => getVideoTitle($idEmbed),
+            'url' => $url,
+            'duration' => getDuration($idEmbed),
+        ];
+
+    } else {
+        $path_parts = pathinfo($input);
+
+        return [
+            'name' => isset($path_parts['filename']) ? $path_parts['filename'] : 'Unknown',
+            'url' => $input,
+            'duration' => getVideoDuration(public_path($input)),
+        ];
+    }
 }
 
 function getVideoTitle($videoId)
@@ -98,5 +110,20 @@ function getFileDocument($url)
         'url' => $url,
         'size' => File::size(public_path($url)),
     ];
+}
+
+
+function getVideoDuration($filePath)
+{
+
+    $getID3 = new getID3();
+
+    $fileInfo = $getID3->analyze($filePath);
+
+    if (isset($fileInfo['playtime_seconds'])) {
+        return $fileInfo['playtime_seconds'];
+    } else {
+        return false;
+    }
 }
 

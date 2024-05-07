@@ -1,5 +1,6 @@
 <?php
 
+use Modules\Courses\src\Models\Course;
 use Modules\Lessons\src\Models\Lesson;
 
 function getCategoriesCheckbox($categories, $old = [], $parentId = 0, $char = '')
@@ -41,4 +42,15 @@ function checkSalePrice($price, $salePrice)
 {
     return Lesson::where('slug', $slug)->firstOrFail()?->video?->url;
 }
+
+function checkCourseRegistration($student_id, $course_id)
+{
+    $isRegistered = Course::whereHas('students', function ($query) use ($student_id) {
+        $query->where('student_id', $student_id);
+    })->where('id', $course_id)->exists();
+
+    return $isRegistered;
+}
+
+
 

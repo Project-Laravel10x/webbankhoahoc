@@ -52,7 +52,7 @@ class HomeController extends Controller
         $categoriesTop = $this->categoriesRepository->getAllCategories();
         $categories = getCategoriesTable($categoriesData);
         $courses = $this->coursesRepository->getAllCourses(
-            Auth::guard('students')->user()->id, false
+            Auth::guard('students')->user()->id ?? null, false
         )->toArray();
         $teachers = $this->teacherRepository->getAllTeacher();
         $students = $this->studentRepository->getAllStudents();

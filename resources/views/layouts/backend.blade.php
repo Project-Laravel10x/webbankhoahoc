@@ -25,6 +25,13 @@
     <script src="{{asset('client/assets/js/pusher.js')}}"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-QHM2DJP1BW');
+    </script>
     @yield('style')
 </head>
 
@@ -124,6 +131,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-sortablejs@latest/jquery-sortable.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QHM2DJP1BW"></script>
 
     <script>
         $('#lfm').filemanager('image');

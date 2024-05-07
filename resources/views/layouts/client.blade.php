@@ -24,10 +24,13 @@
 
     <link rel="stylesheet" href="{{asset('client/assets/css/style.css')}}">
 
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
             integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    @vite(['resources/sass/app.scss'])
     @yield('style')
     <script src="{{asset('client/assets/js/pusher.js')}}"></script>
 </head>
@@ -72,6 +75,9 @@
 <script src="{{asset('client/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js')}}"
         data-cf-settings="531c2ff4b3231a6cc8922d41-|49" defer></script>
 
+<script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+
+@vite(['resources/js/app.js'])
 @yield('js_custom')
 </body>
 

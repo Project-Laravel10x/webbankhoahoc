@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Cart\src\Http\Controllers\CartController;
 
 
-Route::group(['prefix' => 'gio-hang','middleware' => 'auth.client'], function () {
+Route::group(['prefix' => 'gio-hang'], function () {
 
     Route::get('/', [CartController::class, 'showCart'])->name('cart.show');
     Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('addToCart');

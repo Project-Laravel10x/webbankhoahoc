@@ -29,9 +29,11 @@ Route::group(['prefix' => 'filemanager'], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
 
-Route::group(['prefix' => 'khoa-hoc','middleware' => 'auth.client'], function () {
+Route::group(['prefix' => 'khoa-hoc'], function () {
 
     Route::get('/{slug}', [CourseController::class, 'courseDetail'])->name('courses.detail');
+    Route::get('/data/trial/{lessonId?}', [CourseController::class, 'getTrialVideo'])->name('data.trial');
+    Route::get('/data/stream', [CourseController::class, 'streamVideo'])->name('data.stream');
 
 });
 

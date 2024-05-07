@@ -4,8 +4,11 @@ namespace Modules\Courses\src\Http\Controllers;
 
 use App\Events\CourseCreated;
 use App\Http\Controllers\Controller;
+
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Iman\Streamer\VideoStreamer;
 use Modules\Categories\src\Repositories\CategoriesRepository;
 use Modules\Categories\src\Repositories\CategoriesRepositoryInterface;
 use Modules\Courses\src\Http\Requests\CourseRequest;
@@ -159,6 +162,23 @@ class CourseController extends Controller
                 'category',
                 'courses',
             ));
+    }
+
+    public function getTrialVideo($lessonId = 0)
+    {
+        $lesson = $this->lessonRepository->getOne($lessonId);
+        $videoUrl = $lesson->video?->url;
+        if (!$lesson) {
+            return ['success' => false];
+        }
+        return ['success' => true, 'data' => $lesson, 'videoUrl' => $videoUrl];
+    }
+
+    public function streamVideo(Request $request)
+    {
+        $videoRequest = $request->video;
+        $path = public_path($videoRequest);
+        VideoStreamer::streamFile($path);
     }
 
 }

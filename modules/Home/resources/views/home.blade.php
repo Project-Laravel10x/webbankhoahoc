@@ -1,6 +1,7 @@
 @extends('layouts.client')
 
 @section('content')
+
     <section class="home-slide d-flex align-items-center">
         <div class="container">
             <div class="row ">
@@ -244,17 +245,17 @@
                                                         <a href="instructor-profile.html"><img
                                                                 src="{{$course['teachers']['image']}}"
                                                                 class="img-fluid"></a>
-                                                       <div class="d-flex">
-                                                           <div class="course-name">
-                                                               <h4>
-                                                                   <a href="instructor-profile.html">{{$course['teachers']['name']}}</a>
-                                                               </h4>
-                                                               <p>Giảng viên</p>
-                                                           </div>
-                                                           <div class="ms-5 ps-5">
-                                                               {!! QrCode::size(50)->generate(route('courses.detail',$course['slug'])) !!}
-                                                           </div>
-                                                       </div>
+                                                        <div class="d-flex">
+                                                            <div class="course-name">
+                                                                <h4>
+                                                                    <a href="instructor-profile.html">{{$course['teachers']['name']}}</a>
+                                                                </h4>
+                                                                <p>Giảng viên</p>
+                                                            </div>
+                                                            <div class="ms-5 ps-5">
+                                                                {!! QrCode::size(50)->generate(route('courses.detail',$course['slug'])) !!}
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <h3 class="title instructor-text"><a
@@ -273,48 +274,56 @@
 
                                                 <div class="all-btn all-category d-flex align-items-center">
                                                     <div class="row">
-                                                        <div class="col-md-6">
-                                                            <form method="POST" action="{{ route('addToCart') }}">
-                                                                @csrf
-                                                                <input type="hidden" name="course_id"
-                                                                       value="{{ $course['id'] }}">
-                                                                <input type="hidden" name="name"
-                                                                       value="{{ $course['name'] }}">
-                                                                <input type="hidden" name="slug"
-                                                                       value="{{ $course['slug'] }}">
-                                                                <input type="hidden" name="price"
-                                                                       value="{{ $course['price'] }}">
-                                                                <input type="hidden" name="sale_price"
-                                                                       value="{{ $course['sale_price'] }}">
-                                                                <input type="hidden" name="thumbnail"
-                                                                       value="{{$course['thumbnail']  }}">
-                                                                <input type="hidden" name="lesson"
-                                                                       value="{{ countLessons($course['lessons']) }}">
-                                                                <input type="hidden" name="duration"
-                                                                       value="{{ sumDurations($course) }}">
-                                                                <button style="height: 40px; width: 180px" type="submit"
-                                                                        class="btn btn-wish"><i
-                                                                        class="fa-solid fa-cart-shopping"
-                                                                        style="color: red;"></i> Thêm vào
-                                                                    giỏ hàng
-                                                                </button>
-                                                            </form>
-                                                        </div>
-                                                        <div class="col-md-6">
+                                                        @if($course['status'] == 0)
+                                                            <div class="col-md-12">
+                                                                <a style="height: 40px; width: 100%" href="{{ route('courses.detail',$course['slug']) }}" class="btn btn-wish mt-4">SẮP RA MẮT
+                                                                </a>
+                                                            </div>
+                                                        @elseif($course['status'] == 1)
+                                                            <div class="col-md-6">
+                                                                <form method="POST" action="{{ route('addToCart') }}">
+                                                                    @csrf
+                                                                    <input type="hidden" name="course_id"
+                                                                           value="{{ $course['id'] }}">
+                                                                    <input type="hidden" name="name"
+                                                                           value="{{ $course['name'] }}">
+                                                                    <input type="hidden" name="slug"
+                                                                           value="{{ $course['slug'] }}">
+                                                                    <input type="hidden" name="price"
+                                                                           value="{{ $course['price'] }}">
+                                                                    <input type="hidden" name="sale_price"
+                                                                           value="{{ $course['sale_price'] }}">
+                                                                    <input type="hidden" name="thumbnail"
+                                                                           value="{{$course['thumbnail']  }}">
+                                                                    <input type="hidden" name="lesson"
+                                                                           value="{{ countLessons($course['lessons']) }}">
+                                                                    <input type="hidden" name="duration"
+                                                                           value="{{ sumDurations($course) }}">
+                                                                    <button style="height: 40px; width: 180px" type="submit"
+                                                                            class="btn btn-wish"><i
+                                                                            class="fa-solid fa-cart-shopping"
+                                                                            style="color: red;"></i> Thêm vào
+                                                                        giỏ hàng
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                            <div class="col-md-6">
 
-                                                            <form method="POST" action="{{ route('thanhToan') }}">
-                                                                @csrf
-                                                                <input type="hidden" name="course_id"
-                                                                       value="{{ $course['id'] }}">
-                                                                <input type="hidden" name="qty"
-                                                                       value="1">
-                                                                <input type="hidden" name="total"
-                                                                       value="{{ checkSalePrice($course['price'],$course['sale_price']) }}">
-                                                                <button type="submit" class="btn btn-primary">Thanh
-                                                                    toán
-                                                                </button>
-                                                            </form>
-                                                        </div>
+                                                                <form method="POST" action="{{ route('thanhToan') }}">
+                                                                    @csrf
+                                                                    <input type="hidden" name="course_id"
+                                                                           value="{{ $course['id'] }}">
+                                                                    <input type="hidden" name="qty"
+                                                                           value="1">
+                                                                    <input type="hidden" name="total"
+                                                                           value="{{ checkSalePrice($course['price'],$course['sale_price']) }}">
+                                                                    <button type="submit" class="btn btn-primary">Thanh
+                                                                        toán
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        @endif
+
                                                     </div>
                                                 </div>
                                             </div>
