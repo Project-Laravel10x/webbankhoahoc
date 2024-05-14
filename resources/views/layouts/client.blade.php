@@ -30,7 +30,6 @@
             integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
-    @vite(['resources/sass/app.scss'])
     @yield('style')
     <script src="{{asset('client/assets/js/pusher.js')}}"></script>
 </head>
@@ -77,7 +76,6 @@
 
 <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
 
-@vite(['resources/js/app.js'])
 @yield('js_custom')
 </body>
 

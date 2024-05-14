@@ -54,44 +54,34 @@ class LessonsRepository extends BaseRepository implements LessonsRepositoryInter
             ])->get();
     }
 
-    public function getLessonByStudentIdAndCourseId($studentId, $lessonsData = [])
-    {
-        $courseIds = array_column($lessonsData, 'course_id');
-
-        $myCourseRegister = StudentCourse::where('student_id', $studentId)
-            ->whereIn('course_id', $courseIds)
-            ->with('courses.lessons')
-            ->get();
-
-        $courseIds = $myCourseRegister->pluck('course_id')->toArray();
-
-        $courses = Course::whereIn('id', $courseIds)->get();
-
-        return $courses;
-    }
-
-    public function getPreviousAndNextLesson($lessonData)
+    public function getPreviousAndNextLesson($lessonData, $course_id = null)
     {
         $previousLesson = null;
-        $nextLesson = null;
         if ($lessonData->parent_id !== null) {
             $previousLesson = Lesson::where('parent_id', $lessonData->parent_id)
                 ->where('position', '<', $lessonData->position)
+                ->where('course_id', $course_id)
                 ->orderBy('position', 'desc')
                 ->first();
 
             $nextLesson = Lesson::where('parent_id', $lessonData->parent_id)
                 ->where('position', '>', $lessonData->position)
+                ->where('course_id', $course_id)
+                ->with('video')
                 ->orderBy('position', 'asc')
                 ->first();
 
+
             if ($nextLesson == null) {
                 $nextLesson = Lesson::where('position', $lessonData->position + 2)
+                    ->where('course_id', $course_id)
+                    ->with('video')
                     ->orderBy('position', 'asc')
                     ->first();
             }
             if ($previousLesson == null) {
                 $previousLesson = Lesson::where('position', $lessonData->position - 2)
+                    ->where('course_id', $course_id)
                     ->orderBy('position', 'asc')
                     ->first();
             }
@@ -99,6 +89,8 @@ class LessonsRepository extends BaseRepository implements LessonsRepositoryInter
             $positionNext = $lessonData->position + 2;
 
             $nextLesson = Lesson::where('position', $positionNext)
+                ->where('course_id', $course_id)
+                ->with('video')
                 ->orderBy('position', 'asc')
                 ->first();
         }
@@ -109,5 +101,12 @@ class LessonsRepository extends BaseRepository implements LessonsRepositoryInter
 
     }
 
+    public function previousLesson($lessonData)
+    {
+        return $this->model->where('course_id', $lessonData->course_id)
+            ->where('position', '<', $lessonData->position)
+            ->orderByDesc('id')
+            ->first();
+    }
 }
 

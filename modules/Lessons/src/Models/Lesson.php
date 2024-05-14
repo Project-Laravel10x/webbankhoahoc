@@ -32,6 +32,11 @@ class Lesson extends Model
         return $this->hasMany(Lesson::class, 'parent_id')->orderBy('position', 'asc');
     }
 
+    public function lessonCompletions()
+    {
+        return $this->hasMany(LessonCompletions::class, 'lesson_id');
+    }
+
     public function subLessons()
     {
         return $this->children()->with('subLessons');

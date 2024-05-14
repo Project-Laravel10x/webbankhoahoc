@@ -16,3 +16,4 @@ Route::group(['prefix' => 'admin'], function () {
     });
 });
 
+Route::post('/mark-lesson-completed', [LessonController::class, 'markLessonCompleted'])->name('mark-lesson-completed');

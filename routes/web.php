@@ -1,15 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
-use Modules\User\src\Models\OnlineUser;
-use Modules\User\src\Models\User;
-use Shetabit\Visitor\Visitor;
-use Spatie\Analytics\Facades\Analytics;
-use Spatie\Analytics\Period;
+use Dompdf\Dompdf;
 
+use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,9 +14,13 @@ use Spatie\Analytics\Period;
 |
 */
 
-Route::get('/test', function (Request $request) {
-    //retrieve visitors and page view data for the current day and the last seven days
-    $analyticsData = Analytics::fetchVisitorsAndPageViews(Period::days(7));
-dd($analyticsData);
+Route::get('/test', function () {
 
+    // instantiate and use the dompdf class
+    $dompdf = new Dompdf();
+    dd($dompdf);
+    $dompdf->loadHtml('hello world');
+    $dompdf->setPaper('A4', 'landscape');
+    $dompdf->render();
+    $dompdf->stream();
 });

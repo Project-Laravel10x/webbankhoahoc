@@ -8,7 +8,9 @@ use Illuminate\Support\Carbon;
 use Modules\Courses\src\Repositories\CoursesRepository;
 use Modules\Document\src\Repositories\DocumentRepository;
 use Modules\Lessons\src\Http\Requests\LessonRequest;
+use Modules\Lessons\src\Models\LessonCompletions;
 use Modules\Lessons\src\Repositories\LessonsRepository;
+use Modules\Video\src\Models\Video;
 use Modules\Video\src\Repositories\VideoRepository;
 use Illuminate\Support\Facades\File;
 
@@ -37,11 +39,8 @@ class LessonController extends Controller
     public function index(int $courseId)
     {
         $course = $this->coursesRepository->getOne($courseId);
-
         $lessonsData = $this->lessonsRepository->getLessons($courseId)->toArray();
-
         $lessons = getLessonsTable($lessonsData);
-
         $pageTitle = "Quản lí bài giảng: $course->name";
 
         return view('lessons::list', compact('pageTitle', 'lessons', 'courseId'));
@@ -50,9 +49,7 @@ class LessonController extends Controller
     public function create($courseId)
     {
         $pageTitle = "Thêm bài giảng";
-
         $position = $this->lessonsRepository->getPosition($courseId);
-
         $lessons = $this->lessonsRepository->getAllLessonsOk()->toArray();
 
         return view('lessons::add', compact('pageTitle', 'courseId', 'position', 'lessons'));
@@ -111,9 +108,9 @@ class LessonController extends Controller
 
     public function update(LessonRequest $request, $courseId, $lessonId)
     {
-        $id_update = $request->video_id_update;
+        $id_update = Video::where('url', $request->video_id)->first()?->id;
 
-        $dataLessonsUpdate = $request->except('_token', '_method','video_id_update');
+        $dataLessonsUpdate = $request->except('_token', '_method', 'video_id_update');
 
         $pathDocument = $dataLessonsUpdate['document_id'];
         $pathVideo = $dataLessonsUpdate['video_id'];
@@ -125,7 +122,11 @@ class LessonController extends Controller
         $dataDocument = getFileDocument($pathDocument);
 
         if ($dataVideo) {
-            $video = $this->videoRepository->updateVideo($id_update, $dataVideo);
+            if (!$id_update) {
+                $video = $this->videoRepository->createVideo(['url' => $dataVideo['url']], $dataVideo);
+            } else {
+                $video = $this->videoRepository->updateVideo($id_update, $dataVideo);
+            }
         }
 
         if ($dataDocument) {
@@ -196,6 +197,28 @@ class LessonController extends Controller
             ];
         }
         return $categories;
+    }
+
+    public function markLessonCompleted(Request $request)
+    {
+        $lessonId = $request->input('lesson_id');
+        $userId = auth('students')->user()->id;
+
+        $existingCompletion = LessonCompletions::where('lesson_id', $lessonId)
+            ->where('student_id', $userId)
+            ->first();
+
+        if (!$existingCompletion) {
+            LessonCompletions::create([
+                'lesson_id' => $lessonId,
+                'student_id' => $userId,
+                'completed' => true,
+            ]);
+
+            return response()->json(['message' => 'Bài học đã được đánh dấu là hoàn thành'], 200);
+        }
+
+        return response()->json(['message' => 'Bài học đã hoàn thành trước đó'], 422);
     }
 
 

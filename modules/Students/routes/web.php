@@ -17,8 +17,6 @@ Route::group(['as' => 'students.'], function () {
         return "<h1>Chính sách quyền riêng tư</h1>";
     });
 
-    Route::get('/thanh-toan1', [ClientController::class, 'index'])->middleware('auth.client')->name('index');
-
     Route::get('/login', [LoginController::class, 'loginForm'])->middleware('guest:students')->name('login');
 
     Route::post('/login', [LoginController::class, 'login'])->middleware('guest:students')->name('login');
@@ -84,6 +82,8 @@ Route::group(['as' => 'students.'], function () {
         Route::post('/download-file', [StudentClientController::class, 'downloadFile'])->name('downloadFile');
 
         Route::get('/chi-tiet-don-hang/{order}', [StudentClientController::class, 'detailOrder'])->name('detailOrder');
+
+        Route::post('/certificate', [StudentClientController::class, 'generatePdf'])->name('generatePdf');
 
     });
 

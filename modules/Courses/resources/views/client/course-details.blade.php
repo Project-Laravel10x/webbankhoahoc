@@ -1,5 +1,7 @@
 @extends('layouts.client')
 
+
+
 @section('content')
 
     <div class="breadcrumb-bar">
@@ -294,6 +296,9 @@
                                     <li><img src="{{ asset('client/assets/img/icon/mobile.svg') }}" class="me-2"
                                              alt> Truy cập web
                                     </li>
+                                    <li><img src="{{ asset('client/assets/img/icon/teacher.svg') }}" class="me-2"
+                                             alt> Cấp chứng chỉ khóa học
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -332,16 +337,21 @@
             const btnTrialList = document.querySelectorAll('.trial-btn')
             const modalElement = document.querySelector('#modal')
 
+            let currentId;
+
             if (btnTrialList.length) {
                 btnTrialList.forEach((btn) => {
                     btn.addEventListener('click', (e) => {
                         const id = e.target.dataset.id
+                        currentId = id;
                         const initialBtn = e.target.innerText
+                        const videoKey = `trial_video_${id}`;
 
                         var modal = new bootstrap.Modal(modalElement)
 
                         const url = "{{route('data.trial')}}/" + id
                         e.target.innerText = "Đang mở ..."
+
                         fetch(url).then((res) => {
                             return res.json()
                         }).then(({success, data, videoUrl}) => {
@@ -369,7 +379,7 @@
                             class="video-js"
                             controls
                             preload="auto"
-                            width="770px"
+                            width="750px"
                             height="450px"
                             data-setup="{}"
                           >
@@ -385,7 +395,13 @@
                             }
                         }).finally(() => {
                             e.target.innerText = initialBtn
-                            videojs(modalElement.querySelector('.modal-body').querySelector('#my-video'))
+                            const savedVideoState = localStorage.getItem(videoKey);
+                            if (savedVideoState) {
+                                const videoPlayer = videojs(modalElement.querySelector('.modal-body').querySelector('#my-video'))
+                                const videoState = JSON.parse(savedVideoState);
+                                videoPlayer.currentTime(videoState.currentTime);
+                                videoPlayer.volume(videoState.volume);
+                            }
                         })
 
                     })
@@ -396,9 +412,19 @@
                 modalElement.querySelector('.modal-body').innerText = ''
                 modalElement.querySelector('.modal-title').innerText = ''
             })
+
+            window.addEventListener('beforeunload', function (e) {
+                e.preventDefault();
+                const videoPlayer = videojs(modalElement.querySelector('.modal-body').querySelector('#my-video'))
+                const videoKey = `trial_video_${currentId}`;
+                const videoState = {
+                    currentTime: videoPlayer.currentTime(),
+                    volume: videoPlayer.volume(),
+                };
+                localStorage.setItem(videoKey, JSON.stringify(videoState));
+            });
         })
     </script>
-
 
 @endsection
 

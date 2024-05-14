@@ -4,14 +4,17 @@ namespace Modules\Students\src\Http\Controllers\Client;
 
 use App\Events\EditProfile;
 use App\Http\Controllers\Controller;
+use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\View;
 use Modules\Courses\src\Repositories\CoursesRepositoryInterface;
 use Modules\Document\src\Repositories\DocumentRepositoryInterface;
 use Modules\Lessons\src\Models\Lesson;
+use Modules\Lessons\src\Models\LessonCompletions;
 use Modules\Lessons\src\Repositories\LessonsRepositoryInterface;
 use Modules\Orders\src\Repositories\OrderRepositoryInterface;
 use Modules\OrdersDetail\src\Repositories\OrderDetailRepositoryInterface;
@@ -144,18 +147,39 @@ class StudentClientController extends Controller
         $studentId = Auth::guard('students')->user()->id;
         $courses = $this->courseRepository->getAllCourses($studentId);
         $lessonData = Lesson::where('slug', $slug)->firstOrFail();
+        $checkLessonUrlOpened = $this->checkLessonUrlOpened($lessonData);
         $isLessonInPurchasedCourse = $courses->contains('id', $lessonData['course_id']);
 
         if (!$isLessonInPurchasedCourse) {
             return back();
         }
 
-        $buttonPrevAndNext = $this->lessonRepository->getPreviousAndNextLesson($lessonData);
+        if (!$checkLessonUrlOpened) {
+            return back()->with('notification', "Bạn chưa hoàn thành khóa học trước đó !");
+        }
+        $buttonPrevAndNext = $this->lessonRepository->getPreviousAndNextLesson($lessonData, $lessonData->course_id);
         $lessonsData = $this->lessonRepository->getLessons($lessonData->courses->id)->toArray();
         $pageTitle = $lessonData->courses->name;
 
         return view('students::client.course_lesson',
             compact('pageTitle', 'lessonsData', 'lessonData', 'buttonPrevAndNext', 'courses'));
+    }
+
+    public function checkLessonUrlOpened($lessonData)
+    {
+
+        $previousLesson = $this->lessonRepository->previousLesson($lessonData);
+
+        if ($previousLesson != null) {
+            if ($previousLesson?->lessonCompletions->count() > 0) {
+                return true;
+            }
+
+            if ($lessonData->lessonCompletions->count() == 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public function downloadFile(Request $request)
@@ -176,6 +200,24 @@ class StudentClientController extends Controller
         } else {
             abort(404);
         }
+    }
+
+    public function generatePdf(Request $request)
+    {
+        $data = [
+            'name' => auth('students')->user()->name,
+            'course' => $request->course_name,
+            'current_date' => date('d-m-Y')
+        ];
+        $file_name = $data['name'] . ' ' . $request->course_name . ' Certificate.' . '.pdf';
+
+        $dompdf = new Dompdf();
+
+        $html = view('parts.client.certificate', compact('data'))->render();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+        $dompdf->stream($file_name);
     }
 
 

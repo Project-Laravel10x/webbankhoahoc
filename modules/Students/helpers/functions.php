@@ -1,5 +1,6 @@
 <?php
 
+use Modules\Lessons\src\Models\LessonCompletions;
 use Modules\Students\src\Models\Student;
 
 function isClientActive($email)
@@ -11,5 +12,12 @@ function isClientActive($email)
     }
 
     return false;
+}
+
+function checkCompletedLesson($lessonId)
+{
+    return LessonCompletions::where('lesson_id', $lessonId)
+        ->where('student_id', auth('students')->user()->id)
+        ->exists();
 }
 
